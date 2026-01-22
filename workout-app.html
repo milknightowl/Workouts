@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Family Workout</title>
+    <style>
+        /* --- iOS DESIGN SYSTEM --- */
+        :root {
+            --ios-blue: #007AFF;
+            --ios-green: #34C759;
+            --ios-gray: #F2F2F7;
+            --card-white: #FFFFFF;
+            --text-dark: #000000;
+            --text-light: #8E8E93;
+        }
+
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--ios-gray);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        /* App Container */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 80px; /* Space for bottom button */
+        }
+
+
+        /* Headers */
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
+        h2 { font-size: 17px; color: var(--text-light); font-weight: 400; text-align: center; margin-top: 0; margin-bottom: 25px;}
+        
+        /* Section Labels */
+        .label {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+
+        /* Card Style Containers */
+        .card {
+            background: var(--card-white);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+
+        /* Input for Day Counter */
+        .day-counter-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .day-input {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--ios-blue);
+            width: 60px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #E5E5EA;
+        }
+
+
+        /* Segmented Controls (The iOS Toggle Buttons) */
+        .segmented-control {
+            display: flex;
+            background-color: #E5E5EA; /* Darker gray background for track */
+            border-radius: 9px;
+            padding: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .segment-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+
+        .segment-option.selected {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            font-weight: 600;
+        }
+
+
+        /* Generate Button */
+        .btn-main {
+            background-color: var(--ios-blue);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
+
+
+        /* Workout Results Area */
+        #workout-results { display: none; margin-top: 30px; }
+        
+        .exercise-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .exercise-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+
+
+        .exercise-details { padding: 15px; }
+        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+        .exercise-meta { color: var(--text-light); font-size: 14px; margin-bottom: 10px; }
+        .exercise-instruction { 
+            background-color: #F0F8FF; 
+            color: var(--ios-blue); 
+            padding: 10px; 
+            border-radius: 8px; 
+            font-size: 14px; 
+            font-weight: 500;
+        }
+
+
+        /* Success/Share Button */
+        .btn-share {
+            background-color: var(--ios-green);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    
+    <h1>Family Fitness</h1>
+    <h2>100 Day Challenge</h2>
+
+
+    <div class="day-counter-wrapper">
+        <span>Day</span>
+        <input type="number" id="dayInput" class="day-input" value="1">
+        <span>of 100</span>
+    </div>
+
+
+    <div class="label">Who is working out?</div>
+    <div class="segmented-control" id="who-select">
+        <div class="segment-option" onclick="selectOption('who', this, 'Mami')">Mami</div>
+        <div class="segment-option" onclick="selectOption('who', this, 'Papi')">Papi</div>
+        <div class="segment-option selected" onclick="selectOption('who', this, 'Both')">Both</div>
+    </div>
+
+
+    <div class="label">Location</div>
+    <div class="segmented-control" id="loc-select">
+        <div class="segment-option selected" onclick="selectOption('loc', this, 'home')">Home</div>
+        <div class="segment-option" onclick="selectOption('loc', this, 'gym')">Breton Woods</div>
+        <div class="segment-option" onclick="selectOption('loc', this, 'out')">No Gear</div>
+    </div>
+
+
+    <div class="label">Focus</div>
+    <div class="segmented-control" id="focus-select">
+        <div class="segment-option" onclick="selectOption('focus', this, 'upper')">Upper</div>
+        <div class="segment-option" onclick="selectOption('focus', this, 'lower')">Lower</div>
+        <div class="segment-option selected" onclick="selectOption('focus', this, 'both')">Full Body</div>
+    </div>
+
+
+    <div class="label">Number of Exercises</div>
+    <div class="segmented-control" id="count-select">
+        <div class="segment-option selected" onclick="selectOption('count', this, 3)">3</div>
+        <div class="segment-option" onclick="selectOption('count', this, 4)">4</div>
+        <div class="segment-option" onclick="selectOption('count', this, 5)">5</div>
+    </div>
+
+
+    <br>
+    <button class="btn-main" onclick="generateWorkout()">Generate Workout ⚡️</button>
+
+
+    <div id="workout-results">
+        <div id="cards-container"></div>
+        <button class="btn-share" onclick="shareToFamily()">✅ Finish & Share to Family</button>
+    </div>
+
+
+</div>
+
+
+<script>
+    // --- 1. CONFIGURATION & STATE ---
+    let state = {
+        who: 'Both',
+        location: 'home',
+        focus: 'both',
+        count: 3
+    };
+
+
+    let generatedExercises = [];
+
+
+    // --- THE CUSTOMIZED EXERCISE REPERTOIRE ---
+    const exerciseDB = [
+        
+        // --- UPPER BODY (PUSH) ---
+        { 
+            name: "Dumbbell Shoulder Press", 
+            type: "upper", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10-12 reps. Press straight up, don't arch back." 
+        },
+        { 
+            name: "Incline Dumbbell Press", 
+            type: "upper", 
+            loc: ["gym"], // Requires the adjustable bench
+            img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10 reps. Set bench to 45-degree angle." 
+        },
+        { 
+            name: "Floor Press", 
+            type: "upper", 
+            loc: ["home"], // Alternative to bench press at home
+            img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 12 reps. Lie on floor, press dumbbells up like bench press." 
+        },
+        { 
+            name: "Cable Tricep Pushdown", 
+            type: "upper", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 15 reps. Use the rope attachment on the cable machine." 
+        },
+
+
+        // --- UPPER BODY (PULL) ---
+        { 
+            name: "Lat Pulldown", 
+            type: "upper", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10-12 reps. Wide grip, pull bar down to upper chest." 
+        },
+        { 
+            name: "Seated Cable Row", 
+            type: "upper", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 12 reps. Keep back straight, squeeze shoulder blades." 
+        },
+        { 
+            name: "Dumbbell Bent Over Row", 
+            type: "upper", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10 reps each arm. Use bench or chair for support." 
+        },
+        { 
+            name: "Face Pulls", 
+            type: "upper", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 15 reps. Use rope on cable machine, pull towards forehead." 
+        },
+        { 
+            name: "Dumbbell Bicep Curls", 
+            type: "upper", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 12 reps. Keep elbows tucked in." 
+        },
+
+
+        // --- LOWER BODY ---
+        { 
+            name: "Goblet Squat", 
+            type: "lower", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 12 reps. Hold one DB/Kettlebell at chest height." 
+        },
+        { 
+            name: "Leg Press Machine", 
+            type: "lower", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10-12 reps. Feet shoulder width apart." 
+        },
+        { 
+            name: "Leg Extension (Seated)", 
+            type: "lower", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 15 reps. Squeeze quads at the top." 
+        },
+        { 
+            name: "Seated Leg Curl", 
+            type: "lower", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 12 reps. Controls the movement on the way up." 
+        },
+        { 
+            name: "Dumbbell Lunges", 
+            type: "lower", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10 reps per leg. Step back or forward." 
+        },
+        { 
+            name: "Dumbbell RDL", 
+            type: "lower", 
+            loc: ["home", "gym"], 
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10 reps. Hinge at hips, slight knee bend, flat back." 
+        },
+        { 
+            name: "Kettlebell Swing", 
+            type: "lower", 
+            loc: ["gym"], // Assuming only gym has KBs, move to home if they have one
+            img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 15 reps. Explode with hips, not arms." 
+        },
+
+
+        // --- CORE / NO GEAR ---
+        { 
+            name: "Plank", 
+            type: "both", 
+            loc: ["home", "gym", "out"], 
+            img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • Hold for 45 seconds. Keep core tight." 
+        },
+        { 
+            name: "Pallof Press", 
+            type: "both", 
+            loc: ["gym"], 
+            img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 10 reps each side. Use cable machine, resist the rotation." 
+        },
+        { 
+            name: "Mountain Climbers", 
+            type: "both", 
+            loc: ["home", "gym", "out"], 
+            img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", 
+            guide: "3 sets • 30 seconds. Move legs fast." 
+        }
+    ];
+
+
+
+
+
+
+    // --- 3. APP LOGIC ---
+
+
+    // Load saved day on startup
+    window.onload = function() {
+        const savedDay = localStorage.getItem('familyWorkoutDay');
+        if (savedDay) {
+            document.getElementById('dayInput').value = savedDay;
+        }
+    }
+
+
+    // Handle button clicks (The UI Toggles)
+    function selectOption(category, element, value) {
+        state[category] = value;
+        
+        // Update Visuals
+        let parent = element.parentElement;
+        let options = parent.getElementsByClassName('segment-option');
+        for (let opt of options) {
+            opt.classList.remove('selected');
+        }
+        element.classList.add('selected');
+    }
+
+
+    // Generate the Workout
+    function generateWorkout() {
+        // 1. Filter exercises based on Location and Focus
+        let pool = exerciseDB.filter(ex => {
+            let locMatch = ex.loc.includes(state.location);
+            let typeMatch = state.focus === 'both' ? true : ex.type === state.focus || ex.type === 'both';
+            return locMatch && typeMatch;
+        });
+
+
+        // 2. Shuffle and Pick
+        if (pool.length < state.count) {
+            alert(`Not enough exercises found for ${state.location} / ${state.focus}! Showing all available.`);
+        }
+        
+        // Randomize
+        pool.sort(() => 0.5 - Math.random());
+        generatedExercises = pool.slice(0, state.count);
+
+
+        // 3. Render Cards
+        const container = document.getElementById('cards-container');
+        container.innerHTML = ''; // Clear old
+
+
+        generatedExercises.forEach(ex => {
+            let cardHTML = `
+                <div class="exercise-card">
+                    <img src="${ex.img}" class="exercise-img" alt="${ex.name}">
+                    <div class="exercise-details">
+                        <div class="exercise-name">${ex.name}</div>
+                        <div class="exercise-meta">📍 ${state.location.toUpperCase()} • ${ex.type.toUpperCase()}</div>
+                        <div class="exercise-instruction">📝 ${ex.guide}</div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+
+
+        // Show results section
+        document.getElementById('workout-results').style.display = 'block';
+        
+        // Scroll to results
+        document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'});
+    }
+
+
+    // Share to WhatsApp / Message
+    function shareToFamily() {
+        const currentDay = document.getElementById('dayInput').value;
+        const nextDay = parseInt(currentDay) + 1;
+
+
+        // Save progress locally
+        localStorage.setItem('familyWorkoutDay', nextDay);
+
+
+        // Build the text list
+        let listText = generatedExercises.map(ex => `✅ ${ex.name}`).join('\n');
+        
+        // Handle "Both" naming
+        let userText = state.who;
+        if(state.who === 'Both') userText = "Mami & Papi";
+
+
+        let message = `
+🔥 *100 Day Challenge Update!*
+
+
+👤 *${userText}* just crushed Day ${currentDay}!
+📍 At: ${state.location.toUpperCase()}
+
+
+*The Workout:*
+${listText}
+
+
+Only ${100 - currentDay} days to go! 🎉
+        `.trim();
+
+
+        // Trigger Native Share
+        if (navigator.share) {
+            navigator.share({
+                title: 'Workout Complete!',
+                text: message
+            }).catch(console.error);
+        } else {
+            // Fallback for computer testing
+            alert("On iPhone, this opens WhatsApp. Here is the text:\n\n" + message);
+        }
+        
+        // Update day on screen for visual confirmation
+        document.getElementById('dayInput').value = nextDay;
+    }
+</script>
+
+
+</body>
+</hmtl>
