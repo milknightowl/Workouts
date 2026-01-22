@@ -60,7 +60,7 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             font-size: 15px;
             color: var(--text-light);
         }
@@ -84,7 +84,7 @@
             margin-bottom: 8px;
             margin-left: 10px;
             font-weight: 600;
-            margin-top: 20px;
+            margin-top: 25px; /* Added spacing */
         }
 
 
@@ -138,22 +138,22 @@
         }
 
 
-        /* --- GYM PASS TILE --- */
+        /* --- GYM PASS TILE (PERMANENT) --- */
         #gym-pass-card {
-            display: none;
             background: white;
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border: 1px solid #E5E5EA;
+            display: block; /* Always visible now */
         }
         .barcode-placeholder {
             width: 80%;
             height: 60px;
             background: #000;
-            margin: 10px auto;
+            margin: 5px auto;
             color: white;
             display: flex;
             align-items: center;
@@ -261,7 +261,7 @@
 
 <div class="container">
     
-    <h1>Family Fitness</h1>
+    <h1>Noguera Fitness Plan</h1>
     
     <div class="progress-container">
         <div id="visual-progress" class="progress-fill"></div>
@@ -274,9 +274,17 @@
 
 
     <div id="gym-pass-card">
-        <h3>Bretton Woods Access</h3>
+        <h3 style="margin-top:0;">Bretton Woods Access</h3>
         <div class="barcode-placeholder">||| |||| || |||||</div>
-        <div style="font-size:12px; color:#888; margin-top:5px;">Scan at front desk</div>
+        <div style="font-size:12px; color:#888;">Scan barcode</div>
+    </div>
+
+
+    <div class="label">Profile</div>
+    <div class="segmented-control" id="who-select">
+        <div class="segment-option" onclick="setUser('Mami', this)">Mami</div>
+        <div class="segment-option" onclick="setUser('Papi', this)">Papi</div>
+        <div class="segment-option selected" onclick="setUser('Juntos', this)">Juntos</div>
     </div>
 
 
@@ -284,14 +292,14 @@
     <div class="segmented-control">
         <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
         <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
-        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Gear</div>
+        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
     </div>
 
 
     <div class="label">How to start?</div>
     <div class="mode-wrapper">
-        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">🎲 Randomize</div>
-        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">🛠️ Build My Own</div>
+        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
+        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
     </div>
 
 
@@ -308,7 +316,7 @@
             <div class="segment-option" onclick="setCount(4, this)">4</div>
             <div class="segment-option" onclick="setCount(5, this)">5</div>
         </div>
-        <button class="btn-main" onclick="generateRandomWorkout()">Generate Workout ⚡️</button>
+        <button class="btn-main" onclick="generateRandomWorkout()">⚡️Generate Workout⚡️</button>
     </div>
 
 
@@ -325,14 +333,6 @@
         <div id="warmup-container"></div>
         <div id="cards-container"></div>
         
-        <div class="label" style="text-align:center; margin-top:30px;">Who finished this?</div>
-        <div class="segmented-control" style="max-width:300px; margin:0 auto;">
-            <div class="segment-option" onclick="user='Mami'; this.classList.add('selected');">Mami</div>
-            <div class="segment-option" onclick="user='Papi'; this.classList.add('selected');">Papi</div>
-            <div class="segment-option selected" onclick="user='Juntos'; this.classList.add('selected');">Juntos</div>
-        </div>
-
-
         <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
     </div>
 
@@ -396,13 +396,27 @@
     }
 
 
+    // --- FIXED USER SELECTOR ---
+    function setUser(name, element) {
+        user = name;
+        // 1. Get all buttons in the Who group
+        let siblings = element.parentElement.children;
+        // 2. Remove 'selected' class from all of them
+        for (let i = 0; i < siblings.length; i++) {
+            siblings[i].classList.remove('selected');
+        }
+        // 3. Add 'selected' to the one just clicked
+        element.classList.add('selected');
+    }
+
+
     function setLoc(loc) {
         state.location = loc;
         document.getElementById('opt-home').classList.remove('selected');
         document.getElementById('opt-gym').classList.remove('selected');
         document.getElementById('opt-out').classList.remove('selected');
         document.getElementById('opt-' + loc).classList.add('selected');
-        document.getElementById('gym-pass-card').style.display = (loc === 'gym') ? 'block' : 'none';
+        
         if (state.mode === 'build') renderBuildList();
     }
 
@@ -530,13 +544,12 @@
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 
 
-        // 2. Play Sound (The "Haptic" alternative)
-        // This is the most reliable "feedback" on iOS
+        // 2. Play Sound
         var audio = document.getElementById("success-sound");
-        audio.play().catch(e => console.log("Audio play failed (user interaction needed first)"));
+        audio.play().catch(e => console.log("Audio play failed (interaction needed)"));
 
 
-        // 3. Trigger Haptics (Best effort for Android/Chrome)
+        // 3. Trigger Haptics
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
 
@@ -567,12 +580,10 @@
 
 
         let locText = state.location.toUpperCase();
-        // FIXED: Correct spelling in Share Message
         if (state.location === 'gym') locText = "BRETTON WOODS";
 
 
         let userText = user;
-        // FIXED: Correct naming logic
         if(user === 'Juntos') userText = "Mami & Papi";
 
 
@@ -581,23 +592,16 @@
 
 
         let message = `
-🔥 *100 Day Challenge Update!*
+🔥 *100 Day Challenge Update!* 🚨🔔
 
-
-${bar}
-Day ${currentDay} of 100
-
-
-👤 *${userText}* finished a workout!
+👤 *${userText}* just crushed day ${currentDay}!
 📍 At: ${locText}
 
-
 *The Workout:*
-✅ Warm-up: ${warmups[state.location].title}
+✅${warmups[state.location].title}
 ${listText}
 
-
-Keep it up! 🎉
+Only ${100 - currentDay} days to go! 🎉
         `.trim();
 
 
