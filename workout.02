@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Family Fitness Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        /* --- iOS DESIGN SYSTEM --- */
+        :root {
+            --ios-blue: #007AFF;
+            --ios-green: #34C759;
+            --ios-gray: #F2F2F7;
+            --card-white: #FFFFFF;
+            --text-dark: #000000;
+            --text-light: #8E8E93;
+        }
+
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--ios-gray);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+        }
+
+
+        /* --- HEADERS & PROGRESS --- */
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #E5E5EA;
+            border-radius: 10px;
+            height: 10px;
+            margin: 20px 0 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--ios-blue);
+            width: 1%;
+            transition: width 0.5s ease;
+        }
+
+
+        .day-counter-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+        .day-input {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--ios-blue);
+            width: 50px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            border-bottom: 2px solid #E5E5EA;
+        }
+
+
+        /* --- UI ELEMENTS --- */
+        .label {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            margin-left: 10px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+
+        .segmented-control {
+            display: flex;
+            background-color: #E5E5EA;
+            border-radius: 9px;
+            padding: 2px;
+        }
+        
+        .segment-option {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+
+        .segment-option.selected {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            font-weight: 600;
+        }
+
+
+        /* --- MODE TOGGLE --- */
+        .mode-wrapper {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            background: white;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .mode-btn.active {
+            border-color: var(--ios-blue);
+            color: var(--ios-blue);
+            background: #F0F8FF;
+        }
+
+
+        /* --- GYM PASS TILE --- */
+        #gym-pass-card {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #E5E5EA;
+        }
+        .barcode-placeholder {
+            width: 80%;
+            height: 60px;
+            background: #000;
+            margin: 10px auto;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+            letter-spacing: 4px;
+        }
+
+
+        /* --- BUILD MODE --- */
+        #build-list { display: none; }
+        .build-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .build-item.selected {
+            border-color: var(--ios-blue);
+            background-color: #F0F8FF;
+        }
+        .check-circle {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .build-item.selected .check-circle {
+            background: var(--ios-blue);
+            border-color: var(--ios-blue);
+            color: white;
+        }
+
+
+        /* --- RESULTS --- */
+        .btn-main {
+            background-color: var(--ios-blue);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+
+        .btn-share {
+            background-color: var(--ios-green);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-share.success {
+            background-color: #333; 
+            transform: scale(1.02);
+        }
+
+
+        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
+        
+        .warmup-card {
+            background: #FFF8E1;
+            border-left: 5px solid #FFC107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+
+        .exercise-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .exercise-img { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
+        .exercise-details { padding: 15px; }
+        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
+
+
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    
+    <h1>Family Fitness</h1>
+    
+    <div class="progress-container">
+        <div id="visual-progress" class="progress-fill"></div>
+    </div>
+    <div class="day-counter-wrapper">
+        <span>Day</span>
+        <input type="number" id="dayInput" class="day-input" value="1" onchange="updateProgressUI()">
+        <span>of 100</span>
+    </div>
+
+
+    <div id="gym-pass-card">
+        <h3>Bretton Woods Access</h3>
+        <div class="barcode-placeholder">||| |||| || |||||</div>
+        <div style="font-size:12px; color:#888; margin-top:5px;">Scan at front desk</div>
+    </div>
+
+
+    <div class="label">Location</div>
+    <div class="segmented-control">
+        <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
+        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
+        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Gear</div>
+    </div>
+
+
+    <div class="label">How to start?</div>
+    <div class="mode-wrapper">
+        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">🎲 Randomize</div>
+        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">🛠️ Build My Own</div>
+    </div>
+
+
+    <div id="random-options">
+        <div class="label">Focus</div>
+        <div class="segmented-control">
+            <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
+            <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
+            <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
+        </div>
+        <div class="label">Count</div>
+        <div class="segmented-control">
+            <div class="segment-option selected" onclick="setCount(3, this)">3</div>
+            <div class="segment-option" onclick="setCount(4, this)">4</div>
+            <div class="segment-option" onclick="setCount(5, this)">5</div>
+        </div>
+        <button class="btn-main" onclick="generateRandomWorkout()">Generate Workout ⚡️</button>
+    </div>
+
+
+    <div id="build-options" style="display:none;">
+        <div class="label">Select Exercises (Tap to add)</div>
+        <div id="build-list"></div>
+        <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
+    </div>
+
+
+    <div id="workout-results">
+        <h2>Today's Plan</h2>
+        
+        <div id="warmup-container"></div>
+        <div id="cards-container"></div>
+        
+        <div class="label" style="text-align:center; margin-top:30px;">Who finished this?</div>
+        <div class="segmented-control" style="max-width:300px; margin:0 auto;">
+            <div class="segment-option" onclick="user='Mami'; this.classList.add('selected');">Mami</div>
+            <div class="segment-option" onclick="user='Papi'; this.classList.add('selected');">Papi</div>
+            <div class="segment-option selected" onclick="user='Juntos'; this.classList.add('selected');">Juntos</div>
+        </div>
+
+
+        <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
+    </div>
+
+
+</div>
+
+
+<audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+
+
+<script>
+    // --- STATE ---
+    let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
+    let user = 'Juntos'; // Default
+    let currentWorkout = [];
+
+
+    // --- DATA ---
+    const warmups = {
+        gym: { title: "🔥 Gym Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
+        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles (No Cardio)" },
+        out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
+    };
+
+
+    const exerciseDB = [
+        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
+        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps" },
+        { name: "Floor Press", type: "upper", loc: ["home"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
+        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 15 reps" },
+        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
+        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
+        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps" },
+        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
+        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
+        { name: "Leg Press", type: "lower", loc: ["gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
+        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 15 reps" },
+        { name: "Lunges", type: "lower", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps/leg" },
+        { name: "Plank", type: "both", loc: ["home", "gym", "out"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 45 sec" },
+        { name: "Mtn Climbers", type: "both", loc: ["home", "gym", "out"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 30 sec" }
+    ];
+
+
+    // --- SETUP ---
+    window.onload = function() {
+        const savedDay = localStorage.getItem('familyWorkoutDay');
+        if (savedDay) document.getElementById('dayInput').value = savedDay;
+        updateProgressUI();
+
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('place') === 'gym') setLoc('gym');
+        else setLoc('home');
+    }
+
+
+    function updateProgressUI() {
+        let day = parseInt(document.getElementById('dayInput').value);
+        if(day > 100) day = 100;
+        document.getElementById('visual-progress').style.width = day + "%";
+    }
+
+
+    function setLoc(loc) {
+        state.location = loc;
+        document.getElementById('opt-home').classList.remove('selected');
+        document.getElementById('opt-gym').classList.remove('selected');
+        document.getElementById('opt-out').classList.remove('selected');
+        document.getElementById('opt-' + loc).classList.add('selected');
+        document.getElementById('gym-pass-card').style.display = (loc === 'gym') ? 'block' : 'none';
+        if (state.mode === 'build') renderBuildList();
+    }
+
+
+    function setMode(mode) {
+        state.mode = mode;
+        document.getElementById('btn-mode-random').classList.remove('active');
+        document.getElementById('btn-mode-build').classList.remove('active');
+        document.getElementById('btn-mode-' + mode).classList.add('active');
+
+
+        if (mode === 'random') {
+            document.getElementById('random-options').style.display = 'block';
+            document.getElementById('build-options').style.display = 'none';
+        } else {
+            document.getElementById('random-options').style.display = 'none';
+            document.getElementById('build-options').style.display = 'block';
+            renderBuildList();
+        }
+    }
+
+
+    function setFocus(val, el) {
+        state.focus = val;
+        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+
+    function setCount(val, el) {
+        state.count = val;
+        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+
+    // --- GENERATION ---
+    let selectedIndices = [];
+    function renderBuildList() {
+        const listContainer = document.getElementById('build-list');
+        listContainer.style.display = 'block';
+        listContainer.innerHTML = '';
+        selectedIndices = [];
+
+
+        exerciseDB.forEach((ex, index) => {
+            if (ex.loc.includes(state.location)) {
+                let item = document.createElement('div');
+                item.className = 'build-item';
+                item.innerHTML = `<div><div style="font-weight:600">${ex.name}</div><div style="font-size:12px; color:#888">${ex.type.toUpperCase()}</div></div><div class="check-circle">✓</div>`;
+                item.onclick = function() {
+                    if (selectedIndices.includes(index)) {
+                        selectedIndices = selectedIndices.filter(i => i !== index);
+                        item.classList.remove('selected');
+                    } else {
+                        selectedIndices.push(index);
+                        item.classList.add('selected');
+                    }
+                };
+                listContainer.appendChild(item);
+            }
+        });
+    }
+
+
+    function generateRandomWorkout() {
+        let pool = exerciseDB.filter(ex => {
+            let locMatch = ex.loc.includes(state.location);
+            let typeMatch = state.focus === 'both' ? true : ex.type === state.focus || ex.type === 'both';
+            return locMatch && typeMatch;
+        });
+        pool.sort(() => 0.5 - Math.random());
+        currentWorkout = pool.slice(0, state.count);
+        renderResults();
+    }
+
+
+    function generateBuildWorkout() {
+        if (selectedIndices.length === 0) { alert("Please select at least one exercise!"); return; }
+        currentWorkout = selectedIndices.map(i => exerciseDB[i]);
+        renderResults();
+    }
+
+
+    function renderResults() {
+        const container = document.getElementById('cards-container');
+        container.innerHTML = '';
+
+
+        const w = warmups[state.location];
+        document.getElementById('warmup-container').innerHTML = `
+            <div class="warmup-card">
+                <div style="font-weight:bold; font-size:16px; margin-bottom:5px;">${w.title}</div>
+                <div>${w.desc}</div>
+            </div>
+        `;
+
+
+        currentWorkout.forEach(ex => {
+            container.innerHTML += `
+                <div class="exercise-card">
+                    <img src="${ex.img}" class="exercise-img">
+                    <div class="exercise-details">
+                        <div class="exercise-name">${ex.name}</div>
+                        <div class="exercise-instruction">📝 ${ex.guide}</div>
+                    </div>
+                </div>`;
+        });
+
+
+        const btn = document.getElementById('finish-btn');
+        btn.innerText = "✅ Finish & Share to Family";
+        btn.classList.remove('success');
+
+
+        document.getElementById('workout-results').style.display = 'block';
+        document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'});
+    }
+
+
+    // --- FINISH & SHARE LOGIC ---
+    
+    function handleFinishClick() {
+        // 1. Trigger Confetti
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+
+        // 2. Play Sound (The "Haptic" alternative)
+        // This is the most reliable "feedback" on iOS
+        var audio = document.getElementById("success-sound");
+        audio.play().catch(e => console.log("Audio play failed (user interaction needed first)"));
+
+
+        // 3. Trigger Haptics (Best effort for Android/Chrome)
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+
+        // 4. UI Update
+        const btn = document.getElementById('finish-btn');
+        btn.innerText = "Crushed it! 💪 Generating...";
+        btn.classList.add('success');
+
+
+        // 5. Delay Share
+        setTimeout(() => { shareToFamily(); }, 1500);
+    }
+
+
+    function getEmojiBar(current, total) {
+        const barLength = 10;
+        const progress = current / total;
+        const filledChars = Math.round(progress * barLength);
+        const emptyChars = barLength - filledChars;
+        return '▓'.repeat(filledChars) + '░'.repeat(emptyChars);
+    }
+
+
+    function shareToFamily() {
+        const currentDay = document.getElementById('dayInput').value;
+        const nextDay = parseInt(currentDay) + 1;
+        localStorage.setItem('familyWorkoutDay', nextDay);
+
+
+        let locText = state.location.toUpperCase();
+        // FIXED: Correct spelling in Share Message
+        if (state.location === 'gym') locText = "BRETTON WOODS";
+
+
+        let userText = user;
+        // FIXED: Correct naming logic
+        if(user === 'Juntos') userText = "Mami & Papi";
+
+
+        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
+        let bar = getEmojiBar(currentDay, 100);
+
+
+        let message = `
+🔥 *100 Day Challenge Update!*
+
+
+${bar}
+Day ${currentDay} of 100
+
+
+👤 *${userText}* finished a workout!
+📍 At: ${locText}
+
+
+*The Workout:*
+✅ Warm-up: ${warmups[state.location].title}
+${listText}
+
+
+Keep it up! 🎉
+        `.trim();
+
+
+        if (navigator.share) {
+            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
+        } else {
+            alert("Message Preview:\n\n" + message);
+        }
+
+
+        document.getElementById('dayInput').value = nextDay;
+        updateProgressUI();
+        
+        const btn = document.getElementById('finish-btn');
+        btn.innerText = "✅ Finish & Share to Family";
+        btn.classList.remove('success');
+    }
+</script>
+
+
+</body>
+</html>
