@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Family Fitness Tracker</title>
+    <title>Noguera Fitness Plan</title>
     <link rel="apple-touch-icon" href="images/icon.png"> 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
@@ -33,6 +33,16 @@
             max-width: 600px;
             margin: 0 auto;
             padding-bottom: 100px;
+        }
+
+        /* --- FAMILY GRID --- */
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background-color: #E5E5EA;
+            border-radius: 12px;
+            padding: 4px;
         }
 
         /* --- HEADERS & PROGRESS --- */
@@ -79,7 +89,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        /* SCROLL SELECTOR (Standard iOS Picker Style) */
         .day-select {
             font-size: 18px;
             font-weight: bold;
@@ -87,7 +96,7 @@
             border: none;
             background: transparent;
             text-align: center;
-            appearance: none; /* Removes default arrow on some browsers */
+            appearance: none;
             -webkit-appearance: none;
             padding: 0 10px;
             cursor: pointer;
@@ -114,7 +123,7 @@
         .segment-option {
             flex: 1;
             text-align: center;
-            padding: 8px 0;
+            padding: 10px 5px;
             font-size: 14px;
             font-weight: 500;
             border-radius: 7px;
@@ -125,7 +134,8 @@
         .segment-option.selected {
             background-color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--ios-blue);
         }
 
         /* --- SLIDER --- */
@@ -134,189 +144,65 @@
             padding: 15px 20px;
             border-radius: 12px;
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+            gap: 5px;
         }
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            margin-top: -10px;
-            border: 0.5px solid rgba(0,0,0,0.1);
+            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
+            background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            margin-top: -10px; border: 0.5px solid rgba(0,0,0,0.1);
         }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            background: #E5E5EA;
-            border-radius: 2px;
-        }
-        .slider-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            width: 30px;
-            text-align: center;
-        }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #E5E5EA; border-radius: 2px; }
+        
+        .slider-value { font-size: 20px; font-weight: bold; color: var(--ios-blue); width: 30px; text-align: center; }
 
         /* --- MODE TOGGLE --- */
-        .mode-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        .mode-wrapper { display: flex; gap: 10px; margin-bottom: 20px; }
         .mode-btn {
-            flex: 1;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            background: white;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
+            flex: 1; padding: 15px; border-radius: 12px; border: 2px solid transparent;
+            background: white; font-weight: 600; text-align: center; cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .mode-btn.active {
-            border-color: var(--ios-blue);
-            color: var(--ios-blue);
-            background: #F0F8FF;
-        }
+        .mode-btn.active { border-color: var(--ios-blue); color: var(--ios-blue); background: #F0F8FF; }
 
         /* --- GYM PASS TILE --- */
         #gym-pass-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid #E5E5EA;
+            background: white; border-radius: 12px; padding: 15px; text-align: center;
+            margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #E5E5EA;
         }
 
         /* --- BUILD MODE --- */
-        #build-list { display: none; }
-        
-        .category-header {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 20px 0 10px 5px;
-            color: var(--text-dark);
-            border-bottom: 2px solid #E5E5EA;
-            padding-bottom: 5px;
-        }
-
+        .category-header { font-size: 18px; font-weight: 700; margin: 20px 0 10px 5px; border-bottom: 2px solid #E5E5EA; padding-bottom: 5px; }
         .build-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s;
+            background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            border: 1px solid transparent; transition: all 0.2s;
         }
-        .build-item.selected {
-            background-color: #F0F8FF;
-            border-color: var(--ios-blue);
-        }
-        
+        .build-item.selected { background-color: #F0F8FF; border-color: var(--ios-blue); }
         .check-circle {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            border: 2px solid #C7C7CC; /* Default gray border */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent; /* Hide checkmark by default */
-            transition: all 0.2s;
-            font-weight: bold;
-            background: transparent;
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #C7C7CC;
+            display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold;
         }
-        
-        .build-item.selected .check-circle {
-            background: var(--ios-blue);
-            border-color: var(--ios-blue);
-            color: white; /* Show checkmark */
-        }
+        .build-item.selected .check-circle { background: var(--ios-blue); border-color: var(--ios-blue); color: white; }
 
         /* --- RESULTS --- */
-        .btn-main {
-            background-color: var(--ios-blue);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .btn-share {
-            background-color: var(--ios-green);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-share.success {
-            background-color: #333; 
-            transform: scale(1.02);
-        }
+        .btn-main { background-color: var(--ios-blue); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; cursor: pointer; margin-top: 20px; }
+        .btn-share { background-color: var(--ios-green); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; margin-top: 20px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-share.success { background-color: #333; transform: scale(1.02); }
 
         #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
-        
-        .warmup-card {
-            background: #FFF8E1;
-            border-left: 5px solid #FFC107;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .exercise-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        /* Changed to contain to ensure full image shows without cropping weirdly */
-        .exercise-img { 
-            width: 100%; 
-            height: 200px; 
-            object-fit: contain; 
-            background-color: white; 
-            padding: 10px;
-            box-sizing: border-box;
-        }
+        .warmup-card { background: #FFF8E1; border-left: 5px solid #FFC107; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .exercise-card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; box-sizing: border-box; }
         .exercise-details { padding: 15px; border-top: 1px solid #eee; }
         .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
         .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-
     </style>
 </head>
 <body>
 
 <div class="container">
-    
     <h1>Noguera Fitness Plan</h1>
     
     <div class="progress-header">
@@ -329,8 +215,7 @@
 
     <div class="day-counter-wrapper">
         <span>Day</span>
-        <select id="dayInput" class="day-select" onchange="updateProgressUI()">
-            </select>
+        <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select>
         <span>of 100</span>
     </div>
 
@@ -371,21 +256,16 @@
             <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
         </div>
         
-    <div class="label">How many exercises? (3-6)</div>
-    <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
-            <div class="slider-value" id="slider-val-display">3</div>
+        <div class="label">How many exercises? (3-6)</div>
+        <div class="slider-container">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
+                <div class="slider-value" id="slider-val-display">3</div>
+            </div>
+            <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
+                <option value="3" label="3"></option><option value="4" label="4"></option><option value="5" label="5"></option><option value="6" label="6"></option>
+            </datalist>
         </div>
-        
-        <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
-            <option value="3" label="3"></option>
-            <option value="4" label="4"></option>
-            <option value="5" label="5"></option>
-            <option value="6" label="6"></option>
-        </datalist>
-    </div>
-        
         <button class="btn-main" onclick="generateRandomWorkout()">⚡️Generate Workout⚡️</button>
     </div>
 
@@ -397,44 +277,26 @@
 
     <div id="workout-results">
         <h2>Today's Plan</h2>
-        
         <div id="warmup-container"></div>
         <div id="cards-container"></div>
-        
         <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
     </div>
-
 </div>
 
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
-    // --- STATE ---
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
-    let selectedUsers = []; // Updated to an array to hold multiple people
+    let selectedUsers = [];
     let currentWorkout = [];
-    
-    // --- NEW MULTI-SELECT FUNCTION ---
-    function toggleUser(name, element) {
-        if (selectedUsers.includes(name)) {
-            // If they are already in the list, remove them (un-tap)
-            selectedUsers = selectedUsers.filter(u => u !== name);
-            element.classList.remove('selected');
-        } else {
-            // If they aren't in the list, add them (tap)
-            selectedUsers.push(name);
-            element.classList.add('selected');
-        }
-    }
+    let selectedIndices = [];
 
-    // --- DATA ---
     const warmups = {
         gym: { title: "🔥 Gym Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
-        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles (No Cardio)" },
+        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles" },
         out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
     };
 
-    // UPDATED DB: Local images .png, and type "core" instead of "both"
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 10 reps" },
@@ -444,42 +306,38 @@
         { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 10 reps" },
         { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 12 reps" },
         { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
-        
         { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
         { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 15 reps" },
         { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 10 reps/leg" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
-
+        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squats.png", guide: "3 sets • 20 reps" },
         { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 45 sec" },
         { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "3 sets • 20 reps" }
     ];
 
-    // --- SETUP ---
     window.onload = function() {
-        // Populate Scroll Selector
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
             let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = i;
-            select.appendChild(opt);
+            opt.value = i; opt.innerHTML = i; select.appendChild(opt);
         }
-
         const savedDay = localStorage.getItem('familyWorkoutDay');
         if (savedDay) select.value = savedDay;
-        
         updateProgressUI();
+    }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('place') === 'gym') setLoc('gym');
-        else setLoc('home');
+    function toggleUser(name, element) {
+        if (selectedUsers.includes(name)) {
+            selectedUsers = selectedUsers.filter(u => u !== name);
+            element.classList.remove('selected');
+        } else {
+            selectedUsers.push(name);
+            element.classList.add('selected');
+        }
     }
 
     function updateProgressUI() {
         let day = parseInt(document.getElementById('dayInput').value);
-        if(day > 100) day = 100;
-        
         document.getElementById('visual-progress').style.width = day + "%";
         document.getElementById('progress-text').innerText = day + "% Completed";
     }
@@ -489,40 +347,22 @@
         state.count = parseInt(val);
     }
 
-    // --- FIXED USER SELECTOR ---
-    function setUser(name, element) {
-        user = name;
-        let siblings = element.parentElement.children;
-        for (let i = 0; i < siblings.length; i++) {
-            siblings[i].classList.remove('selected');
-        }
-        element.classList.add('selected');
-    }
-
     function setLoc(loc) {
         state.location = loc;
         document.getElementById('opt-home').classList.remove('selected');
         document.getElementById('opt-gym').classList.remove('selected');
         document.getElementById('opt-out').classList.remove('selected');
         document.getElementById('opt-' + loc).classList.add('selected');
-        
         if (state.mode === 'build') renderBuildList();
     }
 
     function setMode(mode) {
         state.mode = mode;
-        document.getElementById('btn-mode-random').classList.remove('active');
-        document.getElementById('btn-mode-build').classList.remove('active');
-        document.getElementById('btn-mode-' + mode).classList.add('active');
-
-        if (mode === 'random') {
-            document.getElementById('random-options').style.display = 'block';
-            document.getElementById('build-options').style.display = 'none';
-        } else {
-            document.getElementById('random-options').style.display = 'none';
-            document.getElementById('build-options').style.display = 'block';
-            renderBuildList();
-        }
+        document.getElementById('btn-mode-random').classList.toggle('active', mode === 'random');
+        document.getElementById('btn-mode-build').classList.toggle('active', mode === 'build');
+        document.getElementById('random-options').style.display = (mode === 'random') ? 'block' : 'none';
+        document.getElementById('build-options').style.display = (mode === 'build') ? 'block' : 'none';
+        if (mode === 'build') renderBuildList();
     }
 
     function setFocus(val, el) {
@@ -531,202 +371,27 @@
         el.classList.add('selected');
     }
 
-    // --- GENERATION & BUILD LOGIC ---
-    let selectedIndices = [];
-    
     function renderBuildList() {
         const listContainer = document.getElementById('build-list');
-        listContainer.style.display = 'block';
         listContainer.innerHTML = '';
         selectedIndices = [];
-
-        // Define categories order
-        const categories = [
-            { id: 'upper', label: 'Upper Body' },
-            { id: 'lower', label: 'Lower Body' },
-            { id: 'core', label: 'Core & Abs' }
-        ];
-
+        const categories = [{id:'upper', label:'Upper Body'}, {id:'lower', label:'Lower Body'}, {id:'core', label:'Core & Abs'}];
         categories.forEach(cat => {
-            // Filter exercises for this location AND this category
-            const categoryExercises = exerciseDB.filter((ex, index) => {
-                return ex.loc.includes(state.location) && ex.type === cat.id;
-            });
-
-            if (categoryExercises.length > 0) {
-                // Add Header
-                const header = document.createElement('div');
-                header.className = 'category-header';
-                header.innerText = cat.label;
-                listContainer.appendChild(header);
-
-                // Add Items
-                categoryExercises.forEach(ex => {
-                    // Find original index in DB to track selection correctly
-                    const originalIndex = exerciseDB.indexOf(ex);
-                    
-                    let item = document.createElement('div');
+            const catExs = exerciseDB.filter(ex => ex.loc.includes(state.location) && ex.type === cat.id);
+            if (catExs.length > 0) {
+                const h = document.createElement('div'); h.className = 'category-header'; h.innerText = cat.label;
+                listContainer.appendChild(h);
+                catExs.forEach(ex => {
+                    const idx = exerciseDB.indexOf(ex);
+                    const item = document.createElement('div');
                     item.className = 'build-item';
-                    // Added empty checkmark circle logic
-                    item.innerHTML = `
-                        <div style="font-weight:600">${ex.name}</div>
-                        <div class="check-circle">✓</div>
-                    `;
-                    
-                    item.onclick = function() {
-                        if (selectedIndices.includes(originalIndex)) {
-                            selectedIndices = selectedIndices.filter(i => i !== originalIndex);
-                            item.classList.remove('selected');
-                        } else {
-                            selectedIndices.push(originalIndex);
-                            item.classList.add('selected');
-                        }
+                    item.innerHTML = `<div>${ex.name}</div><div class="check-circle">✓</div>`;
+                    item.onclick = () => {
+                        item.classList.toggle('selected');
+                        if (selectedIndices.includes(idx)) selectedIndices = selectedIndices.filter(i => i !== idx);
+                        else selectedIndices.push(idx);
                     };
                     listContainer.appendChild(item);
                 });
             }
         });
-        
-        // Handle case where location has no exercises
-        if(listContainer.innerHTML === '') {
-            listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#888">No exercises available for this location.</div>';
-        }
-    }
-
-    function generateRandomWorkout() {
-        // Filter pool
-        let pool = exerciseDB.filter(ex => {
-            let locMatch = ex.loc.includes(state.location);
-            // Handle 'both' selection (now includes core)
-            let typeMatch = false;
-            if (state.focus === 'both') typeMatch = true; 
-            else if (state.focus === 'upper') typeMatch = (ex.type === 'upper');
-            else if (state.focus === 'lower') typeMatch = (ex.type === 'lower');
-            
-            return locMatch && typeMatch;
-        });
-
-        // Shuffle
-        pool.sort(() => 0.5 - Math.random());
-        
-        // Slice based on Slider value
-        currentWorkout = pool.slice(0, state.count);
-        renderResults();
-    }
-
-    function generateBuildWorkout() {
-        if (selectedIndices.length === 0) { alert("Please select at least one exercise!"); return; }
-        currentWorkout = selectedIndices.map(i => exerciseDB[i]);
-        renderResults();
-    }
-
-    function renderResults() {
-        const container = document.getElementById('cards-container');
-        container.innerHTML = '';
-
-        const w = warmups[state.location];
-        document.getElementById('warmup-container').innerHTML = `
-            <div class="warmup-card">
-                <div style="font-weight:bold; font-size:16px; margin-bottom:5px;">${w.title}</div>
-                <div>${w.desc}</div>
-            </div>
-        `;
-
-        currentWorkout.forEach(ex => {
-            container.innerHTML += `
-                <div class="exercise-card">
-                    <img src="${ex.img}" class="exercise-img" alt="${ex.name}">
-                    <div class="exercise-details">
-                        <div class="exercise-name">${ex.name}</div>
-                        <div class="exercise-instruction"> ${ex.guide}</div>
-                    </div>
-                </div>`;
-        });
-
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "✅ Finish & Share to Family";
-        btn.classList.remove('success');
-
-        document.getElementById('workout-results').style.display = 'block';
-        setTimeout(() => {
-            document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'});
-        }, 100);
-    }
-
-    // --- FINISH & SHARE LOGIC ---
-    function handleFinishClick() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        
-        var audio = document.getElementById("success-sound");
-        audio.play().catch(e => console.log("Audio play failed"));
-
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "You crushed it! Generating message...";
-        btn.classList.add('success');
-
-        setTimeout(() => { shareToFamily(); }, 1500);
-    }
-
-    function getEmojiBar(current, total) {
-        const barLength = 10;
-        const progress = current / total;
-        const filledChars = Math.round(progress * barLength);
-        const emptyChars = barLength - filledChars;
-        return '▓'.repeat(filledChars) + '░'.repeat(emptyChars);
-    }
-
-    function shareToFamily() {
-        const currentDay = document.getElementById('dayInput').value;
-        const nextDay = parseInt(currentDay) + 1;
-        localStorage.setItem('familyWorkoutDay', nextDay);
-    
-        let locText = state.location.toUpperCase();
-        if (state.location === 'gym') locText = "BRETTON WOODS";
-    
-        // Format the names list (e.g., "Mami, Papi, and Santi")
-        let userText = "";
-        if (selectedUsers.length === 0) {
-            userText = "The Noguera Team";
-        } else if (selectedUsers.length === 1) {
-            userText = selectedUsers[0];
-        } else {
-            const last = selectedUsers.pop();
-            userText = selectedUsers.join(', ') + ' & ' + last;
-            selectedUsers.push(last); // Put it back for next time
-        }
-    
-        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
-        
-        let message = `
-🔥 *100 Day Challenge Update!* 🚨🔔
-
-👤 *${userText}* just crushed day ${currentDay}!
-📍 At: ${locText}
-
-*The Workout:*
-✅ ${warmups[state.location].title}
-${listText}
-
-Only ${100 - currentDay} days to go! 🎉
-    `.trim();
-
-    if (navigator.share) {
-        navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
-    } else {
-        alert("Message Preview:\n\n" + message);
-    }
-
-    document.getElementById('dayInput').value = nextDay;
-    updateProgressUI();
-}
-        
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "✅ Finish & Share to Family";
-        btn.classList.remove('success');
-    }
-</script>
-
-</body>
-</html>
