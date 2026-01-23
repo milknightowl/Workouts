@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Family Fitness Tracker</title>
-    <link rel="apple-touch-icon" href="images/icon.png">
+    <link rel="apple-touch-icon" href="images/icon.png"> 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -13,11 +13,12 @@
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
+            --ios-red: #FF3B30;
             --card-white: #FFFFFF;
             --text-dark: #000000;
             --text-light: #8E8E93;
+            --border-color: #E5E5EA;
         }
-
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -28,54 +29,69 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-
         .container {
             max-width: 600px;
             margin: 0 auto;
             padding-bottom: 100px;
         }
 
-
         /* --- HEADERS & PROGRESS --- */
         h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
         
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
         .progress-container {
             width: 100%;
             background-color: #E5E5EA;
             border-radius: 10px;
-            height: 10px;
-            margin: 20px 0 10px 0;
+            height: 14px;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .progress-fill {
             height: 100%;
-            background-color: var(--ios-blue);
+            background: linear-gradient(90deg, var(--ios-blue), #5AC8FA);
             width: 1%;
             transition: width 0.5s ease;
+            border-radius: 10px;
         }
-
 
         .day-counter-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 15px;
-            font-size: 15px;
-            color: var(--text-light);
+            margin: 15px 0;
+            font-size: 16px;
+            color: var(--text-dark);
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
-        .day-input {
-            font-size: 20px;
+        
+        /* SCROLL SELECTOR (Standard iOS Picker Style) */
+        .day-select {
+            font-size: 18px;
             font-weight: bold;
             color: var(--ios-blue);
-            width: 50px;
-            text-align: center;
             border: none;
             background: transparent;
-            border-bottom: 2px solid #E5E5EA;
+            text-align: center;
+            appearance: none; /* Removes default arrow on some browsers */
+            -webkit-appearance: none;
+            padding: 0 10px;
+            cursor: pointer;
         }
-
 
         /* --- UI ELEMENTS --- */
         .label {
@@ -85,9 +101,8 @@
             margin-bottom: 8px;
             margin-left: 10px;
             font-weight: 600;
-            margin-top: 25px; /* Added spacing */
+            margin-top: 25px;
         }
-
 
         .segmented-control {
             display: flex;
@@ -107,13 +122,49 @@
             transition: all 0.2s ease;
         }
 
-
         .segment-option.selected {
             background-color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.15);
             font-weight: 600;
         }
 
+        /* --- SLIDER --- */
+        .slider-container {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            margin-top: -10px;
+            border: 0.5px solid rgba(0,0,0,0.1);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #E5E5EA;
+            border-radius: 2px;
+        }
+        .slider-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--ios-blue);
+            width: 30px;
+            text-align: center;
+        }
 
         /* --- MODE TOGGLE --- */
         .mode-wrapper {
@@ -138,8 +189,7 @@
             background: #F0F8FF;
         }
 
-
-        /* --- GYM PASS TILE (PERMANENT) --- */
+        /* --- GYM PASS TILE --- */
         #gym-pass-card {
             background: white;
             border-radius: 12px;
@@ -148,24 +198,20 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             border: 1px solid #E5E5EA;
-            display: block; /* Always visible now */
         }
-        .barcode-placeholder {
-            width: 80%;
-            height: 60px;
-            background: #000;
-            margin: 5px auto;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: monospace;
-            letter-spacing: 4px;
-        }
-
 
         /* --- BUILD MODE --- */
         #build-list { display: none; }
+        
+        .category-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 20px 0 10px 5px;
+            color: var(--text-dark);
+            border-bottom: 2px solid #E5E5EA;
+            padding-bottom: 5px;
+        }
+
         .build-item {
             background: white;
             padding: 15px;
@@ -176,25 +222,31 @@
             align-items: center;
             cursor: pointer;
             border: 1px solid transparent;
+            transition: all 0.2s;
         }
         .build-item.selected {
-            border-color: var(--ios-blue);
             background-color: #F0F8FF;
+            border-color: var(--ios-blue);
         }
+        
         .check-circle {
             width: 24px; height: 24px;
             border-radius: 50%;
-            border: 2px solid #ddd;
+            border: 2px solid #C7C7CC; /* Default gray border */
             display: flex;
             align-items: center;
             justify-content: center;
+            color: transparent; /* Hide checkmark by default */
+            transition: all 0.2s;
+            font-weight: bold;
+            background: transparent;
         }
+        
         .build-item.selected .check-circle {
             background: var(--ios-blue);
             border-color: var(--ios-blue);
-            color: white;
+            color: white; /* Show checkmark */
         }
-
 
         /* --- RESULTS --- */
         .btn-main {
@@ -209,7 +261,6 @@
             cursor: pointer;
             margin-top: 20px;
         }
-
 
         .btn-share {
             background-color: var(--ios-green);
@@ -230,7 +281,6 @@
             transform: scale(1.02);
         }
 
-
         #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
         
         .warmup-card {
@@ -241,7 +291,6 @@
             margin-bottom: 20px;
         }
 
-
         .exercise-card {
             background: white;
             border-radius: 12px;
@@ -249,37 +298,47 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .exercise-img { width: 100%; height: 180px; object-fit: cover; background-color: #eee; }
-        .exercise-details { padding: 15px; }
+        /* Changed to contain to ensure full image shows without cropping weirdly */
+        .exercise-img { 
+            width: 100%; 
+            height: 200px; 
+            object-fit: contain; 
+            background-color: white; 
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .exercise-details { padding: 15px; border-top: 1px solid #eee; }
         .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
         .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-
 
     </style>
 </head>
 <body>
 
-
 <div class="container">
     
     <h1>Noguera Fitness Plan</h1>
     
+    <div class="progress-header">
+        <span>Current Streak</span>
+        <span id="progress-text">0% Completed</span>
+    </div>
     <div class="progress-container">
         <div id="visual-progress" class="progress-fill"></div>
     </div>
+
     <div class="day-counter-wrapper">
         <span>Day</span>
-        <input type="number" id="dayInput" class="day-input" value="1" onchange="updateProgressUI()">
+        <select id="dayInput" class="day-select" onchange="updateProgressUI()">
+            </select>
         <span>of 100</span>
     </div>
 
-
     <div id="gym-pass-card">
         <h3 style="margin-top:0;">Bretton Woods Access</h3>
-        <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
+        <img src="images/barcode.jpeg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
         <div style="font-size:12px; color:#888;">Scan barcode</div>
     </div>
-
 
     <div class="label">Profile</div>
     <div class="segmented-control" id="who-select">
@@ -288,7 +347,6 @@
         <div class="segment-option selected" onclick="setUser('Juntos', this)">Juntos</div>
     </div>
 
-
     <div class="label">Location</div>
     <div class="segmented-control">
         <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
@@ -296,13 +354,11 @@
         <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
     </div>
 
-
     <div class="label">How to start?</div>
     <div class="mode-wrapper">
         <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
         <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
     </div>
-
 
     <div id="random-options">
         <div class="label">Focus</div>
@@ -311,22 +367,21 @@
             <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
             <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
         </div>
-        <div class="label">Count</div>
-        <div class="segmented-control">
-            <div class="segment-option selected" onclick="setCount(3, this)">3</div>
-            <div class="segment-option" onclick="setCount(4, this)">4</div>
-            <div class="segment-option" onclick="setCount(5, this)">5</div>
+        
+        <div class="label">How many exercises?</div>
+        <div class="slider-container">
+            <input type="range" id="exercise-slider" min="3" max="6" value="3" oninput="updateSliderVal(this.value)">
+            <div class="slider-value" id="slider-val-display">3</div>
         </div>
+        
         <button class="btn-main" onclick="generateRandomWorkout()">⚡️Generate Workout⚡️</button>
     </div>
 
-
     <div id="build-options" style="display:none;">
-        <div class="label">Select Exercises (Tap to add)</div>
+        <div class="label">Select Exercises</div>
         <div id="build-list"></div>
         <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
     </div>
-
 
     <div id="workout-results">
         <h2>Today's Plan</h2>
@@ -337,19 +392,15 @@
         <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
     </div>
 
-
 </div>
 
-
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
-
 
 <script>
     // --- STATE ---
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
     let user = 'Juntos'; // Default
     let currentWorkout = [];
-
 
     // --- DATA ---
     const warmups = {
@@ -358,58 +409,72 @@
         out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
     };
 
-
+    // UPDATED DB: Local images .png, and type "core" instead of "both"
     const exerciseDB = [
-        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
-        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps" },
-        { name: "Floor Press", type: "upper", loc: ["home"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
-        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 15 reps" },
-        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
-        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
-        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1598289431512-b97b0917affc?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps" },
-        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
-        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 12 reps" },
-        { name: "Leg Press", type: "lower", loc: ["gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10-12 reps" },
-        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 15 reps" },
-        { name: "Lunges", type: "lower", loc: ["home", "gym"], img: "https://images.unsplash.com/photo-1574680096141-1cddd32e04ca?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 10 reps/leg" },
-        { name: "Plank", type: "both", loc: ["home", "gym", "out"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 45 sec" },
-        { name: "Mtn Climbers", type: "both", loc: ["home", "gym", "out"], img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=500&q=60", guide: "3 sets • 30 sec" }
-    ];
+        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
+        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 10 reps" },
+        { name: "Floor Press", type: "upper", loc: ["home"], img: "images/floor-press.png", guide: "3 sets • 12 reps" },
+        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 15 reps" },
+        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 10-12 reps" },
+        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 12 reps" },
+        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 10 reps" },
+        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 12 reps" },
+        { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
+        
+        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
+        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 10-12 reps" },
+        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 15 reps" },
+        { name: "Lunges", type: "lower", loc: ["home", "gym", "out"], img: "images/lunges.png", guide: "3 sets • 10 reps/leg" },
+        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squats.png", guide: "3 sets • 20 reps" },
 
+        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 45 sec" },
+        { name: "Mtn Climbers", type: "core", loc: ["home", "gym", "out"], img: "images/mtn-climbers.png", guide: "3 sets • 30 sec" },
+        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "3 sets • 20 reps" }
+    ];
 
     // --- SETUP ---
     window.onload = function() {
-        const savedDay = localStorage.getItem('familyWorkoutDay');
-        if (savedDay) document.getElementById('dayInput').value = savedDay;
-        updateProgressUI();
+        // Populate Scroll Selector
+        const select = document.getElementById('dayInput');
+        for (let i = 1; i <= 100; i++) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            select.appendChild(opt);
+        }
 
+        const savedDay = localStorage.getItem('familyWorkoutDay');
+        if (savedDay) select.value = savedDay;
+        
+        updateProgressUI();
 
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('place') === 'gym') setLoc('gym');
         else setLoc('home');
     }
 
-
     function updateProgressUI() {
         let day = parseInt(document.getElementById('dayInput').value);
         if(day > 100) day = 100;
+        
         document.getElementById('visual-progress').style.width = day + "%";
+        document.getElementById('progress-text').innerText = day + "% Completed";
     }
 
+    function updateSliderVal(val) {
+        document.getElementById('slider-val-display').innerText = val;
+        state.count = parseInt(val);
+    }
 
     // --- FIXED USER SELECTOR ---
     function setUser(name, element) {
         user = name;
-        // 1. Get all buttons in the Who group
         let siblings = element.parentElement.children;
-        // 2. Remove 'selected' class from all of them
         for (let i = 0; i < siblings.length; i++) {
             siblings[i].classList.remove('selected');
         }
-        // 3. Add 'selected' to the one just clicked
         element.classList.add('selected');
     }
-
 
     function setLoc(loc) {
         state.location = loc;
@@ -421,13 +486,11 @@
         if (state.mode === 'build') renderBuildList();
     }
 
-
     function setMode(mode) {
         state.mode = mode;
         document.getElementById('btn-mode-random').classList.remove('active');
         document.getElementById('btn-mode-build').classList.remove('active');
         document.getElementById('btn-mode-' + mode).classList.add('active');
-
 
         if (mode === 'random') {
             document.getElementById('random-options').style.display = 'block';
@@ -439,61 +502,94 @@
         }
     }
 
-
     function setFocus(val, el) {
         state.focus = val;
         Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
         el.classList.add('selected');
     }
 
-
-    function setCount(val, el) {
-        state.count = val;
-        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-
-    // --- GENERATION ---
+    // --- GENERATION & BUILD LOGIC ---
     let selectedIndices = [];
+    
     function renderBuildList() {
         const listContainer = document.getElementById('build-list');
         listContainer.style.display = 'block';
         listContainer.innerHTML = '';
         selectedIndices = [];
 
+        // Define categories order
+        const categories = [
+            { id: 'upper', label: 'Upper Body' },
+            { id: 'lower', label: 'Lower Body' },
+            { id: 'core', label: 'Core & Abs' }
+        ];
 
-        exerciseDB.forEach((ex, index) => {
-            if (ex.loc.includes(state.location)) {
-                let item = document.createElement('div');
-                item.className = 'build-item';
-                item.innerHTML = `<div><div style="font-weight:600">${ex.name}</div><div style="font-size:12px; color:#888">${ex.type.toUpperCase()}</div></div><div class="check-circle">✓</div>`;
-                item.onclick = function() {
-                    if (selectedIndices.includes(index)) {
-                        selectedIndices = selectedIndices.filter(i => i !== index);
-                        item.classList.remove('selected');
-                    } else {
-                        selectedIndices.push(index);
-                        item.classList.add('selected');
-                    }
-                };
-                listContainer.appendChild(item);
+        categories.forEach(cat => {
+            // Filter exercises for this location AND this category
+            const categoryExercises = exerciseDB.filter((ex, index) => {
+                return ex.loc.includes(state.location) && ex.type === cat.id;
+            });
+
+            if (categoryExercises.length > 0) {
+                // Add Header
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerText = cat.label;
+                listContainer.appendChild(header);
+
+                // Add Items
+                categoryExercises.forEach(ex => {
+                    // Find original index in DB to track selection correctly
+                    const originalIndex = exerciseDB.indexOf(ex);
+                    
+                    let item = document.createElement('div');
+                    item.className = 'build-item';
+                    // Added empty checkmark circle logic
+                    item.innerHTML = `
+                        <div style="font-weight:600">${ex.name}</div>
+                        <div class="check-circle">✓</div>
+                    `;
+                    
+                    item.onclick = function() {
+                        if (selectedIndices.includes(originalIndex)) {
+                            selectedIndices = selectedIndices.filter(i => i !== originalIndex);
+                            item.classList.remove('selected');
+                        } else {
+                            selectedIndices.push(originalIndex);
+                            item.classList.add('selected');
+                        }
+                    };
+                    listContainer.appendChild(item);
+                });
             }
         });
+        
+        // Handle case where location has no exercises
+        if(listContainer.innerHTML === '') {
+            listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#888">No exercises available for this location.</div>';
+        }
     }
 
-
     function generateRandomWorkout() {
+        // Filter pool
         let pool = exerciseDB.filter(ex => {
             let locMatch = ex.loc.includes(state.location);
-            let typeMatch = state.focus === 'both' ? true : ex.type === state.focus || ex.type === 'both';
+            // Handle 'both' selection (now includes core)
+            let typeMatch = false;
+            if (state.focus === 'both') typeMatch = true; 
+            else if (state.focus === 'upper') typeMatch = (ex.type === 'upper');
+            else if (state.focus === 'lower') typeMatch = (ex.type === 'lower');
+            
             return locMatch && typeMatch;
         });
+
+        // Shuffle
         pool.sort(() => 0.5 - Math.random());
+        
+        // Slice based on Slider value
         currentWorkout = pool.slice(0, state.count);
         renderResults();
     }
-
 
     function generateBuildWorkout() {
         if (selectedIndices.length === 0) { alert("Please select at least one exercise!"); return; }
@@ -501,11 +597,9 @@
         renderResults();
     }
 
-
     function renderResults() {
         const container = document.getElementById('cards-container');
         container.innerHTML = '';
-
 
         const w = warmups[state.location];
         document.getElementById('warmup-container').innerHTML = `
@@ -515,11 +609,10 @@
             </div>
         `;
 
-
         currentWorkout.forEach(ex => {
             container.innerHTML += `
                 <div class="exercise-card">
-                    <img src="${ex.img}" class="exercise-img">
+                    <img src="${ex.img}" class="exercise-img" alt="${ex.name}">
                     <div class="exercise-details">
                         <div class="exercise-name">${ex.name}</div>
                         <div class="exercise-instruction">📝 ${ex.guide}</div>
@@ -527,43 +620,31 @@
                 </div>`;
         });
 
-
         const btn = document.getElementById('finish-btn');
         btn.innerText = "✅ Finish & Share to Family";
         btn.classList.remove('success');
 
-
         document.getElementById('workout-results').style.display = 'block';
-        document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'});
+        setTimeout(() => {
+            document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'});
+        }, 100);
     }
 
-
     // --- FINISH & SHARE LOGIC ---
-    
     function handleFinishClick() {
-        // 1. Trigger Confetti
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-
-
-        // 2. Play Sound
+        
         var audio = document.getElementById("success-sound");
-        audio.play().catch(e => console.log("Audio play failed (interaction needed)"));
+        audio.play().catch(e => console.log("Audio play failed"));
 
-
-        // 3. Trigger Haptics
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
-
-        // 4. UI Update
         const btn = document.getElementById('finish-btn');
         btn.innerText = "Crushed it! 💪 Generating...";
         btn.classList.add('success');
 
-
-        // 5. Delay Share
         setTimeout(() => { shareToFamily(); }, 1500);
     }
-
 
     function getEmojiBar(current, total) {
         const barLength = 10;
@@ -573,25 +654,21 @@
         return '▓'.repeat(filledChars) + '░'.repeat(emptyChars);
     }
 
-
     function shareToFamily() {
         const currentDay = document.getElementById('dayInput').value;
         const nextDay = parseInt(currentDay) + 1;
+        
+        // Auto-save next day
         localStorage.setItem('familyWorkoutDay', nextDay);
-
 
         let locText = state.location.toUpperCase();
         if (state.location === 'gym') locText = "BRETTON WOODS";
 
-
         let userText = user;
         if(user === 'Juntos') userText = "Mami & Papi";
 
-
         let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
-        let bar = getEmojiBar(currentDay, 100);
-
-
+        
         let message = `
 🔥 *100 Day Challenge Update!* 🚨🔔
 
@@ -599,12 +676,11 @@
 📍 At: ${locText}
 
 *The Workout:*
-✅${warmups[state.location].title}
+✅ ${warmups[state.location].title}
 ${listText}
 
 Only ${100 - currentDay} days to go! 🎉
         `.trim();
-
 
         if (navigator.share) {
             navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
@@ -612,16 +688,17 @@ Only ${100 - currentDay} days to go! 🎉
             alert("Message Preview:\n\n" + message);
         }
 
-
-        document.getElementById('dayInput').value = nextDay;
-        updateProgressUI();
+        // Update UI for next day
+        if(nextDay <= 100) {
+            document.getElementById('dayInput').value = nextDay;
+            updateProgressUI();
+        }
         
         const btn = document.getElementById('finish-btn');
         btn.innerText = "✅ Finish & Share to Family";
         btn.classList.remove('success');
     }
 </script>
-
 
 </body>
 </html>
