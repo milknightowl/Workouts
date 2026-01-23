@@ -341,7 +341,7 @@
     </div>
 
     <div id="gym-pass-card">
-        <h3 style="margin-top:0;">Bretton Woods Access</h3>
+        <h3 style="margin-top:0;">Bretton Woods</h3>
         <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
         <div style="font-size:12px; color:#888;">Scan barcode</div>
     </div>
@@ -351,17 +351,13 @@
         <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
         <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
         <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Dana</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Fran</div>
-        <div class="segment-option" onclick="toggleUser('Sofi', this)">Andi</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Matu</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Caro</div>
-        <div class="segment-option" onclick="toggleUser('Matu', this)">Sofi</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-        <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
+        <div class="segment-option" onclick="toggleUser('Dana', this)">Dana</div>
+        <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
+        <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
+        <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
+        <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
+        <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
    </div>
-    <input type="text" id="other-name-input" placeholder="Enter guest name..." 
-        style="display:none; width: 100%; margin-top: 10px; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; touch-action: manipulation;">
  
     <div class="label">Location</div>
     <div class="segmented-control">
@@ -436,21 +432,6 @@
             element.classList.add('selected');
         }
     }
-
-    function toggleOther() {
-        const input = document.getElementById('other-name-input');
-        const btn = document.getElementById('other-btn');
-        
-        if (input.style.display === 'none') {
-            input.style.display = 'block';
-            btn.classList.add('selected');
-            input.focus(); 
-        } else {
-            input.style.display = 'none';
-            btn.classList.remove('selected');
-            input.value = ''; 
-        }
-    }
     
     // --- DATA ---
     const warmups = {
@@ -461,20 +442,21 @@
 
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
-        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 10 reps" },
-        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 15 reps" },
-        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 10-12 reps" },
-        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 12 reps" },
-        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 10 reps" },
-        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 12 reps" },
+        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
+        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 12 reps" },
+        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 8-12 reps" },
+        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 8-12 reps" },
+        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 8-12 reps" },
+        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 8-12 reps" },
         { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
         { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
-        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 10-12 reps" },
-        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 15 reps" },
-        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 10 reps/leg" },
+        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 8-12 reps" },
+        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 8-12 reps" },
+        { name: "Leg Curl", type: "lower", loc: ["gym"], img: "images/leg-curl.png", guide: "3 sets • 8-12 reps" },
+        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
         { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
-        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 45 sec" },
-        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "3 sets • 20 reps" }
+        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 60 sec" },
+        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "2 sets • 50 reps" }
     ];
 
     // --- SETUP ---
@@ -625,25 +607,17 @@
         setTimeout(() => { shareToFamily(); }, 1500);
     }
 
-    function shareToFamily() {
-        // 1. Combine selected users + the "Other" name
-        let finalParticipants = [...selectedUsers];
-        const otherName = document.getElementById('other-name-input').value.trim();
-        if (otherName && document.getElementById('other-name-input').style.display !== 'none') {
-            finalParticipants.push(otherName);
-        }
-
-        // 2. Prepare the text
+ function shareToFamily() {
         const currentDay = document.getElementById('dayInput').value;
         const nextDay = parseInt(currentDay) + 1;
         localStorage.setItem('familyWorkoutDay', nextDay);
         let locText = state.location === 'gym' ? "BRETTON WOODS" : state.location.toUpperCase();
         
         let userText = "";
-        if (finalParticipants.length === 0) userText = "The Noguera Team";
-        else if (finalParticipants.length === 1) userText = finalParticipants[0];
+        if (selectedUsers.length === 0) userText = "The Noguera Team";
+        else if (selectedUsers.length === 1) userText = selectedUsers[0];
         else {
-            const temp = [...finalParticipants];
+            const temp = [...selectedUsers];
             const last = temp.pop();
             userText = temp.join(', ') + ' & ' + last;
         }
@@ -663,6 +637,6 @@
         btn.classList.remove('success');
     }
 </script>
-
+    
 </body>
 </html>
