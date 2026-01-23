@@ -3,230 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Noguera Fitness Plan</title>
+    <title>Noguera Fitness</title>
     <link rel="apple-touch-icon" href="images/icon.png"> 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
-        /* --- iOS DESIGN SYSTEM --- */
         :root {
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
-            --ios-red: #FF3B30;
-            --card-white: #FFFFFF;
             --text-dark: #000000;
             --text-light: #8E8E93;
-            --border-color: #E5E5EA;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--ios-gray);
-            margin: 0;
-            padding: 20px;
-            color: var(--text-dark);
+            margin: 0; padding: 20px; color: var(--text-dark);
             -webkit-tap-highlight-color: transparent;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 100px;
-        }
+        .container { max-width: 500px; margin: 0 auto; padding-bottom: 50px; }
 
-        /* --- FAMILY GRID --- */
+        h1 { text-align: center; font-weight: 800; margin-bottom: 20px; }
+
+        /* --- THE GRID FIX --- */
         .family-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            background-color: #E5E5EA;
-            border-radius: 12px;
-            padding: 4px;
-        }
-
-        /* --- HEADERS & PROGRESS --- */
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-top: 20px;
-            margin-bottom: 5px;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: #E5E5EA;
-            border-radius: 10px;
-            height: 14px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--ios-blue), #5AC8FA);
-            width: 1%;
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-
-        .day-counter-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            grid-template-columns: repeat(3, 1fr); /* This forces 3 columns */
             gap: 10px;
-            margin: 15px 0;
-            font-size: 16px;
-            color: var(--text-dark);
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .day-select {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            border: none;
-            background: transparent;
-            text-align: center;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 0 10px;
-            cursor: pointer;
-        }
-
-        /* --- UI ELEMENTS --- */
-        .label {
-            font-size: 13px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            margin-left: 10px;
-            font-weight: 600;
-            margin-top: 25px;
-        }
-
-        .segmented-control {
-            display: flex;
             background-color: #E5E5EA;
-            border-radius: 9px;
-            padding: 2px;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 20px;
         }
-        
+
+        .label {
+            font-size: 13px; text-transform: uppercase; color: var(--text-light);
+            margin: 25px 0 8px 10px; font-weight: 600;
+        }
+
+        /* --- BUTTONS & OPTIONS --- */
         .segment-option {
-            flex: 1;
+            background: transparent;
+            padding: 15px 5px;
             text-align: center;
-            padding: 10px 5px;
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
-            border-radius: 7px;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
+        /* This is the "Selected" state */
         .segment-option.selected {
             background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             color: var(--ios-blue);
+            font-weight: 700;
         }
 
-        /* --- SLIDER --- */
-        .slider-container {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
-            background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            margin-top: -10px; border: 0.5px solid rgba(0,0,0,0.1);
-        }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #E5E5EA; border-radius: 2px; }
+        .segmented-control { display: flex; background-color: #E5E5EA; border-radius: 12px; padding: 2px; }
+        .segmented-control .segment-option { flex: 1; }
+
+        /* --- CARDS & UI --- */
+        .progress-container { width: 100%; background: #E5E5EA; border-radius: 10px; height: 12px; overflow: hidden; margin-bottom: 20px; }
+        .progress-fill { height: 100%; background: var(--ios-blue); width: 0%; transition: width 0.5s; }
         
-        .slider-value { font-size: 20px; font-weight: bold; color: var(--ios-blue); width: 30px; text-align: center; }
+        .day-counter-wrapper { background: white; padding: 15px; border-radius: 12px; text-align: center; font-weight: bold; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .day-select { font-size: 18px; font-weight: 800; color: var(--ios-blue); border: none; background: transparent; padding: 0 5px; }
 
-        /* --- MODE TOGGLE --- */
-        .mode-wrapper { display: flex; gap: 10px; margin-bottom: 20px; }
-        .mode-btn {
-            flex: 1; padding: 15px; border-radius: 12px; border: 2px solid transparent;
-            background: white; font-weight: 600; text-align: center; cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .mode-btn.active { border-color: var(--ios-blue); color: var(--ios-blue); background: #F0F8FF; }
+        #gym-pass-card { background: white; border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        #gym-pass-card img { width: 80%; border-radius: 5px; margin: 10px 0; }
 
-        /* --- GYM PASS TILE --- */
-        #gym-pass-card {
-            background: white; border-radius: 12px; padding: 15px; text-align: center;
-            margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #E5E5EA;
-        }
+        .btn-main { background: var(--ios-blue); color: white; width: 100%; padding: 18px; border-radius: 15px; font-size: 17px; font-weight: 600; border: none; margin-top: 20px; }
+        .btn-share { background: var(--ios-green); color: white; width: 100%; padding: 18px; border-radius: 15px; font-size: 17px; font-weight: 600; border: none; margin-top: 20px; display: none; }
 
-        /* --- BUILD MODE --- */
-        .category-header { font-size: 18px; font-weight: 700; margin: 20px 0 10px 5px; border-bottom: 2px solid #E5E5EA; padding-bottom: 5px; }
-        .build-item {
-            background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px;
-            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-            border: 1px solid transparent; transition: all 0.2s;
-        }
-        .build-item.selected { background-color: #F0F8FF; border-color: var(--ios-blue); }
-        .check-circle {
-            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #C7C7CC;
-            display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold;
-        }
-        .build-item.selected .check-circle { background: var(--ios-blue); border-color: var(--ios-blue); color: white; }
-
-        /* --- RESULTS --- */
-        .btn-main { background-color: var(--ios-blue); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; cursor: pointer; margin-top: 20px; }
-        .btn-share { background-color: var(--ios-green); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; margin-top: 20px; cursor: pointer; transition: all 0.3s ease; }
-        .btn-share.success { background-color: #333; transform: scale(1.02); }
-
-        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
-        .warmup-card { background: #FFF8E1; border-left: 5px solid #FFC107; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
-        .exercise-card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; box-sizing: border-box; }
+        .exercise-card { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; padding: 10px; box-sizing: border-box; }
         .exercise-details { padding: 15px; border-top: 1px solid #eee; }
-        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Noguera Fitness Plan</h1>
-    
-    <div class="progress-header">
-        <span>Current Streak</span>
-        <span id="progress-text">0% Completed</span>
-    </div>
-    <div class="progress-container">
-        <div id="visual-progress" class="progress-fill"></div>
-    </div>
+    <h1>Noguera Fit+</h1>
+
+    <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
 
     <div class="day-counter-wrapper">
-        <span>Day</span>
-        <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select>
-        <span>of 100</span>
+        Day <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select> of 100
     </div>
 
     <div id="gym-pass-card">
-        <h3 style="margin-top:0;">Bretton Woods Access</h3>
-        <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
-        <div style="font-size:12px; color:#888;">Scan barcode</div>
+        <div style="font-weight: 700;">BRETTON WOODS PASS</div>
+        <img src="images/barcode.jpg" onerror="this.src='https://via.placeholder.com/300x100?text=Scan+Barcode+Missing'">
     </div>
 
-    <div class="label">Profiles (Select all that apply)</div>
-    <div class="family-grid" id="who-select">
+    <div class="label">Who is training?</div>
+    <div class="family-grid">
         <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
         <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
         <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
@@ -234,86 +109,43 @@
         <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
         <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
     </div>
-    
+
     <div class="label">Location</div>
     <div class="segmented-control">
         <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
-        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
-        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
+        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Gym</div>
     </div>
 
-    <div class="label">How to start?</div>
-    <div class="mode-wrapper">
-        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
-        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
-    </div>
+    <button class="btn-main" onclick="generateWorkout()">⚡️ Generate Workout ⚡️</button>
 
-    <div id="random-options">
-        <div class="label">Focus</div>
-        <div class="segmented-control">
-            <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
-            <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
-            <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
-        </div>
-        
-        <div class="label">How many exercises? (3-6)</div>
-        <div class="slider-container">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
-                <div class="slider-value" id="slider-val-display">3</div>
-            </div>
-            <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
-                <option value="3" label="3"></option><option value="4" label="4"></option><option value="5" label="5"></option><option value="6" label="6"></option>
-            </datalist>
-        </div>
-        <button class="btn-main" onclick="generateRandomWorkout()">⚡️Generate Workout⚡️</button>
-    </div>
-
-    <div id="build-options" style="display:none;">
-        <div class="label">Select Exercises</div>
-        <div id="build-list"></div>
-        <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
-    </div>
-
-    <div id="workout-results">
-        <h2>Today's Plan</h2>
-        <div id="warmup-container"></div>
+    <div id="workout-results" style="margin-top: 30px;">
         <div id="cards-container"></div>
-        <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
+        <button id="finish-btn" class="btn-share" onclick="finishWorkout()">✅ Finish & Share</button>
     </div>
 </div>
 
-<audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
-
 <script>
-    let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
+    let state = { location: 'home', count: 3 };
     let selectedUsers = [];
     let currentWorkout = [];
-    let selectedIndices = [];
-
-    const warmups = {
-        gym: { title: "🔥 Gym Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
-        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles" },
-        out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
-    };
 
     const exerciseDB = [
-        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
-        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 10 reps" },
-        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 15 reps" },
-        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 10-12 reps" },
-        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 12 reps" },
-        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 10 reps" },
-        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 12 reps" },
-        { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
-        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
-        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 10-12 reps" },
-        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 15 reps" },
-        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 10 reps/leg" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squats.png", guide: "3 sets • 20 reps" },
-        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 45 sec" },
-        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "3 sets • 20 reps" }
-    ];
+            { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
+            { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 10 reps" },
+            { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 15 reps" },
+            { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 10-12 reps" },
+            { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 12 reps" },
+            { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 10 reps" },
+            { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 12 reps" },
+            { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
+            { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
+            { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 10-12 reps" },
+            { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 15 reps" },
+            { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 10 reps/leg" },
+            { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squats.png", guide: "3 sets • 20 reps" },
+            { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 45 sec" },
+            { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "3 sets • 20 reps" }
+        ];
 
     window.onload = function() {
         const select = document.getElementById('dayInput');
@@ -321,11 +153,16 @@
             let opt = document.createElement('option');
             opt.value = i; opt.innerHTML = i; select.appendChild(opt);
         }
-        const savedDay = localStorage.getItem('familyWorkoutDay');
-        if (savedDay) select.value = savedDay;
+        select.value = localStorage.getItem('familyWorkoutDay') || 1;
         updateProgressUI();
+    };
+
+    function updateProgressUI() {
+        let day = document.getElementById('dayInput').value;
+        document.getElementById('visual-progress').style.width = day + "%";
     }
 
+    // THIS IS THE FIX FOR CLICKING NAMES
     function toggleUser(name, element) {
         if (selectedUsers.includes(name)) {
             selectedUsers = selectedUsers.filter(u => u !== name);
@@ -336,62 +173,42 @@
         }
     }
 
-    function updateProgressUI() {
-        let day = parseInt(document.getElementById('dayInput').value);
-        document.getElementById('visual-progress').style.width = day + "%";
-        document.getElementById('progress-text').innerText = day + "% Completed";
-    }
-
-    function updateSliderVal(val) {
-        document.getElementById('slider-val-display').innerText = val;
-        state.count = parseInt(val);
-    }
-
     function setLoc(loc) {
         state.location = loc;
-        document.getElementById('opt-home').classList.remove('selected');
-        document.getElementById('opt-gym').classList.remove('selected');
-        document.getElementById('opt-out').classList.remove('selected');
-        document.getElementById('opt-' + loc).classList.add('selected');
-        if (state.mode === 'build') renderBuildList();
+        document.getElementById('opt-home').classList.toggle('selected', loc === 'home');
+        document.getElementById('opt-gym').classList.toggle('selected', loc === 'gym');
     }
 
-    function setMode(mode) {
-        state.mode = mode;
-        document.getElementById('btn-mode-random').classList.toggle('active', mode === 'random');
-        document.getElementById('btn-mode-build').classList.toggle('active', mode === 'build');
-        document.getElementById('random-options').style.display = (mode === 'random') ? 'block' : 'none';
-        document.getElementById('build-options').style.display = (mode === 'build') ? 'block' : 'none';
-        if (mode === 'build') renderBuildList();
-    }
-
-    function setFocus(val, el) {
-        state.focus = val;
-        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    function renderBuildList() {
-        const listContainer = document.getElementById('build-list');
-        listContainer.innerHTML = '';
-        selectedIndices = [];
-        const categories = [{id:'upper', label:'Upper Body'}, {id:'lower', label:'Lower Body'}, {id:'core', label:'Core & Abs'}];
-        categories.forEach(cat => {
-            const catExs = exerciseDB.filter(ex => ex.loc.includes(state.location) && ex.type === cat.id);
-            if (catExs.length > 0) {
-                const h = document.createElement('div'); h.className = 'category-header'; h.innerText = cat.label;
-                listContainer.appendChild(h);
-                catExs.forEach(ex => {
-                    const idx = exerciseDB.indexOf(ex);
-                    const item = document.createElement('div');
-                    item.className = 'build-item';
-                    item.innerHTML = `<div>${ex.name}</div><div class="check-circle">✓</div>`;
-                    item.onclick = () => {
-                        item.classList.toggle('selected');
-                        if (selectedIndices.includes(idx)) selectedIndices = selectedIndices.filter(i => i !== idx);
-                        else selectedIndices.push(idx);
-                    };
-                    listContainer.appendChild(item);
-                });
-            }
+    function generateWorkout() {
+        let pool = exerciseDB.filter(ex => ex.loc.includes(state.location));
+        pool.sort(() => 0.5 - Math.random());
+        currentWorkout = pool.slice(0, 3);
+        
+        const container = document.getElementById('cards-container');
+        container.innerHTML = '';
+        currentWorkout.forEach(ex => {
+            container.innerHTML += `
+                <div class="exercise-card">
+                    <img src="${ex.img}" class="exercise-img" onerror="this.src='https://via.placeholder.com/400x200?text=Missing+${ex.name}'">
+                    <div class="exercise-details"><b>${ex.name}</b></div>
+                </div>`;
         });
+        document.getElementById('finish-btn').style.display = 'block';
+    }
+
+    function finishWorkout() {
+        confetti({ particleCount: 150, spread: 70 });
+        
+        let userText = selectedUsers.length === 0 ? "The Team" : 
+                      (selectedUsers.length === 1 ? selectedUsers[0] : 
+                      selectedUsers.slice(0, -1).join(", ") + " & " + selectedUsers.slice(-1));
+
+        let message = `🔥 *Challenge Update!*\n👤 *${userText}* - Day ${document.getElementById('dayInput').value}\n\n*Workout:*\n` + 
+                      currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
+
+        if (navigator.share) navigator.share({ text: message });
+        else alert(message);
+    }
+</script>
+</body>
+</html>
