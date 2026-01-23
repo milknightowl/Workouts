@@ -351,11 +351,18 @@
         <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
         <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
         <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-        <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
-        <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
-        <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
-    </div>
-    
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Dana</div>
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Fran</div>
+        <div class="segment-option" onclick="toggleUser('Sofi', this)">Andi</div>
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Matu</div>
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Caro</div>
+        <div class="segment-option" onclick="toggleUser('Matu', this)">Sofi</div>
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
+        <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
+   </div>
+    <input type="text" id="other-name-input" placeholder="Enter guest name..." 
+        style="display:none; width: 100%; margin-top: 10px; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; touch-action: manipulation;">
+ 
     <div class="label">Location</div>
     <div class="segmented-control">
         <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
@@ -430,6 +437,21 @@
         }
     }
 
+    function toggleOther() {
+        const input = document.getElementById('other-name-input');
+        const btn = document.getElementById('other-btn');
+        
+        if (input.style.display === 'none') {
+            input.style.display = 'block';
+            btn.classList.add('selected');
+            input.focus(); 
+        } else {
+            input.style.display = 'none';
+            btn.classList.remove('selected');
+            input.value = ''; 
+        }
+    }
+    
     // --- DATA ---
     const warmups = {
         gym: { title: "🔥 Gym Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
@@ -604,16 +626,24 @@
     }
 
     function shareToFamily() {
+        // 1. Combine selected users + the "Other" name
+        let finalParticipants = [...selectedUsers];
+        const otherName = document.getElementById('other-name-input').value.trim();
+        if (otherName && document.getElementById('other-name-input').style.display !== 'none') {
+            finalParticipants.push(otherName);
+        }
+
+        // 2. Prepare the text
         const currentDay = document.getElementById('dayInput').value;
         const nextDay = parseInt(currentDay) + 1;
         localStorage.setItem('familyWorkoutDay', nextDay);
         let locText = state.location === 'gym' ? "BRETTON WOODS" : state.location.toUpperCase();
         
         let userText = "";
-        if (selectedUsers.length === 0) userText = "The Noguera Team";
-        else if (selectedUsers.length === 1) userText = selectedUsers[0];
+        if (finalParticipants.length === 0) userText = "The Noguera Team";
+        else if (finalParticipants.length === 1) userText = finalParticipants[0];
         else {
-            const temp = [...selectedUsers];
+            const temp = [...finalParticipants];
             const last = temp.pop();
             userText = temp.join(', ') + ' & ' + last;
         }
