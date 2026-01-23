@@ -386,9 +386,12 @@
                 <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
                 <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
                 <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-                <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
-                <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
+                <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
                 <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
+                <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
+                <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
+                <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
+                <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
                 
                 <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
             </div>
@@ -697,21 +700,35 @@
         setTimeout(() => { shareToFamily(); }, 1500);
     }
 
- function shareToFamily() {
+    function shareToFamily() {
+        // 1. Combine selected users + the "Other" name
+        let finalParticipants = [...selectedUsers];
+        const otherInput = document.getElementById('other-name-input');
+        
+        if (otherInput.value.trim() && otherInput.style.display !== 'none') {
+            // This line splits "Andi, Carlos" into two separate names automatically
+            const extras = otherInput.value.split(',').map(name => name.trim());
+            finalParticipants.push(...extras);
+        }
+
+        // 2. Prepare the text logic
         const currentDay = document.getElementById('dayInput').value;
         const nextDay = parseInt(currentDay) + 1;
         localStorage.setItem('familyWorkoutDay', nextDay);
         let locText = state.location === 'gym' ? "BRETTON WOODS" : state.location.toUpperCase();
         
         let userText = "";
-        if (selectedUsers.length === 0) userText = "The Noguera Team";
-        else if (selectedUsers.length === 1) userText = selectedUsers[0];
-        else {
-            const temp = [...selectedUsers];
+        // Use the NEW finalParticipants list here instead of selectedUsers
+        if (finalParticipants.length === 0) {
+            userText = "The Noguera Team";
+        } else if (finalParticipants.length === 1) {
+            userText = finalParticipants[0];
+        } else {
+            const temp = [...finalParticipants];
             const last = temp.pop();
             userText = temp.join(', ') + ' & ' + last;
         }
-
+        
         let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
         let message = `🔥 *100 Day Challenge Update!* 🚨🔔\n\n👤 *${userText}* just crushed day ${currentDay}!\n📍 At: ${locText}\n\n*The Workout:*\n✅ ${warmups[state.location].title}\n${listText}\n\nOnly ${100 - currentDay} days to go! 🎉`.trim();
 
