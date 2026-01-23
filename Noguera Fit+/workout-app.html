@@ -614,7 +614,7 @@
                     <img src="${ex.img}" class="exercise-img" alt="${ex.name}">
                     <div class="exercise-details">
                         <div class="exercise-name">${ex.name}</div>
-                        <div class="exercise-instruction">📝 ${ex.guide}</div>
+                        <div class="exercise-instruction"> ${ex.guide}</div>
                     </div>
                 </div>`;
         });
@@ -639,7 +639,7 @@
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
 
         const btn = document.getElementById('finish-btn');
-        btn.innerText = "Crushed it! 💪 Generating...";
+        btn.innerText = "You crushed it! Generating message...";
         btn.classList.add('success');
 
         setTimeout(() => { shareToFamily(); }, 1500);
