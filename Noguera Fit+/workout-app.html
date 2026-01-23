@@ -411,68 +411,21 @@
 <script>
     // --- STATE ---
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
-    // 1. Change the initial state
-    let selectedUsers = []; 
+    let selectedUsers = []; // Updated to an array to hold multiple people
+    let currentWorkout = [];
     
-    // 2. New multi-select function
+    // --- NEW MULTI-SELECT FUNCTION ---
     function toggleUser(name, element) {
         if (selectedUsers.includes(name)) {
-            // Remove name if already selected
+            // If they are already in the list, remove them (un-tap)
             selectedUsers = selectedUsers.filter(u => u !== name);
             element.classList.remove('selected');
         } else {
-            // Add name if not selected
+            // If they aren't in the list, add them (tap)
             selectedUsers.push(name);
             element.classList.add('selected');
         }
     }
-    
-    // 3. Update the shareToFamily function to list all selected people
-    function shareToFamily() {
-        const currentDay = document.getElementById('dayInput').value;
-        const nextDay = parseInt(currentDay) + 1;
-        localStorage.setItem('familyWorkoutDay', nextDay);
-    
-        let locText = state.location.toUpperCase();
-        if (state.location === 'gym') locText = "BRETTON WOODS";
-    
-        // Format the names list (e.g., "Mami, Papi, and Santi")
-        let userText = "";
-        if (selectedUsers.length === 0) {
-            userText = "The Noguera Team";
-        } else if (selectedUsers.length === 1) {
-            userText = selectedUsers[0];
-        } else {
-            const last = selectedUsers.pop();
-            userText = selectedUsers.join(', ') + ' & ' + last;
-            selectedUsers.push(last); // Put it back for next time
-        }
-    
-        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
-        
-        let message = `
-    🔥 *100 Day Challenge Update!* 🚨🔔
-    
-    👤 *${userText}* just crushed day ${currentDay}!
-    📍 At: ${locText}
-    
-    *The Workout:*
-    ✅ ${warmups[state.location].title}
-    ${listText}
-    
-    Only ${100 - currentDay} days to go! 🎉
-        `.trim();
-    
-        if (navigator.share) {
-            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
-        } else {
-            alert("Message Preview:\n\n" + message);
-        }
-    
-        document.getElementById('dayInput').value = nextDay;
-        updateProgressUI();
-    }
-    let currentWorkout = [];
 
     // --- DATA ---
     const warmups = {
@@ -727,16 +680,23 @@
     function shareToFamily() {
         const currentDay = document.getElementById('dayInput').value;
         const nextDay = parseInt(currentDay) + 1;
-        
-        // Auto-save next day
         localStorage.setItem('familyWorkoutDay', nextDay);
-
+    
         let locText = state.location.toUpperCase();
         if (state.location === 'gym') locText = "BRETTON WOODS";
-
-        let userText = user;
-        if(user === 'Juntos') userText = "Mami & Papi";
-
+    
+        // Format the names list (e.g., "Mami, Papi, and Santi")
+        let userText = "";
+        if (selectedUsers.length === 0) {
+            userText = "The Noguera Team";
+        } else if (selectedUsers.length === 1) {
+            userText = selectedUsers[0];
+        } else {
+            const last = selectedUsers.pop();
+            userText = selectedUsers.join(', ') + ' & ' + last;
+            selectedUsers.push(last); // Put it back for next time
+        }
+    
         let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
         
         let message = `
@@ -750,19 +710,17 @@
 ${listText}
 
 Only ${100 - currentDay} days to go! 🎉
-        `.trim();
+    `.trim();
 
-        if (navigator.share) {
-            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
-        } else {
-            alert("Message Preview:\n\n" + message);
-        }
+    if (navigator.share) {
+        navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
+    } else {
+        alert("Message Preview:\n\n" + message);
+    }
 
-        // Update UI for next day
-        if(nextDay <= 100) {
-            document.getElementById('dayInput').value = nextDay;
-            updateProgressUI();
-        }
+    document.getElementById('dayInput').value = nextDay;
+    updateProgressUI();
+}
         
         const btn = document.getElementById('finish-btn');
         btn.innerText = "✅ Finish & Share to Family";
