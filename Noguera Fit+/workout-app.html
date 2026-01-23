@@ -340,13 +340,16 @@
         <div style="font-size:12px; color:#888;">Scan barcode</div>
     </div>
 
-    <div class="label">Profile</div>
-    <div class="segmented-control" id="who-select">
-        <div class="segment-option" onclick="setUser('Mami', this)">Mami</div>
-        <div class="segment-option" onclick="setUser('Papi', this)">Papi</div>
-        <div class="segment-option selected" onclick="setUser('Juntos', this)">Juntos</div>
+    <div class="label">Profiles (Select all that apply)</div>
+    <div class="family-grid" id="who-select">
+        <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
+        <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
+        <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
+        <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
+        <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
+        <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
     </div>
-
+    
     <div class="label">Location</div>
     <div class="segmented-control">
         <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
@@ -408,7 +411,67 @@
 <script>
     // --- STATE ---
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
-    let user = 'Juntos'; // Default
+    // 1. Change the initial state
+    let selectedUsers = []; 
+    
+    // 2. New multi-select function
+    function toggleUser(name, element) {
+        if (selectedUsers.includes(name)) {
+            // Remove name if already selected
+            selectedUsers = selectedUsers.filter(u => u !== name);
+            element.classList.remove('selected');
+        } else {
+            // Add name if not selected
+            selectedUsers.push(name);
+            element.classList.add('selected');
+        }
+    }
+    
+    // 3. Update the shareToFamily function to list all selected people
+    function shareToFamily() {
+        const currentDay = document.getElementById('dayInput').value;
+        const nextDay = parseInt(currentDay) + 1;
+        localStorage.setItem('familyWorkoutDay', nextDay);
+    
+        let locText = state.location.toUpperCase();
+        if (state.location === 'gym') locText = "BRETTON WOODS";
+    
+        // Format the names list (e.g., "Mami, Papi, and Santi")
+        let userText = "";
+        if (selectedUsers.length === 0) {
+            userText = "The Noguera Team";
+        } else if (selectedUsers.length === 1) {
+            userText = selectedUsers[0];
+        } else {
+            const last = selectedUsers.pop();
+            userText = selectedUsers.join(', ') + ' & ' + last;
+            selectedUsers.push(last); // Put it back for next time
+        }
+    
+        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
+        
+        let message = `
+    🔥 *100 Day Challenge Update!* 🚨🔔
+    
+    👤 *${userText}* just crushed day ${currentDay}!
+    📍 At: ${locText}
+    
+    *The Workout:*
+    ✅ ${warmups[state.location].title}
+    ${listText}
+    
+    Only ${100 - currentDay} days to go! 🎉
+        `.trim();
+    
+        if (navigator.share) {
+            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
+        } else {
+            alert("Message Preview:\n\n" + message);
+        }
+    
+        document.getElementById('dayInput').value = nextDay;
+        updateProgressUI();
+    }
     let currentWorkout = [];
 
     // --- DATA ---
