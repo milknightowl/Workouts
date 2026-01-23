@@ -368,11 +368,20 @@
             <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
         </div>
         
-        <div class="label">How many exercises?</div>
-        <div class="slider-container">
-            <input type="range" id="exercise-slider" min="3" max="6" value="3" oninput="updateSliderVal(this.value)">
+    <div class="label">How many exercises? (3-6)</div>
+    <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
             <div class="slider-value" id="slider-val-display">3</div>
         </div>
+        
+        <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
+            <option value="3" label="3"></option>
+            <option value="4" label="4"></option>
+            <option value="5" label="5"></option>
+            <option value="6" label="6"></option>
+        </datalist>
+    </div>
         
         <button class="btn-main" onclick="generateRandomWorkout()">⚡️Generate Workout⚡️</button>
     </div>
