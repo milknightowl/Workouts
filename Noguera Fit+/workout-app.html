@@ -317,6 +317,33 @@
         .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
         .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
 
+        /* --- POPUP MODAL STYLES --- */
+        .modal-overlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: popUp 0.2s ease-out;
+        }
+        
+        @keyframes popUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
     </style>
 </head>
 <body>
@@ -346,18 +373,32 @@
         <div style="font-size:12px; color:#888;">Scan barcode</div>
     </div>
 
-    <div class="label">Profiles (Select all that apply)</div>
-    <div class="family-grid" id="who-select">
-        <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
-        <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
-        <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-        <div class="segment-option" onclick="toggleUser('Dana', this)">Dana</div>
-        <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
-        <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
-        <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
-        <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
-        <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
-   </div>
+    <div class="label">Who is training?</div>
+    <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd; margin-top:0;" onclick="openModal()">
+        👥 Select Team (0)
+    </button>
+    
+    <div id="user-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 style="text-align:center; margin-top:0;">Select Team</h2>
+            
+            <div class="family-grid">
+                <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
+                <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
+                <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
+                <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
+                <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
+                <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
+                
+                <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
+            </div>
+    
+            <input type="text" id="other-name-input" placeholder="Guest Name..." 
+               style="display:none; width: 100%; margin-top: 10px; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; touch-action: manipulation;">
+    
+            <button class="btn-main" onclick="closeModal()">Done</button>
+        </div>
+    </div>
  
     <div class="label">Location</div>
     <div class="segmented-control">
@@ -430,6 +471,55 @@
         } else {
             selectedUsers.push(name);
             element.classList.add('selected');
+        }
+    }
+
+    // 1. Opens the popup
+    function openModal() {
+        document.getElementById('user-modal').style.display = 'flex';
+    }
+
+    // 2. Handles the "Other" button inside the popup
+    function toggleOther() {
+        const input = document.getElementById('other-name-input');
+        const btn = document.getElementById('other-btn');
+        
+        if (input.style.display === 'none') {
+            input.style.display = 'block';
+            btn.classList.add('selected');
+            input.focus(); 
+        } else {
+            input.style.display = 'none';
+            btn.classList.remove('selected');
+            input.value = ''; 
+        }
+    }
+
+    // 3. Closes popup and updates the main screen button
+    function closeModal() {
+        document.getElementById('user-modal').style.display = 'none';
+        
+        const btn = document.getElementById('team-trigger-btn');
+        const otherInput = document.getElementById('other-name-input');
+        const otherName = otherInput.value.trim();
+        const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
+        
+        // Combine names for the button preview
+        let displayNames = [...selectedUsers];
+        if (hasOther) displayNames.push(otherName);
+
+        if (displayNames.length === 0) {
+            btn.innerHTML = "👥 Select Team (0)";
+            btn.style.background = "white";
+            btn.style.color = "var(--ios-blue)";
+        } else {
+            let summary = displayNames.join(", ");
+            // If the list is too long, shorten it with "..."
+            if (summary.length > 20) summary = summary.substring(0, 20) + "...";
+            
+            btn.innerHTML = "✅ " + summary;
+            btn.style.background = "var(--ios-blue)";
+            btn.style.color = "white";
         }
     }
     
@@ -602,7 +692,7 @@
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
         const btn = document.getElementById('finish-btn');
-        btn.innerText = "You crushed it! Generating message...";
+        btn.innerText = "You crushed it!";
         btn.classList.add('success');
         setTimeout(() => { shareToFamily(); }, 1500);
     }
