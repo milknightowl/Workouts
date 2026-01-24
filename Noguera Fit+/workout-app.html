@@ -80,7 +80,7 @@
 
 <div class="app-header">
     <div class="tab-bar">
-        <button id="tab-workout" class="tab-btn tab-workout active" onclick="switchTab('workout')">WORKOUT</button>
+        <button id="tab-workout" class="tab-btn tab-workout active" onclick="switchTab('workout')">EXERCISE</button>
         <button id="tab-nutrition" class="tab-btn tab-nutrition" onclick="switchTab('nutrition')">NUTRITION</button>
     </div>
 </div>
@@ -297,7 +297,7 @@
         const custom = document.getElementById('custom-exercise').value;
         if(custom) exercises += `\n✅ ${custom}`;
 
-        const message = `🔥 *${users}* just completed Day ${day} of 100!!\n\n*The Workout:* \n${exercises}\n\nLet's gooo! 🚀`;
+        const message = `🔥 *${users}* just completed Day ${day} of 100!!\n\n*The Workout:* \n${exercises}`;
         
         if (navigator.share) {
             navigator.share({ text: message });
