@@ -14,7 +14,6 @@
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
             --ios-red: #FF3B30;
-            --card-white: #FFFFFF;
             --text-dark: #000000;
             --text-light: #8E8E93;
             --border-color: #E5E5EA;
@@ -24,12 +23,14 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--ios-gray);
             margin: 0;
-            padding: 20px;
+            padding: 0; /* Changed from 20px to 0 to fix header gaps */
             color: var(--text-dark);
             -webkit-tap-highlight-color: transparent;
         }
 
-        .container {
+        /* Wrapper for the actual content padding */
+        .app-content {
+            padding: 20px;
             max-width: 600px;
             margin: 0 auto;
             padding-bottom: 100px;
@@ -46,7 +47,7 @@
         }
 
         /* --- HEADERS & PROGRESS --- */
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 15px; text-align: center; margin-top: 10px; }
         
         .progress-header {
             display: flex;
@@ -348,13 +349,12 @@
         .tab-bar {
             display: flex;
             background: white;
-            padding: 10px 20px;
+            padding: 15px 20px;
             gap: 10px;
             position: sticky;
             top: 0;
             z-index: 2000;
             border-bottom: 1px solid var(--border-color);
-            margin: -20px -20px 20px -20px;
         }
         .tab-btn {
             flex: 1; padding: 12px; border-radius: 10px;
@@ -364,6 +364,7 @@
         .tab-btn.active { background: var(--ios-blue); color: white; border-color: var(--ios-blue); }
         .tab-btn.nutrition-active.active { background: var(--ios-green); border-color: var(--ios-green); }
         
+        /* Utility class to hide views */
         .hidden-view { display: none !important; }
         
         .habit-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
@@ -387,77 +388,132 @@
     </style>
 </head>
 <body>
+
     <div class="tab-bar">
         <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
         <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
     </div>
-   
-    <div id="workout-view" class="container">
-        <h1>Noguera Fitness Plan</h1>
-        </div>
     
-    <div id="nutrition-view" class="container hidden-view">
-        <h1 style="text-align: center; margin-bottom: 25px;">Daily Habits</h1>
+    <div class="app-content">
 
-        <div class="habit-card">
-            <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0 / 8</span></div>
-            <div class="habit-progress-bg"><div id="bar-water" class="habit-progress-fill bg-water"></div></div>
-            <div class="circle-row" data-habit="water" data-goal="8"></div>
+        <div id="workout-view">
+            <h1>Noguera Fitness Plan</h1>
+
+            <div class="progress-header">
+                <span>Current Streak</span>
+                <span id="progress-text">0% Completed</span>
+            </div>
+            <div class="progress-container">
+                <div id="visual-progress" class="progress-fill"></div>
+            </div>
+
+            <div class="day-counter-wrapper">
+                <span>Day</span>
+                <select id="dayInput" class="day-select" onchange="updateProgressUI()">
+                    </select>
+                <span>of 100</span>
+            </div>
+
+            <div id="gym-pass-card">
+                <h3 style="margin-top:0;">Bretton Woods</h3>
+                <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
+                <div style="font-size:12px; color:#888;">Scan barcode</div>
+            </div>
+
+            <div class="label">Who is training?</div>
+            <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd; margin-top:0;" onclick="openModal()">
+                👥 Select Team (0)
+            </button>
+            
+            <div class="label">Location</div>
+            <div class="segmented-control">
+                <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
+                <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
+                <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
+            </div>
+
+            <div class="label">How to start?</div>
+            <div class="mode-wrapper">
+                <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
+                <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
+            </div>
+
+            <div id="random-options">
+                <div class="label">Focus</div>
+                <div class="segmented-control">
+                    <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
+                    <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
+                    <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
+                </div>
+                
+                <div class="label">How many exercises? (3-6)</div>
+                <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
+                        <div class="slider-value" id="slider-val-display">3</div>
+                    </div>
+                    
+                    <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
+                        <option value="3" label="3"></option>
+                        <option value="4" label="4"></option>
+                        <option value="5" label="5"></option>
+                        <option value="6" label="6"></option>
+                    </datalist>
+                </div>
+                
+                <button class="btn-main" onclick="generateRandomWorkout()">⚡️Create Workout⚡️</button>
+            </div>
+
+            <div id="build-options" style="display:none;">
+                <div class="label">Select Exercises</div>
+                <div id="build-list"></div>
+                <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
+            </div>
+
+            <div id="workout-results">
+                <h2>Today's Plan</h2>
+                <div id="warmup-container"></div>
+                <div id="cards-container"></div>
+                <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
+            </div>
+        </div>
+        
+        <div id="nutrition-view" class="hidden-view">
+            <h1 style="text-align: center; margin-bottom: 25px;">Daily Habits</h1>
+
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0 / 8</span></div>
+                <div class="habit-progress-bg"><div id="bar-water" class="habit-progress-fill bg-water"></div></div>
+                <div class="circle-row" data-habit="water" data-goal="8"></div>
+            </div>
+
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0 / 5</span></div>
+                <div class="habit-progress-bg"><div id="bar-veggies" class="habit-progress-fill bg-veggie"></div></div>
+                <div class="circle-row" data-habit="veggies" data-goal="3"></div>
+            </div>
+
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0 / 5</span></div>
+                <div class="habit-progress-bg"><div id="bar-fruits" class="habit-progress-fill bg-fruit"></div></div>
+                <div class="circle-row" data-habit="fruits" data-goal="2"></div>
+            </div>
+
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">💪 Daily Exercise</span><span class="habit-count" id="count-exercise">0 / 1</span></div>
+                <div class="habit-progress-bg"><div id="bar-exercise" class="habit-progress-fill bg-exercise"></div></div>
+                <div class="circle-row" data-habit="exercise" data-goal="1"></div>
+            </div>
+
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0 / 2</span></div>
+                <div class="habit-progress-bg"><div id="bar-snacks" class="habit-progress-fill bg-snack"></div></div>
+                <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+            </div>
         </div>
 
-        <div class="habit-card">
-            <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0 / 5</span></div>
-            <div class="habit-progress-bg"><div id="bar-veggies" class="habit-progress-fill bg-veggie"></div></div>
-            <div class="circle-row" data-habit="veggies" data-goal="3"></div>
-        </div>
-
-        <div class="habit-card">
-            <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0 / 5</span></div>
-            <div class="habit-progress-bg"><div id="bar-fruits" class="habit-progress-fill bg-fruit"></div></div>
-            <div class="circle-row" data-habit="fruits" data-goal="2"></div>
-        </div>
-
-        <div class="habit-card">
-            <div class="habit-header"><span class="habit-title">💪 Daily Exercise</span><span class="habit-count" id="count-exercise">0 / 1</span></div>
-            <div class="habit-progress-bg"><div id="bar-exercise" class="habit-progress-fill bg-exercise"></div></div>
-            <div class="circle-row" data-habit="exercise" data-goal="1"></div>
-        </div>
-
-        <div class="habit-card">
-            <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0 / 2</span></div>
-            <div class="habit-progress-bg"><div id="bar-snacks" class="habit-progress-fill bg-snack"></div></div>
-            <div class="circle-row" data-habit="snacks" data-goal="2"></div>
-        </div>
     </div>
 
-<div class="container">
-    
-    <div class="progress-header">
-        <span>Current Streak</span>
-        <span id="progress-text">0% Completed</span>
-    </div>
-    <div class="progress-container">
-        <div id="visual-progress" class="progress-fill"></div>
-    </div>
-
-    <div class="day-counter-wrapper">
-        <span>Day</span>
-        <select id="dayInput" class="day-select" onchange="updateProgressUI()">
-            </select>
-        <span>of 100</span>
-    </div>
-
-    <div id="gym-pass-card">
-        <h3 style="margin-top:0;">Bretton Woods</h3>
-        <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
-        <div style="font-size:12px; color:#888;">Scan barcode</div>
-    </div>
-
-    <div class="label">Who is training?</div>
-    <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd; margin-top:0;" onclick="openModal()">
-        👥 Select Team (0)
-    </button>
-    
     <div id="user-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 style="text-align:center; margin-top:0;">Select Team</h2>
@@ -483,62 +539,6 @@
             <button class="btn-main" onclick="closeModal()">Done</button>
         </div>
     </div>
- 
-    <div class="label">Location</div>
-    <div class="segmented-control">
-        <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
-        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
-        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
-    </div>
-
-    <div class="label">How to start?</div>
-    <div class="mode-wrapper">
-        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
-        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
-    </div>
-
-    <div id="random-options">
-        <div class="label">Focus</div>
-        <div class="segmented-control">
-            <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
-            <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
-            <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
-        </div>
-        
-    <div class="label">How many exercises? (3-6)</div>
-    <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
-            <div class="slider-value" id="slider-val-display">3</div>
-        </div>
-        
-        <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
-            <option value="3" label="3"></option>
-            <option value="4" label="4"></option>
-            <option value="5" label="5"></option>
-            <option value="6" label="6"></option>
-        </datalist>
-    </div>
-        
-        <button class="btn-main" onclick="generateRandomWorkout()">⚡️Create Workout⚡️</button>
-    </div>
-
-    <div id="build-options" style="display:none;">
-        <div class="label">Select Exercises</div>
-        <div id="build-list"></div>
-        <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
-    </div>
-
-    <div id="workout-results">
-        <h2>Today's Plan</h2>
-        
-        <div id="warmup-container"></div>
-        <div id="cards-container"></div>
-        
-        <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
-    </div>
-
-</div>
 
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
@@ -548,6 +548,31 @@
     let selectedUsers = []; 
     let currentWorkout = [];
     
+    // --- TAB SWITCHING LOGIC (New) ---
+    function switchTab(tabName) {
+        const workoutView = document.getElementById('workout-view');
+        const nutritionView = document.getElementById('nutrition-view');
+        const tabWorkout = document.getElementById('tab-workout');
+        const tabNutrition = document.getElementById('tab-nutrition');
+
+        if (tabName === 'workout') {
+            workoutView.classList.remove('hidden-view');
+            nutritionView.classList.add('hidden-view');
+            tabWorkout.classList.add('active');
+            tabNutrition.classList.remove('active');
+            tabNutrition.classList.remove('nutrition-active');
+        } else {
+            workoutView.classList.add('hidden-view');
+            nutritionView.classList.remove('hidden-view');
+            tabWorkout.classList.remove('active');
+            tabNutrition.classList.add('active');
+            tabNutrition.classList.add('nutrition-active');
+            
+            // Initialize circles if needed (Optional helper function)
+            initHabitCircles();
+        }
+    }
+
     function toggleUser(name, element) {
         if (selectedUsers.includes(name)) {
             selectedUsers = selectedUsers.filter(u => u !== name);
@@ -645,6 +670,7 @@
         const savedDay = localStorage.getItem('familyWorkoutDay');
         if (savedDay) select.value = savedDay;
         updateProgressUI();
+        initHabitCircles();
     }
 
     function updateProgressUI() {
@@ -787,75 +813,73 @@
         const otherInput = document.getElementById('other-name-input');
         
         if (otherInput.value.trim() && otherInput.style.display !== 'none') {
-            // This line splits "Andi, Carlos" into two separate names automatically
             const extras = otherInput.value.split(',').map(name => name.trim());
             finalParticipants.push(...extras);
         }
-
-        // 2. Prepare the text logic
-        const currentDay = document.getElementById('dayInput').value;
-        const nextDay = parseInt(currentDay) + 1;
-        localStorage.setItem('familyWorkoutDay', nextDay);
-        let locText = state.location === 'gym' ? "BRETTON WOODS" : state.location.toUpperCase();
         
-        let userText = "";
-        // Use the NEW finalParticipants list here instead of selectedUsers
-        if (finalParticipants.length === 0) {
-            userText = "The Noguera Team";
-        } else if (finalParticipants.length === 1) {
-            userText = finalParticipants[0];
-        } else {
-            const temp = [...finalParticipants];
-            const last = temp.pop();
-            userText = temp.join(', ') + ' & ' + last;
-        }
+        let text = `🔥 NogueraFit: Day ${document.getElementById('dayInput').value} Completed! 🔥\n`;
+        text += `📍 ${state.location.toUpperCase()}\n`;
+        if(finalParticipants.length > 0) text += `👥 Team: ${finalParticipants.join(', ')}\n`;
+        text += `\nWorkout:\n`;
+        currentWorkout.forEach(ex => text += `• ${ex.name}\n`);
         
-        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
-        let message = `🔥 *100 Day Challenge Update!* 🚨🔔\n\n👤 *${userText}* just crushed day ${currentDay}!\n📍 At: ${locText}\n\n*The Workout:*\n✅ ${warmups[state.location].title}\n${listText}\n\nOnly ${100 - currentDay} days to go! 🎉`.trim();
-
         if (navigator.share) {
-            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
+            navigator.share({
+                title: 'Noguera Fitness',
+                text: text
+            }).catch(console.error);
         } else {
-            alert("Message Preview:\n\n" + message);
+            alert("Copied to clipboard!\n\n" + text);
+            navigator.clipboard.writeText(text);
         }
-        document.getElementById('dayInput').value = nextDay;
-        updateProgressUI();
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "✅ Finish & Share to Family";
-        btn.classList.remove('success');
-        document.getElementById('other-name-input').value = '';
     }
-    // TAB SWITCHING LOGIC
-    function switchTab(tab) {
-        document.getElementById('workout-view').classList.toggle('hidden-view', tab !== 'workout');
-        document.getElementById('nutrition-view').classList.toggle('hidden-view', tab !== 'nutrition');
-        document.getElementById('tab-workout').className = (tab === 'workout') ? 'tab-btn active' : 'tab-btn';
-        document.getElementById('tab-nutrition').className = (tab === 'nutrition') ? 'tab-btn active nutrition-active' : 'tab-btn';
-    }
-    
-    // HABIT CIRCLE LOGIC
-    const habitColors = { water: 'bg-water', veggies: 'bg-veggie', fruits: 'bg-fruit', exercise: 'bg-exercise', snacks: 'bg-snack' };
-    
-    document.addEventListener('DOMContentLoaded', () => {
+
+    // --- HABIT TRACKING INIT ---
+    function initHabitCircles() {
         document.querySelectorAll('.circle-row').forEach(row => {
-            const habit = row.dataset.habit;
-            const goal = parseInt(row.dataset.goal);
-            for (let i = 0; i < goal; i++) {
-                const circle = document.createElement('div');
-                circle.className = 'habit-circle';
-                circle.onclick = () => {
-                    circle.classList.toggle('active');
-                    circle.classList.toggle(habitColors[habit]);
-                    const activeCount = row.querySelectorAll('.active').length;
-                    document.getElementById(`count-${habit}`).innerText = `${activeCount} / ${goal}`;
-                    document.getElementById(`bar-${habit}`).style.width = (activeCount / goal * 100) + '%';
-                    if (activeCount === goal) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+            if(row.innerHTML !== '') return; // Already inited
+            const goal = parseInt(row.getAttribute('data-goal'));
+            const habit = row.getAttribute('data-habit');
+            
+            for(let i=0; i<goal; i++) {
+                let d = document.createElement('div');
+                d.className = 'habit-circle';
+                // Toggle Habit Logic
+                d.onclick = function() {
+                    const allCircles = row.children;
+                    // Simple logic: if clicking index 2, fill 0,1,2.
+                    // If clicking an active one, verify toggle off logic.
+                    if(this.classList.contains('active') && (i === allCircles.length-1 || !allCircles[i+1].classList.contains('active'))) {
+                        // toggle off
+                        this.classList.remove('active');
+                        this.style.backgroundColor = 'transparent';
+                    } else {
+                        // fill up to here
+                        for(let j=0; j<=i; j++) {
+                            allCircles[j].classList.add('active');
+                            // Get color based on parent card context or hardcoded map
+                            let color = '#007AFF';
+                            if(habit === 'water') color = '#5AC8FA';
+                            if(habit === 'veggies') color = '#34C759';
+                            if(habit === 'fruits') color = '#FF3B30';
+                            if(habit === 'snacks') color = '#AF52DE';
+                            allCircles[j].style.backgroundColor = color;
+                        }
+                    }
+                    updateHabitStats(habit, goal);
                 };
-                row.appendChild(circle);
+                row.appendChild(d);
             }
         });
-    });
+    }
+
+    function updateHabitStats(habit, goal) {
+        const row = document.querySelector(`.circle-row[data-habit="${habit}"]`);
+        const count = row.querySelectorAll('.active').length;
+        document.getElementById(`count-${habit}`).innerText = `${count} / ${goal}`;
+        const pct = (count / goal) * 100;
+        document.getElementById(`bar-${habit}`).style.width = `${pct}%`;
+    }
 </script>
-    
 </body>
 </html>
