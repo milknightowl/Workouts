@@ -343,10 +343,92 @@
             from { transform: scale(0.9); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+
+        /* --- NAVIGATION & NUTRITION STYLES --- */
+        .tab-bar {
+            display: flex;
+            background: white;
+            padding: 10px 20px;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            border-bottom: 1px solid var(--border-color);
+            margin: -20px -20px 20px -20px;
+        }
+        .tab-btn {
+            flex: 1; padding: 12px; border-radius: 10px;
+            text-align: center; font-weight: 700; font-size: 14px;
+            border: 1px solid var(--border-color); cursor: pointer;
+        }
+        .tab-btn.active { background: var(--ios-blue); color: white; border-color: var(--ios-blue); }
+        .tab-btn.nutrition-active.active { background: var(--ios-green); border-color: var(--ios-green); }
         
+        .hidden-view { display: none !important; }
+        
+        .habit-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .habit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .habit-title { font-weight: 700; font-size: 17px; }
+        .habit-count { font-weight: 600; color: var(--text-light); font-size: 14px; }
+        
+        .habit-progress-bg { width: 100%; height: 8px; background: #E5E5EA; border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
+        .habit-progress-fill { height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 4px; }
+        
+        .circle-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        .habit-circle { width: 34px; height: 34px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
+        .habit-circle.active { border-color: transparent; }
+        
+        /* Habit Colors */
+        .bg-water { background-color: #5AC8FA !important; }
+        .bg-veggie { background-color: var(--ios-green) !important; }
+        .bg-fruit { background-color: var(--ios-red) !important; }
+        .bg-exercise { background-color: var(--ios-blue) !important; }
+        .bg-snack { background-color: #AF52DE !important; }
     </style>
 </head>
 <body>
+    <div class="tab-bar">
+        <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">WORKOUT</div>
+        <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
+    </div>
+
+    <div id="workout-view" class="container">
+        <h1>Noguera Fitness Plan</h1>
+        </div>
+
+    <div id="nutrition-view" class="container hidden-view">
+        <h1 style="text-align: center; margin-bottom: 25px;">Daily Habits</h1>
+
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0 / 8</span></div>
+            <div class="habit-progress-bg"><div id="bar-water" class="habit-progress-fill bg-water"></div></div>
+            <div class="circle-row" data-habit="water" data-goal="8"></div>
+        </div>
+
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0 / 3</span></div>
+            <div class="habit-progress-bg"><div id="bar-veggies" class="habit-progress-fill bg-veggie"></div></div>
+            <div class="circle-row" data-habit="veggies" data-goal="3"></div>
+        </div>
+
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0 / 2</span></div>
+            <div class="habit-progress-bg"><div id="bar-fruits" class="habit-progress-fill bg-fruit"></div></div>
+            <div class="circle-row" data-habit="fruits" data-goal="2"></div>
+        </div>
+
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">💪 Daily Exercise</span><span class="habit-count" id="count-exercise">0 / 1</span></div>
+            <div class="habit-progress-bg"><div id="bar-exercise" class="habit-progress-fill bg-exercise"></div></div>
+            <div class="circle-row" data-habit="exercise" data-goal="1"></div>
+        </div>
+
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🍇 Healthy Snacks</span><span class="habit-count" id="count-snacks">0 / 2</span></div>
+            <div class="habit-progress-bg"><div id="bar-snacks" class="habit-progress-fill bg-snack"></div></div>
+            <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+        </div>
+    </div>
 
 <div class="container">
     
@@ -745,6 +827,36 @@
         btn.classList.remove('success');
         document.getElementById('other-name-input').value = '';
     }
+    // TAB SWITCHING LOGIC
+    function switchTab(tab) {
+        document.getElementById('workout-view').classList.toggle('hidden-view', tab !== 'workout');
+        document.getElementById('nutrition-view').classList.toggle('hidden-view', tab !== 'nutrition');
+        document.getElementById('tab-workout').className = (tab === 'workout') ? 'tab-btn active' : 'tab-btn';
+        document.getElementById('tab-nutrition').className = (tab === 'nutrition') ? 'tab-btn active nutrition-active' : 'tab-btn';
+    }
+    
+    // HABIT CIRCLE LOGIC
+    const habitColors = { water: 'bg-water', veggies: 'bg-veggie', fruits: 'bg-fruit', exercise: 'bg-exercise', snacks: 'bg-snack' };
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.circle-row').forEach(row => {
+            const habit = row.dataset.habit;
+            const goal = parseInt(row.dataset.goal);
+            for (let i = 0; i < goal; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'habit-circle';
+                circle.onclick = () => {
+                    circle.classList.toggle('active');
+                    circle.classList.toggle(habitColors[habit]);
+                    const activeCount = row.querySelectorAll('.active').length;
+                    document.getElementById(`count-${habit}`).innerText = `${activeCount} / ${goal}`;
+                    document.getElementById(`bar-${habit}`).style.width = (activeCount / goal * 100) + '%';
+                    if (activeCount === goal) confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
+                };
+                row.appendChild(circle);
+            }
+        });
+    });
 </script>
     
 </body>
