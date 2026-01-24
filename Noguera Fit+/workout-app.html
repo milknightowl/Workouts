@@ -67,118 +67,26 @@
             background: linear-gradient(90deg, #FF3B30, #FF9500, #34C759, #007AFF, #AF52DE);
         }
 
-        .scorecard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-        }
-        
-        .scorecard-title { 
-            font-size: 26px; 
-            font-weight: 800; 
-            letter-spacing: -0.5px;
-            background: -webkit-linear-gradient(45deg, #1C1C1E, #444);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .scorecard-date { 
-            font-size: 13px; 
-            color: var(--ios-blue); 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            background: rgba(0,122,255,0.1);
-            padding: 4px 10px;
-            border-radius: 20px;
-        }
+        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+        .scorecard-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; background: -webkit-linear-gradient(45deg, #1C1C1E, #444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .scorecard-date { font-size: 13px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
 
-        .score-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding: 8px 0;
-            border-bottom: 1px dashed #F2F2F7;
-        }
+        .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px dashed #F2F2F7; }
         .score-row:last-of-type { border-bottom: none; }
-
-        .score-label { 
-            font-weight: 600; 
-            color: #555; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            font-size: 16px;
-        }
-        
-        .score-val { 
-            font-weight: 800; 
-            color: #1C1C1E; 
-            font-size: 17px;
-        }
+        .score-label { font-weight: 600; color: #555; display: flex; align-items: center; gap: 8px; font-size: 16px; }
+        .score-val { font-weight: 800; color: #1C1C1E; font-size: 17px; }
         .score-val.done { color: var(--ios-green); }
 
-        /* --- NEW BUTTON GRID --- */
-        .score-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .btn-score-share, .btn-leaderboard {
-            padding: 14px;
-            border-radius: 16px;
-            font-size: 15px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: transform 0.1s, background-color 0.2s;
-        }
-
-        .btn-score-share {
-            background-color: #F2F2F7;
-            color: var(--ios-blue);
-        }
-
-        .btn-leaderboard {
-            background-color: #FFF8E1; /* Light Gold */
-            color: #FF9500;
-        }
-
-        .btn-score-share:active, .btn-leaderboard:active {
-            transform: scale(0.96);
-            opacity: 0.8;
-        }
+        /* --- ACTION GRID --- */
+        .score-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .btn-score-share, .btn-leaderboard { padding: 14px; border-radius: 16px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.1s; }
+        .btn-score-share { background-color: #F2F2F7; color: var(--ios-blue); }
+        .btn-leaderboard { background-color: #FFF8E1; color: #FF9500; }
+        .btn-score-share:active, .btn-leaderboard:active { transform: scale(0.96); opacity: 0.8; }
 
         /* --- TABS --- */
-        .tab-bar {
-            display: flex;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(20px);
-            padding: 8px;
-            gap: 5px;
-            position: sticky;
-            top: 10px;
-            z-index: 100;
-            margin-bottom: 25px;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            width: 100%;
-        }
-        
-        .tab-btn {
-            flex: 1; padding: 12px; border-radius: 12px;
-            text-align: center; font-weight: 700; font-size: 14px;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: all 0.2s ease;
-        }
+        .tab-bar { display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 8px; gap: 5px; position: sticky; top: 10px; z-index: 100; margin-bottom: 25px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; }
+        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: var(--text-light); transition: all 0.2s ease; }
         .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
@@ -197,7 +105,6 @@
         .segment-option { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; font-weight: 600; border-radius: 9px; cursor: pointer; transition: 0.2s; color: var(--text-light); }
         .segment-option.selected { background-color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); color: var(--text-dark); }
 
-        /* --- MODE & SLIDER --- */
         .mode-wrapper { display: flex; gap: 15px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 20px; border-radius: 16px; border: 2px solid transparent; background: white; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.2s; }
         .mode-btn.active { border-color: var(--ios-blue); color: var(--ios-blue); background: #F0F8FF; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,122,255,0.15); }
@@ -206,9 +113,7 @@
         input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 26px; width: 26px; border-radius: 50%; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-top: -11px; border: 1px solid rgba(0,0,0,0.1); }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 5px; background: #E5E5EA; border-radius: 3px; }
-        .slider-value { font-size: 22px; font-weight: 800; color: var(--ios-blue); width: 40px; text-align: center; }
 
-        /* --- BUILD LIST & CARDS --- */
         .category-header { font-size: 20px; font-weight: 800; margin: 25px 0 12px 5px; color: var(--text-dark); }
         .build-item { background: white; padding: 18px; border-radius: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .build-item.selected { background-color: #F0F8FF; border-color: var(--ios-blue); }
@@ -237,14 +142,7 @@
         .habit-progress-fill { height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 6px; }
         
         .circle-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .habit-circle { 
-            width: 28px; 
-            height: 28px; 
-            border-radius: 50%; 
-            border: 2px solid #E5E5EA; 
-            cursor: pointer; 
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-        }
+        .habit-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .habit-circle.active { border-color: transparent; transform: scale(1.1); }
         
         .bg-water { background-color: #5AC8FA !important; }
@@ -282,13 +180,11 @@
 <body>
 
     <div class="app-content">
-
         <div class="scorecard-container">
             <div class="scorecard-header">
                 <div class="scorecard-title">Daily Scorecard</div>
-                <div class="scorecard-date" id="today-date">Jan 24</div>
+                <div class="scorecard-date" id="today-date">Today</div>
             </div>
-            
             <div class="score-row">
                 <span class="score-label">🏋️ Workout</span>
                 <span class="score-val" id="score-workout">Pending...</span>
@@ -309,14 +205,9 @@
                 <span class="score-label">🥜 Snacks</span>
                 <span class="score-val" id="score-snacks">0 / 2</span>
             </div>
-
             <div class="score-actions">
-                <button class="btn-score-share" onclick="shareScorecard()">
-                    📤 Share
-                </button>
-                <button class="btn-leaderboard" onclick="openLeaderboard()">
-                    🏆 Leaderboard
-                </button>
+                <button class="btn-score-share" onclick="shareScorecard()">📤 Share</button>
+                <button class="btn-leaderboard" onclick="openLeaderboard()">🏆 Leaderboard</button>
             </div>
         </div>
 
@@ -326,19 +217,12 @@
         </div>
 
         <div id="workout-view">
-            
-            <div class="progress-header">
-                <span>Streak</span>
-                <span id="progress-text">0% Done</span>
-            </div>
-            <div class="progress-container">
-                <div id="visual-progress" class="progress-fill"></div>
-            </div>
+            <div class="progress-header"><span>Streak</span><span id="progress-text">0% Done</span></div>
+            <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
 
             <div class="day-counter-wrapper">
                 <span>Day</span>
-                <select id="dayInput" class="day-select" onchange="updateProgressUI()">
-                    </select>
+                <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select>
                 <span>of 100</span>
             </div>
 
@@ -380,12 +264,6 @@
                         <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
                         <div class="slider-value" id="slider-val-display">3</div>
                     </div>
-                    <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
-                        <option value="3" label="3"></option>
-                        <option value="4" label="4"></option>
-                        <option value="5" label="5"></option>
-                        <option value="6" label="6"></option>
-                    </datalist>
                 </div>
                 
                 <button class="btn-main" onclick="generateRandomWorkout()">⚡️ Create Workout ⚡️</button>
@@ -407,38 +285,32 @@
         
         <div id="nutrition-view" class="hidden-view">
             <h1 style="text-align: center; margin-bottom: 30px; font-weight:800; color: #1C1C1E;">Daily Habits</h1>
-
             <div class="habit-card">
                 <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0 / 8</span></div>
                 <div class="habit-progress-bg"><div id="bar-water" class="habit-progress-fill bg-water"></div></div>
                 <div class="circle-row" data-habit="water" data-goal="8"></div>
             </div>
-
             <div class="habit-card">
                 <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0 / 5</span></div>
                 <div class="habit-progress-bg"><div id="bar-veggies" class="habit-progress-fill bg-veggie"></div></div>
                 <div class="circle-row" data-habit="veggies" data-goal="5"></div>
             </div>
-
             <div class="habit-card">
                 <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0 / 5</span></div>
                 <div class="habit-progress-bg"><div id="bar-fruits" class="habit-progress-fill bg-fruit"></div></div>
                 <div class="circle-row" data-habit="fruits" data-goal="5"></div>
             </div>
-
             <div class="habit-card">
                 <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0 / 2</span></div>
                 <div class="habit-progress-bg"><div id="bar-snacks" class="habit-progress-fill bg-snack"></div></div>
                 <div class="circle-row" data-habit="snacks" data-goal="2"></div>
             </div>
         </div>
-
     </div>
 
     <div id="user-modal" class="modal-overlay">
         <div class="modal-content">
             <h2 style="text-align:center; margin-top:0; font-size:22px;">Select Team</h2>
-            
             <div class="family-grid">
                 <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
                 <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
@@ -452,10 +324,7 @@
                 <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
                 <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
             </div>
-    
-            <input type="text" id="other-name-input" placeholder="Guest Name..." 
-               style="display:none; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box;">
-    
+            <input type="text" id="other-name-input" placeholder="Guest Name..." style="display:none; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box;">
             <button class="btn-main" onclick="closeModal()">Done</button>
         </div>
     </div>
@@ -466,30 +335,29 @@
                 <h2 style="margin:0; font-size:22px;">Family Standings</h2>
                 <div style="cursor:pointer; font-size:20px; padding:5px;" onclick="closeLeaderboard()">✕</div>
             </div>
-
             <div class="leaderboard-tabs">
                 <div class="lb-tab active" id="tab-today" onclick="switchLbTab('today')">Today</div>
                 <div class="lb-tab" id="tab-streak" onclick="switchLbTab('streak')">🔥 Streaks</div>
             </div>
-
-            <div id="lb-content" class="lb-list">
-                </div>
-            
-            <div style="margin-top:auto; padding-top:15px; text-align:center; font-size:12px; color:#aaa;">
-                Updates refresh every morning
-            </div>
+            <div id="lb-content" class="lb-list"></div>
+            <div style="margin-top:auto; padding-top:15px; text-align:center; font-size:12px; color:#aaa;">Updates refresh every morning</div>
         </div>
     </div>
 
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
+    // --- CONFIGURATION ---
+    const API_URL = "https://script.google.com/macros/s/AKfycbw4S3OhoYqRrUSNPshGW9shhO1LfS61DxpaOzLVQnOTlKEgU-iE0wI4DRi-I0Hubxnh/exec"; 
+
     // --- STATE ---
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
     let selectedUsers = []; 
     let currentWorkout = [];
     let workoutCompleted = false;
-
+    let familyData = []; // Starts empty, filled by Google Sheets
+    let currentLbTab = 'today';
+    
     let habitsData = {
         water: { current: 0, goal: 8 },
         veggies: { current: 0, goal: 5 }, 
@@ -497,96 +365,38 @@
         snacks: { current: 0, goal: 2 }
     };
 
-    // --- MOCK DATA FOR LEADERBOARD ---
-    const familyData = [
-        { name: "Papi", streak: 24, status: "done", time: "6:30 AM" },
-        { name: "Mami", streak: 22, status: "pending", time: null },
-        { name: "Santi", streak: 15, status: "done", time: "8:45 AM" },
-        { name: "Fran", streak: 12, status: "pending", time: null },
-        { name: "Dana", streak: 10, status: "pending", time: null },
-        { name: "Matu", streak: 45, status: "done", time: "7:15 AM" },
-    ];
-    let currentLbTab = 'today';
-    
-    // --- TABS & NAVIGATION ---
-    function switchTab(tabName) {
-        const workoutView = document.getElementById('workout-view');
-        const nutritionView = document.getElementById('nutrition-view');
-        const tabWorkout = document.getElementById('tab-workout');
-        const tabNutrition = document.getElementById('tab-nutrition');
-
-        if (tabName === 'workout') {
-            workoutView.classList.remove('hidden-view');
-            nutritionView.classList.add('hidden-view');
-            tabWorkout.classList.add('active');
-            tabNutrition.classList.remove('active');
-        } else {
-            workoutView.classList.add('hidden-view');
-            nutritionView.classList.remove('hidden-view');
-            tabWorkout.classList.remove('active');
-            tabNutrition.classList.add('active');
-            initHabitCircles();
-        }
-    }
-
-    // --- USER MODAL LOGIC ---
-    function toggleUser(name, element) {
-        if (selectedUsers.includes(name)) {
-            selectedUsers = selectedUsers.filter(u => u !== name);
-            element.classList.remove('selected');
-        } else {
-            selectedUsers.push(name);
-            element.classList.add('selected');
-        }
-    }
-
-    function openModal() { document.getElementById('user-modal').style.display = 'flex'; }
-    
-    function toggleOther() {
-        const input = document.getElementById('other-name-input');
-        const btn = document.getElementById('other-btn');
-        if (input.style.display === 'none') {
-            input.style.display = 'block';
-            btn.classList.add('selected');
-            input.focus(); 
-        } else {
-            input.style.display = 'none';
-            btn.classList.remove('selected');
-            input.value = ''; 
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('user-modal').style.display = 'none';
-        const btn = document.getElementById('team-trigger-btn');
-        const otherInput = document.getElementById('other-name-input');
-        const otherName = otherInput.value.trim();
-        const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
-        let displayNames = [...selectedUsers];
-        if (hasOther) displayNames.push(otherName);
-
-        if (displayNames.length === 0) {
-            btn.innerHTML = "👥 Select Team (0)";
-            btn.style.background = "white";
-            btn.style.color = "var(--ios-blue)";
-        } else {
-            let summary = displayNames.join(", ");
-            if (summary.length > 20) summary = summary.substring(0, 20) + "...";
-            btn.innerHTML = "✅ " + summary;
-            btn.style.background = "var(--ios-blue)";
-            btn.style.color = "white";
-        }
-    }
-
-    // --- LEADERBOARD LOGIC ---
-    function openLeaderboard() {
+    // --- LEADERBOARD & DATA SYNC ---
+    async function openLeaderboard() {
         document.getElementById('leaderboard-modal').style.display = 'flex';
-        renderLeaderboard();
+        document.getElementById('lb-content').innerHTML = `
+            <div style="text-align:center; padding:40px; color:#888;">
+                <div style="font-size:24px; margin-bottom:10px;">⏳</div>
+                Fetching scores...
+            </div>
+        `;
+
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            familyData = data.map(u => ({
+                name: u.name,
+                streak: u.streak,
+                status: u.status,
+                time: u.time
+            }));
+            renderLeaderboard();
+        } catch (error) {
+            console.error("Leaderboard Error:", error);
+            document.getElementById('lb-content').innerHTML = `
+                <div style="text-align:center; padding:30px; color:#FF3B30;">
+                    <div style="font-weight:bold; margin-bottom:5px;">Connection Failed</div>
+                    <div style="font-size:12px;">Check your internet or the script URL.</div>
+                </div>
+            `;
+        }
     }
 
-    function closeLeaderboard() {
-        document.getElementById('leaderboard-modal').style.display = 'none';
-    }
+    function closeLeaderboard() { document.getElementById('leaderboard-modal').style.display = 'none'; }
 
     function switchLbTab(tab) {
         currentLbTab = tab;
@@ -623,7 +433,6 @@
             }
 
             const initials = user.name.substring(0,2).toUpperCase();
-            
             const row = `
             <div class="lb-row">
                 <div class="lb-user-info">
@@ -632,26 +441,131 @@
                     <div class="lb-name">${user.name}</div>
                 </div>
                 <div>${rightSideContent}</div>
-            </div>
-            `;
+            </div>`;
             container.innerHTML += row;
         });
+        
+        if(sortedData.length === 0) {
+             container.innerHTML = `<div style="text-align:center; padding:20px; color:#aaa;">No data found.</div>`;
+        }
     }
 
     function nudgeUser(btn, name) {
         btn.innerText = "🔔 Sent!";
         btn.classList.add('nudged');
         btn.disabled = true;
-        const audio = document.getElementById("success-sound");
-        if(audio) {
-            audio.volume = 0.2; 
-            audio.currentTime = 0;
-            audio.play().catch(()=>{}); 
-        }
         confetti({ particleCount: 30, spread: 40, origin: { y: 0.5 }, colors: ['#8E8E93'] });
     }
-    
-    // --- DATA ---
+
+    // --- WORKOUT LOGIC ---
+    function handleFinishWorkout() {
+        let userToUpdate = selectedUsers.length > 0 ? selectedUsers[0] : null;
+
+        if (!userToUpdate) {
+            alert("Please select who did the workout using the 'Select Team' button first!");
+            return;
+        }
+
+        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
+        
+        const btn = document.getElementById('finish-btn');
+        btn.innerText = "Syncing...";
+        btn.classList.add('completed');
+        
+        const payload = {
+            name: userToUpdate,
+            location: state.location,
+            workout: currentWorkout.map(ex => ({ name: ex.name, type: ex.type }))
+        };
+
+        fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            btn.innerText = "Saved to Cloud!";
+            workoutCompleted = true;
+            const sWork = document.getElementById('score-workout');
+            sWork.innerText = "✅ Completed";
+            sWork.classList.add('done');
+            setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 800);
+        }).catch(err => {
+            console.error(err);
+            btn.innerText = "Saved (Offline)";
+        });
+    }
+
+    // --- STANDARD APP LOGIC ---
+    function switchTab(tabName) {
+        const workoutView = document.getElementById('workout-view');
+        const nutritionView = document.getElementById('nutrition-view');
+        const tabWorkout = document.getElementById('tab-workout');
+        const tabNutrition = document.getElementById('tab-nutrition');
+
+        if (tabName === 'workout') {
+            workoutView.classList.remove('hidden-view');
+            nutritionView.classList.add('hidden-view');
+            tabWorkout.classList.add('active');
+            tabNutrition.classList.remove('active');
+        } else {
+            workoutView.classList.add('hidden-view');
+            nutritionView.classList.remove('hidden-view');
+            tabWorkout.classList.remove('active');
+            tabNutrition.classList.add('active');
+            initHabitCircles();
+        }
+    }
+
+    function toggleUser(name, element) {
+        if (selectedUsers.includes(name)) {
+            selectedUsers = selectedUsers.filter(u => u !== name);
+            element.classList.remove('selected');
+        } else {
+            selectedUsers.push(name);
+            element.classList.add('selected');
+        }
+    }
+
+    function openModal() { document.getElementById('user-modal').style.display = 'flex'; }
+    function toggleOther() {
+        const input = document.getElementById('other-name-input');
+        const btn = document.getElementById('other-btn');
+        if (input.style.display === 'none') {
+            input.style.display = 'block';
+            btn.classList.add('selected');
+            input.focus(); 
+        } else {
+            input.style.display = 'none';
+            btn.classList.remove('selected');
+            input.value = ''; 
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('user-modal').style.display = 'none';
+        const btn = document.getElementById('team-trigger-btn');
+        const otherInput = document.getElementById('other-name-input');
+        const otherName = otherInput.value.trim();
+        const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
+        let displayNames = [...selectedUsers];
+        if (hasOther) displayNames.push(otherName);
+
+        if (displayNames.length === 0) {
+            btn.innerHTML = "👥 Select Team (0)";
+            btn.style.background = "white";
+            btn.style.color = "var(--ios-blue)";
+        } else {
+            let summary = displayNames.join(", ");
+            if (summary.length > 20) summary = summary.substring(0, 20) + "...";
+            btn.innerHTML = "✅ " + summary;
+            btn.style.background = "var(--ios-blue)";
+            btn.style.color = "white";
+        }
+    }
+
+    // --- EXERCISE DATA & GENERATION ---
     const warmups = {
         gym: { title: "🔥 Treadmill Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
         home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles (No Cardio)" },
@@ -680,13 +594,10 @@
     window.onload = function() {
         const d = new Date();
         document.getElementById('today-date').innerText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
             let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = i;
-            select.appendChild(opt);
+            opt.value = i; opt.innerHTML = i; select.appendChild(opt);
         }
         const savedDay = localStorage.getItem('familyWorkoutDay');
         if (savedDay) select.value = savedDay;
@@ -816,48 +727,20 @@
         document.getElementById('score-workout').classList.remove('done');
     }
 
-    function handleFinishWorkout() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
-        
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "Saved to Scorecard!";
-        btn.classList.add('completed');
-        
-        workoutCompleted = true;
-        
-        const sWork = document.getElementById('score-workout');
-        sWork.innerText = "✅ Completed";
-        sWork.classList.add('done');
-        
-        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 800);
-    }
-
     function shareScorecard() {
         let day = document.getElementById('dayInput').value;
         let text = `🔥 NogueraFit: Day ${day} Scorecard 🔥\n\n`;
         
         if(workoutCompleted) {
             text += `✅ Workout: Completed\n`;
-            if(selectedUsers.length > 0) {
-                text += `👥 Team: ${selectedUsers.join(', ')}\n`;
-            }
-            let focusName = "Custom";
-            if(state.mode === 'random') {
-                focusName = (state.focus === 'both') ? "Full Body" : (state.focus.charAt(0).toUpperCase() + state.focus.slice(1));
-            }
-            let locName = state.location.charAt(0).toUpperCase() + state.location.slice(1);
-            text += `🏋️ Focus: ${focusName} (${locName})\n`;
-
+            if(selectedUsers.length > 0) text += `👥 Team: ${selectedUsers.join(', ')}\n`;
         } else {
             text += `❌ Workout: Not Completed\n`;
         }
         
-        text += `\n-- Nutrition & Habits --\n`;
+        text += `\n-- Nutrition --\n`;
         text += `💧 Water: ${habitsData.water.current}/${habitsData.water.goal}\n`;
         text += `🥦 Veggies: ${habitsData.veggies.current}/${habitsData.veggies.goal}\n`;
-        text += `🍎 Fruits: ${habitsData.fruits.current}/${habitsData.fruits.goal}\n`;
-        text += `🥜 Snacks: ${habitsData.snacks.current}/${habitsData.snacks.goal}\n`;
 
         if (navigator.share) {
             navigator.share({ title: 'Noguera Fitness Scorecard', text: text }).catch(console.error);
@@ -874,7 +757,6 @@
             if(row.innerHTML !== '') return; 
             const goal = parseInt(row.getAttribute('data-goal'));
             const habit = row.getAttribute('data-habit');
-            
             habitsData[habit].goal = goal;
 
             for(let i=0; i<goal; i++) {
@@ -883,11 +765,7 @@
                 d.onclick = function() {
                     const currentVal = habitsData[habit].current;
                     const clickedVal = i + 1;
-                    
-                    let newVal = clickedVal;
-                    if (currentVal === clickedVal && clickedVal === 1) {
-                        newVal = 0;
-                    }
+                    let newVal = (currentVal === clickedVal && clickedVal === 1) ? 0 : clickedVal;
                     updateHabitStats(habit, goal, newVal);
                 };
                 row.appendChild(d);
@@ -898,7 +776,6 @@
     function updateHabitStats(habit, goal, newVal) {
         const row = document.querySelector(`.circle-row[data-habit="${habit}"]`);
         const circles = row.children;
-        
         habitsData[habit].current = newVal;
 
         for(let j=0; j<goal; j++) {
@@ -915,7 +792,6 @@
                 circles[j].style.backgroundColor = 'transparent';
             }
         }
-
         document.getElementById(`count-${habit}`).innerText = `${newVal} / ${goal}`;
         const pct = (newVal / goal) * 100;
         document.getElementById(`bar-${habit}`).style.width = `${pct}%`;
@@ -926,10 +802,7 @@
             if(newVal >= goal) scoreEl.classList.add('done');
             else scoreEl.classList.remove('done');
         }
-
-        if (newVal === goal) {
-             confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } }); 
-        }
+        if (newVal === goal) confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } }); 
     }
 </script>
 </body>
