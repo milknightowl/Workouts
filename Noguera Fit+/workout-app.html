@@ -23,12 +23,11 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--ios-gray);
             margin: 0;
-            padding: 0; /* Changed from 20px to 0 to fix header gaps */
+            padding: 0;
             color: var(--text-dark);
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Wrapper for the actual content padding */
         .app-content {
             padding: 20px;
             max-width: 600px;
@@ -36,369 +35,205 @@
             padding-bottom: 100px;
         }
 
-        .family-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-            background-color: #E5E5EA; 
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        /* --- HEADERS & PROGRESS --- */
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 15px; text-align: center; margin-top: 10px; }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-top: 20px;
-            margin-bottom: 5px;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: #E5E5EA;
-            border-radius: 10px;
-            height: 14px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--ios-blue), #5AC8FA);
-            width: 1%;
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-
-        .day-counter-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 16px;
-            color: var(--text-dark);
+        /* --- SCORECARD (NEW) --- */
+        .scorecard-container {
             background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .day-select {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            border: none;
-            background: transparent;
-            text-align: center;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 0 10px;
-            cursor: pointer;
-        }
-
-        .label {
-            font-size: 13px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            margin-left: 10px;
-            font-weight: 600;
-            margin-top: 25px;
-        }
-
-        .segmented-control {
-            display: flex;
-            background-color: #E5E5EA;
-            border-radius: 9px;
-            padding: 2px;
-        }
-        
-        .segment-option {
-            flex: 1;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 7px;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
-        .segment-option.selected {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            font-weight: 600;
-            color: var(--ios-blue);
-        }
-
-        /* --- SLIDER --- */
-        .slider-container {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            margin-top: -10px;
-            border: 0.5px solid rgba(0,0,0,0.1);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            background: #E5E5EA;
-            border-radius: 2px;
-        }
-        .slider-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            width: 30px;
-            text-align: center;
-        }
-
-        /* --- MODE TOGGLE --- */
-        .mode-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .mode-btn {
-            flex: 1;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            background: white;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .mode-btn.active {
-            border-color: var(--ios-blue);
-            color: var(--ios-blue);
-            background: #F0F8FF;
-        }
-
-        #gym-pass-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid #E5E5EA;
-        }
-
-        /* --- BUILD MODE --- */
-        #build-list { display: none; }
-        
-        .category-header {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 20px 0 10px 5px;
-            color: var(--text-dark);
-            border-bottom: 2px solid #E5E5EA;
-            padding-bottom: 5px;
-        }
-
-        .build-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid transparent;
-            touch-action: manipulation;
-        }
-        .build-item.selected {
-            background-color: #F0F8FF;
-            border-color: var(--ios-blue);
-        }
-        
-        .check-circle {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            border: 2px solid #C7C7CC;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent;
-            font-weight: bold;
-            background: transparent;
-        }
-        
-        .build-item.selected .check-circle {
-            background: var(--ios-blue);
-            border-color: var(--ios-blue);
-            color: white;
-        }
-
-        /* --- RESULTS --- */
-        .btn-main {
-            background-color: var(--ios-blue);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .btn-share {
-            background-color: var(--ios-green);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        
-        .btn-share.success {
-            background-color: #333; 
-            transform: scale(1.02);
-        }
-
-        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
-        
-        .warmup-card {
-            background: #FFF8E1;
-            border-left: 5px solid #FFC107;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .exercise-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .exercise-img { 
-            width: 100%; 
-            height: 200px; 
-            object-fit: contain; 
-            background-color: white; 
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .exercise-details { padding: 15px; border-top: 1px solid #eee; }
-        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-
-        /* --- POPUP MODAL STYLES --- */
-        .modal-overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: popUp 0.2s ease-out;
-        }
-        
-        @keyframes popUp {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
-        /* --- NAVIGATION & NUTRITION STYLES --- */
+        .scorecard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .scorecard-title { font-size: 20px; font-weight: 800; color: #333; }
+        .scorecard-date { font-size: 14px; color: var(--text-light); font-weight: 600; }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+        .score-label { font-weight: 500; color: #555; }
+        .score-val { font-weight: 700; color: #000; }
+        .score-val.done { color: var(--ios-green); }
+
+        .btn-score-share {
+            background-color: #000;
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            margin-top: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* --- TABS (Relocated) --- */
         .tab-bar {
             display: flex;
-            background: white;
-            padding: 15px 20px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 0;
             gap: 10px;
             position: sticky;
             top: 0;
             z-index: 2000;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            border-radius: 12px;
         }
         .tab-btn {
-            flex: 1; padding: 12px; border-radius: 10px;
-            text-align: center; font-weight: 700; font-size: 14px;
+            flex: 1; padding: 10px; border-radius: 8px;
+            text-align: center; font-weight: 700; font-size: 13px;
             border: 1px solid var(--border-color); cursor: pointer;
+            background: white;
+            color: var(--text-light);
         }
         .tab-btn.active { background: var(--ios-blue); color: white; border-color: var(--ios-blue); }
         .tab-btn.nutrition-active.active { background: var(--ios-green); border-color: var(--ios-green); }
-        
-        /* Utility class to hide views */
+
+        /* --- GENERAL UI ELEMENTS --- */
+        .progress-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; color: var(--text-light); margin-top: 10px; margin-bottom: 5px; }
+        .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 10px; height: 14px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 10px; }
+
+        .day-counter-wrapper { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 15px 0; font-size: 16px; color: var(--text-dark); background: white; padding: 10px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .day-select { font-size: 18px; font-weight: bold; color: var(--ios-blue); border: none; background: transparent; text-align: center; -webkit-appearance: none; padding: 0 10px; }
+
+        .label { font-size: 13px; text-transform: uppercase; color: var(--text-light); margin-bottom: 8px; margin-left: 10px; font-weight: 600; margin-top: 25px; }
+
+        .segmented-control { display: flex; background-color: #E5E5EA; border-radius: 9px; padding: 2px; }
+        .segment-option { flex: 1; text-align: center; padding: 8px 0; font-size: 14px; font-weight: 500; border-radius: 7px; cursor: pointer; }
+        .segment-option.selected { background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.15); font-weight: 600; color: var(--ios-blue); }
+
+        /* --- MODE & SLIDER --- */
+        .mode-wrapper { display: flex; gap: 10px; margin-bottom: 20px; }
+        .mode-btn { flex: 1; padding: 15px; border-radius: 12px; border: 2px solid transparent; background: white; font-weight: 600; text-align: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .mode-btn.active { border-color: var(--ios-blue); color: var(--ios-blue); background: #F0F8FF; }
+
+        .slider-container { background: white; padding: 15px 20px; border-radius: 12px; display: flex; align-items: center; gap: 15px; }
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); margin-top: -10px; border: 0.5px solid rgba(0,0,0,0.1); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #E5E5EA; border-radius: 2px; }
+        .slider-value { font-size: 20px; font-weight: bold; color: var(--ios-blue); width: 30px; text-align: center; }
+
+        /* --- BUILD LIST & CARDS --- */
+        .category-header { font-size: 18px; font-weight: 700; margin: 20px 0 10px 5px; color: var(--text-dark); border-bottom: 2px solid #E5E5EA; padding-bottom: 5px; }
+        .build-item { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid transparent; }
+        .build-item.selected { background-color: #F0F8FF; border-color: var(--ios-blue); }
+        .check-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #C7C7CC; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
+        .build-item.selected .check-circle { background: var(--ios-blue); border-color: var(--ios-blue); color: white; }
+
+        .btn-main { background-color: var(--ios-blue); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; cursor: pointer; margin-top: 20px; }
+        .btn-action { background-color: var(--ios-green); color: white; width: 100%; padding: 16px; border-radius: 14px; font-size: 17px; font-weight: 600; border: none; margin-top: 20px; cursor: pointer; }
+        .btn-action.completed { background-color: #333; pointer-events: none; opacity: 0.8; }
+
+        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
+        .warmup-card { background: #FFF8E1; border-left: 5px solid #FFC107; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        .exercise-card { background: white; border-radius: 12px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; box-sizing: border-box; }
+        .exercise-details { padding: 15px; border-top: 1px solid #eee; }
+        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
+
+        /* --- HABITS --- */
         .hidden-view { display: none !important; }
-        
         .habit-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .habit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .habit-title { font-weight: 700; font-size: 17px; }
         .habit-count { font-weight: 600; color: var(--text-light); font-size: 14px; }
-        
         .habit-progress-bg { width: 100%; height: 8px; background: #E5E5EA; border-radius: 4px; margin-bottom: 15px; overflow: hidden; }
         .habit-progress-fill { height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 4px; }
         
-        .circle-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .habit-circle { width: 34px; height: 34px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
-        .habit-circle.active { border-color: transparent; }
+        /* UPDATED CIRCLE STYLES FOR SIZE */
+        .circle-row { display: flex; gap: 6px; flex-wrap: wrap; }
+        .habit-circle { 
+            width: 28px; /* Reduced from 34px */
+            height: 28px; /* Reduced from 34px */
+            border-radius: 50%; 
+            border: 2px solid #E5E5EA; 
+            cursor: pointer; 
+            transition: 0.2s; 
+        }
+        .habit-circle.active { border-color: transparent; transform: scale(1.1); }
         
-        /* Habit Colors */
         .bg-water { background-color: #5AC8FA !important; }
         .bg-veggie { background-color: var(--ios-green) !important; }
         .bg-fruit { background-color: var(--ios-red) !important; }
         .bg-exercise { background-color: var(--ios-blue) !important; }
         .bg-snack { background-color: #AF52DE !important; }
+
+        /* MODAL */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 20px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: popUp 0.2s ease-out; }
+        .family-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; background-color: #E5E5EA; padding: 10px; border-radius: 12px; }
+        @keyframes popUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        #gym-pass-card { background: white; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #E5E5EA; }
     </style>
 </head>
 <body>
 
-    <div class="tab-bar">
-        <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
-        <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
-    </div>
-    
     <div class="app-content">
 
-        <div id="workout-view">
-            <h1>Noguera Fitness Plan</h1>
+        <div class="scorecard-container">
+            <div class="scorecard-header">
+                <div class="scorecard-title">Daily Scorecard</div>
+                <div class="scorecard-date" id="today-date">Jan 24</div>
+            </div>
+            
+            <div class="score-row">
+                <span class="score-label">Workout</span>
+                <span class="score-val" id="score-workout">Pending...</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">💧 Water</span>
+                <span class="score-val" id="score-water">0 / 8</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🥦 Veggies</span>
+                <span class="score-val" id="score-veggies">0 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🍎 Fruits</span>
+                <span class="score-val" id="score-fruits">0 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">💪 Exercise</span>
+                <span class="score-val" id="score-exercise">0 / 1</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🥜 Snacks</span>
+                <span class="score-val" id="score-snacks">0 / 2</span>
+            </div>
 
+            <button class="btn-score-share" onclick="shareScorecard()">
+                📤 Share Results
+            </button>
+        </div>
+
+        <div class="tab-bar">
+            <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
+            <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
+        </div>
+
+        <div id="workout-view">
+            
             <div class="progress-header">
                 <span>Current Streak</span>
                 <span id="progress-text">0% Completed</span>
@@ -446,13 +281,12 @@
                     <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
                 </div>
                 
-                <div class="label">How many exercises? (3-6)</div>
+                <div class="label">How many exercises?</div>
                 <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
                         <div class="slider-value" id="slider-val-display">3</div>
                     </div>
-                    
                     <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
                         <option value="3" label="3"></option>
                         <option value="4" label="4"></option>
@@ -474,7 +308,7 @@
                 <h2>Today's Plan</h2>
                 <div id="warmup-container"></div>
                 <div id="cards-container"></div>
-                <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
+                <button id="finish-btn" class="btn-action" onclick="handleFinishWorkout()">✅ Mark Workout Complete</button>
             </div>
         </div>
         
@@ -529,7 +363,6 @@
                 <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
                 <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
                 <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
-                
                 <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
             </div>
     
@@ -547,8 +380,18 @@
     let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
     let selectedUsers = []; 
     let currentWorkout = [];
+    let workoutCompleted = false;
+
+    // Data structure to hold current habit counts
+    let habitsData = {
+        water: { current: 0, goal: 8 },
+        veggies: { current: 0, goal: 5 }, // Goal per UI labels differs from logic in your original code (corrected here to match labels)
+        fruits: { current: 0, goal: 5 },
+        exercise: { current: 0, goal: 1 },
+        snacks: { current: 0, goal: 2 }
+    };
     
-    // --- TAB SWITCHING LOGIC (New) ---
+    // --- TAB SWITCHING LOGIC ---
     function switchTab(tabName) {
         const workoutView = document.getElementById('workout-view');
         const nutritionView = document.getElementById('nutrition-view');
@@ -567,8 +410,6 @@
             tabWorkout.classList.remove('active');
             tabNutrition.classList.add('active');
             tabNutrition.classList.add('nutrition-active');
-            
-            // Initialize circles if needed (Optional helper function)
             initHabitCircles();
         }
     }
@@ -583,16 +424,11 @@
         }
     }
 
-    // 1. Opens the popup
-    function openModal() {
-        document.getElementById('user-modal').style.display = 'flex';
-    }
-
-    // 2. Handles the "Other" button inside the popup
+    function openModal() { document.getElementById('user-modal').style.display = 'flex'; }
+    
     function toggleOther() {
         const input = document.getElementById('other-name-input');
         const btn = document.getElementById('other-btn');
-        
         if (input.style.display === 'none') {
             input.style.display = 'block';
             btn.classList.add('selected');
@@ -604,16 +440,12 @@
         }
     }
 
-    // 3. Closes popup and updates the main screen button
     function closeModal() {
         document.getElementById('user-modal').style.display = 'none';
-        
         const btn = document.getElementById('team-trigger-btn');
         const otherInput = document.getElementById('other-name-input');
         const otherName = otherInput.value.trim();
         const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
-        
-        // Combine names for the button preview
         let displayNames = [...selectedUsers];
         if (hasOther) displayNames.push(otherName);
 
@@ -623,9 +455,7 @@
             btn.style.color = "var(--ios-blue)";
         } else {
             let summary = displayNames.join(", ");
-            // If the list is too long, shorten it with "..."
             if (summary.length > 20) summary = summary.substring(0, 20) + "...";
-            
             btn.innerHTML = "✅ " + summary;
             btn.style.background = "var(--ios-blue)";
             btn.style.color = "white";
@@ -660,6 +490,10 @@
 
     // --- SETUP ---
     window.onload = function() {
+        // Date
+        const d = new Date();
+        document.getElementById('today-date').innerText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
             let opt = document.createElement('option');
@@ -716,17 +550,12 @@
 
     // --- GENERATION & BUILD LOGIC ---
     let selectedIndices = [];
-    
     function renderBuildList() {
         const listContainer = document.getElementById('build-list');
         listContainer.style.display = 'block';
         listContainer.innerHTML = '';
         selectedIndices = [];
-        const categories = [
-            { id: 'upper', label: 'Upper Body' },
-            { id: 'lower', label: 'Lower Body' },
-            { id: 'core', label: 'Core & Abs' }
-        ];
+        const categories = [ { id: 'upper', label: 'Upper Body' }, { id: 'lower', label: 'Lower Body' }, { id: 'core', label: 'Core & Abs' } ];
         categories.forEach(cat => {
             const categoryExercises = exerciseDB.filter((ex) => ex.loc.includes(state.location) && ex.type === cat.id);
             if (categoryExercises.length > 0) {
@@ -738,10 +567,7 @@
                     const originalIndex = exerciseDB.indexOf(ex);
                     let item = document.createElement('div');
                     item.className = 'build-item';
-                    item.innerHTML = `
-                        <div style="font-weight:600">${ex.name}</div>
-                        <div class="check-circle">✓</div>
-                    `;
+                    item.innerHTML = ` <div style="font-weight:600">${ex.name}</div> <div class="check-circle">✓</div> `;
                     item.onclick = function() {
                         if (selectedIndices.includes(originalIndex)) {
                             selectedIndices = selectedIndices.filter(i => i !== originalIndex);
@@ -782,8 +608,7 @@
             <div class="warmup-card">
                 <div style="font-weight:bold; font-size:16px; margin-bottom:5px;">${w.title}</div>
                 <div>${w.desc}</div>
-            </div>
-        `;
+            </div>`;
         currentWorkout.forEach(ex => {
             container.innerHTML += `
                 <div class="exercise-card">
@@ -796,89 +621,140 @@
         });
         document.getElementById('workout-results').style.display = 'block';
         setTimeout(() => { document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'}); }, 100);
+        
+        // Reset finish button
+        const btn = document.getElementById('finish-btn');
+        btn.innerText = "✅ Mark Workout Complete";
+        btn.classList.remove('completed');
+        workoutCompleted = false;
+        document.getElementById('score-workout').innerText = "Pending...";
+        document.getElementById('score-workout').classList.remove('done');
     }
 
-    function handleFinishClick() {
+    // --- FINISH WORKOUT LOGIC ---
+    function handleFinishWorkout() {
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
+        
         const btn = document.getElementById('finish-btn');
-        btn.innerText = "You crushed it!";
-        btn.classList.add('success');
-        setTimeout(() => { shareToFamily(); }, 1500);
+        btn.innerText = "Saved to Scorecard!";
+        btn.classList.add('completed');
+        
+        // Update State
+        workoutCompleted = true;
+        
+        // Update Scorecard
+        const sWork = document.getElementById('score-workout');
+        sWork.innerText = "✅ Completed";
+        sWork.classList.add('done');
+        
+        // Scroll to top to see scorecard
+        setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 800);
     }
 
-    function shareToFamily() {
-        // 1. Combine selected users + the "Other" name
-        let finalParticipants = [...selectedUsers];
-        const otherInput = document.getElementById('other-name-input');
+    function shareScorecard() {
+        let text = `🔥 NogueraFit: Day ${document.getElementById('dayInput').value} Scorecard 🔥\n\n`;
         
-        if (otherInput.value.trim() && otherInput.style.display !== 'none') {
-            const extras = otherInput.value.split(',').map(name => name.trim());
-            finalParticipants.push(...extras);
-        }
-        
-        let text = `🔥 NogueraFit: Day ${document.getElementById('dayInput').value} Completed! 🔥\n`;
-        text += `📍 ${state.location.toUpperCase()}\n`;
-        if(finalParticipants.length > 0) text += `👥 Team: ${finalParticipants.join(', ')}\n`;
-        text += `\nWorkout:\n`;
-        currentWorkout.forEach(ex => text += `• ${ex.name}\n`);
-        
-        if (navigator.share) {
-            navigator.share({
-                title: 'Noguera Fitness',
-                text: text
-            }).catch(console.error);
+        // Workout Section
+        if(workoutCompleted) {
+            text += `✅ Workout: Completed (${state.location})\n`;
+            if(selectedUsers.length > 0) text += `👥 Team: ${selectedUsers.join(', ')}\n`;
         } else {
-            alert("Copied to clipboard!\n\n" + text);
+            text += `❌ Workout: Not Completed\n`;
+        }
+        
+        text += `\n-- Nutrition & Habits --\n`;
+        text += `💧 Water: ${habitsData.water.current}/${habitsData.water.goal}\n`;
+        text += `🥦 Veggies: ${habitsData.veggies.current}/${habitsData.veggies.goal}\n`;
+        text += `🍎 Fruits: ${habitsData.fruits.current}/${habitsData.fruits.goal}\n`;
+        text += `💪 Active: ${habitsData.exercise.current}/${habitsData.exercise.goal}\n`;
+        text += `🥜 Snacks: ${habitsData.snacks.current}/${habitsData.snacks.goal}\n`;
+
+        if (navigator.share) {
+            navigator.share({ title: 'Noguera Fitness Scorecard', text: text }).catch(console.error);
+        } else {
+            // Fallback
             navigator.clipboard.writeText(text);
+            const btn = document.querySelector('.btn-score-share');
+            btn.innerText = "Copied to Clipboard!";
+            setTimeout(() => { btn.innerText = "📤 Share Results"; }, 2000);
         }
     }
 
-    // --- HABIT TRACKING INIT ---
+    // --- HABIT TRACKING LOGIC ---
     function initHabitCircles() {
         document.querySelectorAll('.circle-row').forEach(row => {
-            if(row.innerHTML !== '') return; // Already inited
+            if(row.innerHTML !== '') return; 
             const goal = parseInt(row.getAttribute('data-goal'));
             const habit = row.getAttribute('data-habit');
             
+            // Sync internal state with DOM
+            habitsData[habit].goal = goal;
+
             for(let i=0; i<goal; i++) {
                 let d = document.createElement('div');
                 d.className = 'habit-circle';
-                // Toggle Habit Logic
+                // RANGE CLICK LOGIC
                 d.onclick = function() {
-                    const allCircles = row.children;
-                    // Simple logic: if clicking index 2, fill 0,1,2.
-                    // If clicking an active one, verify toggle off logic.
-                    if(this.classList.contains('active') && (i === allCircles.length-1 || !allCircles[i+1].classList.contains('active'))) {
-                        // toggle off
-                        this.classList.remove('active');
-                        this.style.backgroundColor = 'transparent';
-                    } else {
-                        // fill up to here
-                        for(let j=0; j<=i; j++) {
-                            allCircles[j].classList.add('active');
-                            // Get color based on parent card context or hardcoded map
-                            let color = '#007AFF';
-                            if(habit === 'water') color = '#5AC8FA';
-                            if(habit === 'veggies') color = '#34C759';
-                            if(habit === 'fruits') color = '#FF3B30';
-                            if(habit === 'snacks') color = '#AF52DE';
-                            allCircles[j].style.backgroundColor = color;
-                        }
+                    const currentVal = habitsData[habit].current;
+                    const clickedVal = i + 1; // 1-based index
+                    
+                    let newVal = clickedVal;
+                    
+                    // If clicking the exact number already selected, toggle it down one?
+                    // Actually, usually better to just set to that value. 
+                    // But if I click 1 and it's 1, maybe clear to 0?
+                    if (currentVal === clickedVal && clickedVal === 1) {
+                        newVal = 0;
                     }
-                    updateHabitStats(habit, goal);
+                    
+                    updateHabitStats(habit, goal, newVal);
                 };
                 row.appendChild(d);
             }
         });
     }
 
-    function updateHabitStats(habit, goal) {
+    function updateHabitStats(habit, goal, newVal) {
         const row = document.querySelector(`.circle-row[data-habit="${habit}"]`);
-        const count = row.querySelectorAll('.active').length;
-        document.getElementById(`count-${habit}`).innerText = `${count} / ${goal}`;
-        const pct = (count / goal) * 100;
+        const circles = row.children;
+        
+        // Update State
+        habitsData[habit].current = newVal;
+
+        // Visual Update
+        for(let j=0; j<goal; j++) {
+            if (j < newVal) {
+                circles[j].classList.add('active');
+                let color = '#007AFF';
+                if(habit === 'water') color = '#5AC8FA';
+                if(habit === 'veggies') color = '#34C759';
+                if(habit === 'fruits') color = '#FF3B30';
+                if(habit === 'snacks') color = '#AF52DE';
+                circles[j].style.backgroundColor = color;
+            } else {
+                circles[j].classList.remove('active');
+                circles[j].style.backgroundColor = 'transparent';
+            }
+        }
+
+        // Text & Bar Update
+        document.getElementById(`count-${habit}`).innerText = `${newVal} / ${goal}`;
+        const pct = (newVal / goal) * 100;
         document.getElementById(`bar-${habit}`).style.width = `${pct}%`;
+
+        // Scorecard Update
+        const scoreEl = document.getElementById(`score-${habit}`);
+        if(scoreEl) {
+            scoreEl.innerText = `${newVal} / ${goal}`;
+            if(newVal >= goal) scoreEl.classList.add('done');
+            else scoreEl.classList.remove('done');
+        }
+
+        // CONFETTI if 100% complete (and wasn't before)
+        if (newVal === goal) {
+             confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } }); // Top of screen confetti
+        }
     }
 </script>
 </body>
