@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NogueraFit</title>
-    <link rel="apple-touch-icon" href="images/icon.png"> 
+    
+    <link rel="apple-touch-icon" href="images/icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F2F2F7">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
@@ -20,6 +27,8 @@
             --text-light: #8E8E93;
             --border-color: #E5E5EA;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -49,13 +58,13 @@
             border: 1px solid rgba(0,0,0,0.02);
         }
 
-        /* Fun colorful top border/accent */
+        /* Rainbow Bar */
         .scorecard-container::before {
             content: "";
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 6px;
-            background: linear-gradient(90deg, #007AFF, #34C759);
+            background: linear-gradient(90deg, #FF3B30, #FF9500, #34C759, #007AFF, #AF52DE);
         }
 
         .scorecard-header {
@@ -110,42 +119,59 @@
         }
         .score-val.done { color: var(--ios-green); }
 
-        .btn-score-share {
-            background-color: #F2F2F7; /* Light Grey */
-            color: var(--ios-blue);
-            width: 100%;
+        /* --- NEW BUTTON GRID --- */
+        .score-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-score-share, .btn-leaderboard {
             padding: 14px;
             border-radius: 16px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             border: none;
-            margin-top: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             transition: transform 0.1s, background-color 0.2s;
         }
-        .btn-score-share:active {
-            transform: scale(0.98);
-            background-color: #E5E5EA;
+
+        .btn-score-share {
+            background-color: #F2F2F7;
+            color: var(--ios-blue);
+        }
+
+        .btn-leaderboard {
+            background-color: #FFF8E1; /* Light Gold */
+            color: #FF9500;
+        }
+
+        .btn-score-share:active, .btn-leaderboard:active {
+            transform: scale(0.96);
+            opacity: 0.8;
         }
 
         /* --- TABS --- */
         .tab-bar {
             display: flex;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(20px);
-            padding: 6px;
-            gap: 0;
+            padding: 8px;
+            gap: 5px;
             position: sticky;
             top: 10px;
-            z-index: 2000;
+            z-index: 100;
             margin-bottom: 25px;
-            border-radius: 16px;
+            border-radius: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 100%;
         }
+        
         .tab-btn {
             flex: 1; padding: 12px; border-radius: 12px;
             text-align: center; font-weight: 700; font-size: 14px;
@@ -154,7 +180,6 @@
             transition: all 0.2s ease;
         }
         .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        /* Specific colors when active */
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
@@ -227,13 +252,31 @@
         .bg-fruit { background-color: var(--ios-red) !important; }
         .bg-snack { background-color: var(--ios-purple) !important; }
 
-        /* MODAL */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 3000; align-items: center; justify-content: center; }
+        /* --- MODAL SYSTEM --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 85%; max-width: 400px; border-radius: 24px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: popUp 0.2s ease-out; }
         .family-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px; background-color: #F2F2F7; padding: 15px; border-radius: 16px; }
         @keyframes popUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         #gym-pass-card { background: white; border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02); }
+
+        /* --- LEADERBOARD SPECIFIC --- */
+        .leaderboard-tabs { display: flex; background: #E5E5EA; padding: 4px; border-radius: 12px; margin-bottom: 20px; }
+        .lb-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 9px; cursor: pointer; }
+        .lb-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .lb-list { max-height: 300px; overflow-y: auto; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; animation: fadeIn 0.3s ease-out; }
+        .lb-user-info { display: flex; align-items: center; gap: 12px; }
+        .lb-rank { width: 24px; font-weight: 800; color: #C7C7CC; text-align: center; }
+        .lb-rank.top-3 { color: #FF9500; font-size: 1.2em; }
+        .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: #E5E5EA; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #555; font-size: 14px; }
+        .lb-name { font-weight: 600; font-size: 15px; }
+        .btn-nudge { background: #E5E5EA; color: var(--ios-blue); border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .btn-nudge:hover { background: #d1d1d6; }
+        .btn-nudge.nudged { background: transparent; color: #C7C7CC; cursor: default; }
+        .status-done { color: var(--ios-green); font-weight: 700; font-size: 13px; background: rgba(52, 199, 89, 0.1); padding: 4px 10px; border-radius: 12px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
     </style>
 </head>
 <body>
@@ -267,9 +310,14 @@
                 <span class="score-val" id="score-snacks">0 / 2</span>
             </div>
 
-            <button class="btn-score-share" onclick="shareScorecard()">
-                📤 Share Scorecard
-            </button>
+            <div class="score-actions">
+                <button class="btn-score-share" onclick="shareScorecard()">
+                    📤 Share
+                </button>
+                <button class="btn-leaderboard" onclick="openLeaderboard()">
+                    🏆 Leaderboard
+                </button>
+            </div>
         </div>
 
         <div class="tab-bar">
@@ -412,6 +460,27 @@
         </div>
     </div>
 
+    <div id="leaderboard-modal" class="modal-overlay">
+        <div class="modal-content" style="height: 500px; display: flex; flex-direction: column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2 style="margin:0; font-size:22px;">Family Standings</h2>
+                <div style="cursor:pointer; font-size:20px; padding:5px;" onclick="closeLeaderboard()">✕</div>
+            </div>
+
+            <div class="leaderboard-tabs">
+                <div class="lb-tab active" id="tab-today" onclick="switchLbTab('today')">Today</div>
+                <div class="lb-tab" id="tab-streak" onclick="switchLbTab('streak')">🔥 Streaks</div>
+            </div>
+
+            <div id="lb-content" class="lb-list">
+                </div>
+            
+            <div style="margin-top:auto; padding-top:15px; text-align:center; font-size:12px; color:#aaa;">
+                Updates refresh every morning
+            </div>
+        </div>
+    </div>
+
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
@@ -421,14 +490,25 @@
     let currentWorkout = [];
     let workoutCompleted = false;
 
-    // "Exercise" removed from habits as requested
     let habitsData = {
         water: { current: 0, goal: 8 },
         veggies: { current: 0, goal: 5 }, 
         fruits: { current: 0, goal: 5 },
         snacks: { current: 0, goal: 2 }
     };
+
+    // --- MOCK DATA FOR LEADERBOARD ---
+    const familyData = [
+        { name: "Papi", streak: 24, status: "done", time: "6:30 AM" },
+        { name: "Mami", streak: 22, status: "pending", time: null },
+        { name: "Santi", streak: 15, status: "done", time: "8:45 AM" },
+        { name: "Fran", streak: 12, status: "pending", time: null },
+        { name: "Dana", streak: 10, status: "pending", time: null },
+        { name: "Matu", streak: 45, status: "done", time: "7:15 AM" },
+    ];
+    let currentLbTab = 'today';
     
+    // --- TABS & NAVIGATION ---
     function switchTab(tabName) {
         const workoutView = document.getElementById('workout-view');
         const nutritionView = document.getElementById('nutrition-view');
@@ -449,6 +529,7 @@
         }
     }
 
+    // --- USER MODAL LOGIC ---
     function toggleUser(name, element) {
         if (selectedUsers.includes(name)) {
             selectedUsers = selectedUsers.filter(u => u !== name);
@@ -495,6 +576,79 @@
             btn.style.background = "var(--ios-blue)";
             btn.style.color = "white";
         }
+    }
+
+    // --- LEADERBOARD LOGIC ---
+    function openLeaderboard() {
+        document.getElementById('leaderboard-modal').style.display = 'flex';
+        renderLeaderboard();
+    }
+
+    function closeLeaderboard() {
+        document.getElementById('leaderboard-modal').style.display = 'none';
+    }
+
+    function switchLbTab(tab) {
+        currentLbTab = tab;
+        document.getElementById('tab-today').classList.toggle('active', tab === 'today');
+        document.getElementById('tab-streak').classList.toggle('active', tab === 'streak');
+        renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+        const container = document.getElementById('lb-content');
+        container.innerHTML = '';
+        
+        let sortedData = [...familyData];
+        if (currentLbTab === 'today') {
+            sortedData.sort((a, b) => (a.status === 'done' ? -1 : 1));
+        } else {
+            sortedData.sort((a, b) => b.streak - a.streak);
+        }
+
+        sortedData.forEach((user, index) => {
+            let rightSideContent = '';
+            let rankClass = index < 3 ? 'top-3' : '';
+            let rankDisplay = index + 1;
+            
+            if (currentLbTab === 'today') {
+                if (user.status === 'done') {
+                    rightSideContent = `<span class="status-done">✅ Done</span>`;
+                } else {
+                    rightSideContent = `<button class="btn-nudge" onclick="nudgeUser(this, '${user.name}')">👋 Nudge</button>`;
+                }
+            } else {
+                rightSideContent = `<span style="font-weight:800; color:#FF9500;">🔥 ${user.streak}</span>`;
+                if(index === 0) rankDisplay = "👑";
+            }
+
+            const initials = user.name.substring(0,2).toUpperCase();
+            
+            const row = `
+            <div class="lb-row">
+                <div class="lb-user-info">
+                    <div class="lb-rank ${rankClass}">${rankDisplay}</div>
+                    <div class="lb-avatar">${initials}</div>
+                    <div class="lb-name">${user.name}</div>
+                </div>
+                <div>${rightSideContent}</div>
+            </div>
+            `;
+            container.innerHTML += row;
+        });
+    }
+
+    function nudgeUser(btn, name) {
+        btn.innerText = "🔔 Sent!";
+        btn.classList.add('nudged');
+        btn.disabled = true;
+        const audio = document.getElementById("success-sound");
+        if(audio) {
+            audio.volume = 0.2; 
+            audio.currentTime = 0;
+            audio.play().catch(()=>{}); 
+        }
+        confetti({ particleCount: 30, spread: 40, origin: { y: 0.5 }, colors: ['#8E8E93'] });
     }
     
     // --- DATA ---
@@ -683,16 +837,11 @@
         let day = document.getElementById('dayInput').value;
         let text = `🔥 NogueraFit: Day ${day} Scorecard 🔥\n\n`;
         
-        // Workout Info
         if(workoutCompleted) {
             text += `✅ Workout: Completed\n`;
-            
-            // Add WHO (Team)
             if(selectedUsers.length > 0) {
                 text += `👥 Team: ${selectedUsers.join(', ')}\n`;
             }
-            
-            // Add WHAT (Focus + Loc)
             let focusName = "Custom";
             if(state.mode === 'random') {
                 focusName = (state.focus === 'both') ? "Full Body" : (state.focus.charAt(0).toUpperCase() + state.focus.slice(1));
@@ -715,8 +864,8 @@
         } else {
             navigator.clipboard.writeText(text);
             const btn = document.querySelector('.btn-score-share');
-            btn.innerText = "Copied to Clipboard!";
-            setTimeout(() => { btn.innerText = "📤 Share Scorecard"; }, 2000);
+            btn.innerText = "Copied!";
+            setTimeout(() => { btn.innerText = "📤 Share"; }, 2000);
         }
     }
 
