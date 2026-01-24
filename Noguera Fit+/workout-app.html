@@ -6,746 +6,317 @@
     <title>NogueraFit</title>
     <link rel="apple-touch-icon" href="images/icon.png"> 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
-    <style>
-        /* --- iOS DESIGN SYSTEM --- */
+<style>
+        /* --- iOS DESIGN SYSTEM UPDATES --- */
         :root {
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
-            --ios-red: #FF3B30;
             --card-white: #FFFFFF;
             --text-dark: #000000;
             --text-light: #8E8E93;
-            --border-color: #E5E5EA;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--ios-gray);
-            margin: 0;
-            padding: 20px;
+            margin: 0; padding: 0;
             color: var(--text-dark);
-            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding-bottom: 100px;
+        /* --- TAB NAVIGATION --- */
+        .app-header {
+            position: sticky; top: 0; z-index: 100;
+            display: flex; flex-direction: column;
+            background: white; border-bottom: 1px solid #ddd;
         }
-
-        .family-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-            background-color: #E5E5EA; 
-            padding: 10px;
-            border-radius: 12px;
+        .tab-bar { display: flex; padding: 10px; gap: 10px; }
+        .tab-btn {
+            flex: 1; padding: 12px; border-radius: 10px;
+            border: none; font-weight: 700; font-size: 14px;
+            cursor: pointer; transition: 0.2s;
         }
+        .tab-workout.active { background: var(--ios-blue); color: white; }
+        .tab-nutrition.active { background: var(--ios-green); color: white; }
+        .tab-workout:not(.active), .tab-nutrition:not(.active) { background: #eee; color: #888; }
 
-        /* --- HEADERS & PROGRESS --- */
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 5px; text-align: center; }
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; padding-bottom: 100px; }
+
+        /* --- ACCORDION STYLES --- */
+        .accordion-header {
+            background: white; padding: 15px; border-radius: 12px;
+            margin-top: 10px; display: flex; justify-content: space-between;
+            font-weight: 700; border: 1px solid #eee; cursor: pointer;
+        }
+        .accordion-content { display: none; padding: 5px 0; }
         
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-top: 20px;
-            margin-bottom: 5px;
+        /* --- NUTRITION STYLES --- */
+        .habit-card {
+            background: white; padding: 20px; border-radius: 15px;
+            margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .counter-btn {
+            width: 40px; height: 40px; border-radius: 50%; border: none;
+            background: var(--ios-green); color: white; font-size: 20px; font-weight: bold;
         }
 
-        .progress-container {
-            width: 100%;
-            background-color: #E5E5EA;
-            border-radius: 10px;
-            height: 14px;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
+        /* Re-using your existing Modal & Progress styles... */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 90%; max-width: 400px; border-radius: 20px; padding: 20px; }
+        .family-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; background: #eee; padding: 10px; border-radius: 12px; }
+        .segment-option { text-align: center; padding: 10px; border-radius: 8px; cursor: pointer; background: white; }
+        .segment-option.selected { background: var(--ios-blue); color: white; }
+        .progress-fill { height: 100%; background: var(--ios-blue); transition: 0.5s; }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--ios-blue), #5AC8FA);
-            width: 1%;
-            transition: width 0.5s ease;
-            border-radius: 10px;
-        }
-
-        .day-counter-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 16px;
-            color: var(--text-dark);
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        
-        .day-select {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            border: none;
-            background: transparent;
-            text-align: center;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 0 10px;
-            cursor: pointer;
-        }
-
-        .label {
-            font-size: 13px;
-            text-transform: uppercase;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            margin-left: 10px;
-            font-weight: 600;
-            margin-top: 25px;
-        }
-
-        .segmented-control {
-            display: flex;
-            background-color: #E5E5EA;
-            border-radius: 9px;
-            padding: 2px;
-        }
-        
-        .segment-option {
-            flex: 1;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 14px;
-            font-weight: 500;
-            border-radius: 7px;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-
-        .segment-option.selected {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-            font-weight: 600;
-            color: var(--ios-blue);
-        }
-
-        /* --- SLIDER --- */
-        .slider-container {
-            background: white;
-            padding: 15px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 24px;
-            width: 24px;
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-            margin-top: -10px;
-            border: 0.5px solid rgba(0,0,0,0.1);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            background: #E5E5EA;
-            border-radius: 2px;
-        }
-        .slider-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--ios-blue);
-            width: 30px;
-            text-align: center;
-        }
-
-        /* --- MODE TOGGLE --- */
-        .mode-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .mode-btn {
-            flex: 1;
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid transparent;
-            background: white;
-            font-weight: 600;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .mode-btn.active {
-            border-color: var(--ios-blue);
-            color: var(--ios-blue);
-            background: #F0F8FF;
-        }
-
-        #gym-pass-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid #E5E5EA;
-        }
-
-        /* --- BUILD MODE --- */
-        #build-list { display: none; }
-        
-        .category-header {
-            font-size: 18px;
-            font-weight: 700;
-            margin: 20px 0 10px 5px;
-            color: var(--text-dark);
-            border-bottom: 2px solid #E5E5EA;
-            padding-bottom: 5px;
-        }
-
-        .build-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid transparent;
-            touch-action: manipulation;
-        }
-        .build-item.selected {
-            background-color: #F0F8FF;
-            border-color: var(--ios-blue);
-        }
-        
-        .check-circle {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            border: 2px solid #C7C7CC;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: transparent;
-            font-weight: bold;
-            background: transparent;
-        }
-        
-        .build-item.selected .check-circle {
-            background: var(--ios-blue);
-            border-color: var(--ios-blue);
-            color: white;
-        }
-
-        /* --- RESULTS --- */
-        .btn-main {
-            background-color: var(--ios-blue);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-
-        .btn-share {
-            background-color: var(--ios-green);
-            color: white;
-            width: 100%;
-            padding: 16px;
-            border-radius: 14px;
-            font-size: 17px;
-            font-weight: 600;
-            border: none;
-            margin-top: 20px;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        
-        .btn-share.success {
-            background-color: #333; 
-            transform: scale(1.02);
-        }
-
-        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
-        
-        .warmup-card {
-            background: #FFF8E1;
-            border-left: 5px solid #FFC107;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .exercise-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .exercise-img { 
-            width: 100%; 
-            height: 200px; 
-            object-fit: contain; 
-            background-color: white; 
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .exercise-details { padding: 15px; border-top: 1px solid #eee; }
-        .exercise-name { font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 10px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-
-        /* --- POPUP MODAL STYLES --- */
-        .modal-overlay {
-            display: none; /* Hidden by default */
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5); /* Semi-transparent black */
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            animation: popUp 0.2s ease-out;
-        }
-        
-        @keyframes popUp {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-        
+        /* Generic Helpers */
+        .hidden { display: none; }
+        .btn-main { background: var(--ios-blue); color: white; width: 100%; padding: 16px; border-radius: 14px; border: none; font-weight: 600; margin-top: 15px; }
+        .input-pill { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-top: 10px; box-sizing: border-box; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <h1>Noguera Fitness Plan</h1>
-    
-    <div class="progress-header">
-        <span>Current Streak</span>
-        <span id="progress-text">0% Completed</span>
+<div class="app-header">
+    <div class="tab-bar">
+        <button id="tab-workout" class="tab-btn tab-workout active" onclick="switchTab('workout')">WORKOUT</button>
+        <button id="tab-nutrition" class="tab-btn tab-nutrition" onclick="switchTab('nutrition')">NUTRITION</button>
     </div>
-    <div class="progress-container">
-        <div id="visual-progress" class="progress-fill"></div>
-    </div>
-
-    <div class="day-counter-wrapper">
-        <span>Day</span>
-        <select id="dayInput" class="day-select" onchange="updateProgressUI()">
-            </select>
-        <span>of 100</span>
-    </div>
-
-    <div id="gym-pass-card">
-        <h3 style="margin-top:0;">Bretton Woods</h3>
-        <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 4px;">
-        <div style="font-size:12px; color:#888;">Scan barcode</div>
-    </div>
-
-    <div class="label">Who is training?</div>
-    <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd; margin-top:0;" onclick="openModal()">
-        👥 Select Team (0)
-    </button>
-    
-    <div id="user-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 style="text-align:center; margin-top:0;">Select Team</h2>
-            
-            <div class="family-grid">
-                <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
-                <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
-                <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-                <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
-                <div class="segment-option" onclick="toggleUser('Dana', this)">Dana</div>
-                <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
-                <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
-                <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
-                <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
-                <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
-                
-                <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
-            </div>
-    
-            <input type="text" id="other-name-input" placeholder="Guest Name..." 
-               style="display:none; width: 100%; margin-top: 10px; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box; touch-action: manipulation;">
-    
-            <button class="btn-main" onclick="closeModal()">Done</button>
-        </div>
-    </div>
- 
-    <div class="label">Location</div>
-    <div class="segmented-control">
-        <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
-        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Bretton Woods</div>
-        <div class="segment-option" id="opt-out" onclick="setLoc('out')">No Equipment</div>
-    </div>
-
-    <div class="label">How to start?</div>
-    <div class="mode-wrapper">
-        <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">Give me a Workout</div>
-        <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">Build My Own</div>
-    </div>
-
-    <div id="random-options">
-        <div class="label">Focus</div>
-        <div class="segmented-control">
-            <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
-            <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
-            <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
-        </div>
-        
-    <div class="label">How many exercises? (3-6)</div>
-    <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
-            <div class="slider-value" id="slider-val-display">3</div>
-        </div>
-        
-        <datalist id="tickmarks" style="display: flex; justify-content: space-between; padding: 0 10px; color: var(--text-light); font-size: 10px; font-weight: bold;">
-            <option value="3" label="3"></option>
-            <option value="4" label="4"></option>
-            <option value="5" label="5"></option>
-            <option value="6" label="6"></option>
-        </datalist>
-    </div>
-        
-        <button class="btn-main" onclick="generateRandomWorkout()">⚡️Create Workout⚡️</button>
-    </div>
-
-    <div id="build-options" style="display:none;">
-        <div class="label">Select Exercises</div>
-        <div id="build-list"></div>
-        <button class="btn-main" onclick="generateBuildWorkout()">View My Workout ➔</button>
-    </div>
-
-    <div id="workout-results">
-        <h2>Today's Plan</h2>
-        
-        <div id="warmup-container"></div>
-        <div id="cards-container"></div>
-        
-        <button id="finish-btn" class="btn-share" onclick="handleFinishClick()">✅ Finish & Share to Family</button>
-    </div>
-
 </div>
 
-<audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
+<div id="workout-section" class="container">
+    <h1 style="text-align:center">Noguera Fitness</h1>
+    
+    <div class="progress-container" style="background:#ddd; height:10px; border-radius:5px; overflow:hidden">
+        <div id="visual-progress" class="progress-fill" style="width: 1%;"></div>
+    </div>
+    <div style="text-align:center; margin:10px 0; font-weight:700">Day <select id="dayInput" onchange="updateProgressUI()" style="font-size:16px; border:none; color:var(--ios-blue); background:none"></select> of 100</div>
+
+    <div id="gym-pass-card" style="background:white; padding:15px; border-radius:12px; text-align:center; margin-bottom:20px;">
+        <h3 style="margin:0 0 10px 0">Bretton Woods Code</h3>
+        <img src="images/barcode.jpg" alt="Barcode" style="width:70%; border-radius:4px;">
+    </div>
+
+    <div class="label" style="font-size:12px; color:#888; font-weight:bold; text-transform:uppercase">Who is training?</div>
+    <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd;" onclick="openModal()">👥 Select Team (0)</button>
+
+    <div class="label" style="margin-top:20px; font-size:12px; color:#888; font-weight:bold; text-transform:uppercase">Location</div>
+    <div class="family-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
+        <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Gym</div>
+        <div class="segment-option" id="opt-cardio" onclick="setLoc('cardio')">Cardio</div>
+        <div class="segment-option" id="opt-studio" onclick="setLoc('studio')">Studio</div>
+    </div>
+
+    <div id="workout-ui">
+        <div class="label" style="margin-top:20px; font-size:12px; color:#888; font-weight:bold; text-transform:uppercase">Workout Mode</div>
+        <div style="display:flex; gap:10px; margin-top:5px">
+            <button class="tab-btn active" id="btn-mode-random" onclick="setMode('random')" style="background:white; color:black; border:1px solid #ddd">Randomize</button>
+            <button class="tab-btn" id="btn-mode-build" onclick="setMode('build')" style="background:white; color:black; border:1px solid #ddd">Build My Own</button>
+        </div>
+
+        <div id="build-options" class="hidden">
+            <div id="accordion-container"></div>
+            <input type="text" id="custom-exercise" class="input-pill" placeholder="Add custom exercise (e.g. Zumba)">
+            <button class="btn-main" onclick="generateBuildWorkout()">View Workout ➔</button>
+        </div>
+        
+        <div id="random-options">
+            <button class="btn-main" onclick="generateRandomWorkout()">⚡️ Create Random Plan ⚡️</button>
+        </div>
+    </div>
+
+    <div id="workout-results" class="hidden">
+        <div id="cards-container"></div>
+        <button id="finish-btn" class="btn-main" style="background:var(--ios-green)" onclick="handleFinishClick()">✅ Finish & Share</button>
+    </div>
+</div>
+
+<div id="nutrition-section" class="container hidden">
+    <h1 style="text-align:center; color:var(--ios-green)">Daily Nutrition</h1>
+    
+    <div class="habit-card">
+        <div>
+            <div style="font-weight:bold">Water Intake</div>
+            <div style="font-size:12px; color:#888">Goal: 8 Cups</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:15px">
+            <button class="counter-btn" onclick="updateHabit('water', -1)">-</button>
+            <span id="water-count" style="font-size:20px; font-weight:bold">0</span>
+            <button class="counter-btn" onclick="updateHabit('water', 1)">+</button>
+        </div>
+    </div>
+
+    <div class="habit-card">
+        <div>
+            <div style="font-weight:bold">Veggies & Fruit</div>
+            <div style="font-size:12px; color:#888">Check per serving</div>
+        </div>
+        <input type="checkbox" style="transform:scale(1.5)">
+    </div>
+
+    <div class="habit-card">
+        <div>
+            <div style="font-weight:bold">Healthy Snacks</div>
+            <div style="font-size:12px; color:#888">2 allowed per day</div>
+        </div>
+        <div>
+            <input type="checkbox"> <input type="checkbox">
+        </div>
+    </div>
+
+    <button class="btn-main" style="background:var(--ios-green)" onclick="alert('Nutrition logged locally!')">Save Daily Habits</button>
+</div>
+
+<div id="user-modal" class="modal-overlay" onclick="handleOutsideClick(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h2 style="text-align:center">Who is training?</h2>
+        <div class="family-grid">
+            <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
+            <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
+            <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
+            <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
+            <div class="segment-option" onclick="toggleUser('Dana', this)">Dana</div>
+            <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
+            <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
+            <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
+            <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
+            <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
+            <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
+        </div>
+        <input type="text" id="other-name-input" class="input-pill hidden" placeholder="Guest Name...">
+        <button class="btn-main" onclick="closeModal()">Done</button>
+    </div>
+</div>
 
 <script>
-    // --- STATE ---
-    let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
-    let selectedUsers = []; 
+    let state = { location: 'home', mode: 'random', water: 0 };
+    let selectedUsers = [];
     let currentWorkout = [];
-    
-    function toggleUser(name, element) {
-        if (selectedUsers.includes(name)) {
-            selectedUsers = selectedUsers.filter(u => u !== name);
-            element.classList.remove('selected');
-        } else {
-            selectedUsers.push(name);
-            element.classList.add('selected');
-        }
-    }
-
-    // 1. Opens the popup
-    function openModal() {
-        document.getElementById('user-modal').style.display = 'flex';
-    }
-
-    // 2. Handles the "Other" button inside the popup
-    function toggleOther() {
-        const input = document.getElementById('other-name-input');
-        const btn = document.getElementById('other-btn');
-        
-        if (input.style.display === 'none') {
-            input.style.display = 'block';
-            btn.classList.add('selected');
-            input.focus(); 
-        } else {
-            input.style.display = 'none';
-            btn.classList.remove('selected');
-            input.value = ''; 
-        }
-    }
-
-    // 3. Closes popup and updates the main screen button
-    function closeModal() {
-        document.getElementById('user-modal').style.display = 'none';
-        
-        const btn = document.getElementById('team-trigger-btn');
-        const otherInput = document.getElementById('other-name-input');
-        const otherName = otherInput.value.trim();
-        const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
-        
-        // Combine names for the button preview
-        let displayNames = [...selectedUsers];
-        if (hasOther) displayNames.push(otherName);
-
-        if (displayNames.length === 0) {
-            btn.innerHTML = "👥 Select Team (0)";
-            btn.style.background = "white";
-            btn.style.color = "var(--ios-blue)";
-        } else {
-            let summary = displayNames.join(", ");
-            // If the list is too long, shorten it with "..."
-            if (summary.length > 20) summary = summary.substring(0, 20) + "...";
-            
-            btn.innerHTML = "✅ " + summary;
-            btn.style.background = "var(--ios-blue)";
-            btn.style.color = "white";
-        }
-    }
-    
-    // --- DATA ---
-    const warmups = {
-        gym: { title: "🔥 Treadmill Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
-        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles (No Cardio)" },
-        out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
-    };
 
     const exerciseDB = [
-        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
-        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
-        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png", guide: "3 sets • 12 reps" },
-        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png", guide: "3 sets • 8-12 reps" },
-        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 8-12 reps" },
-        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 8-12 reps" },
-        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 8-12 reps" },
-        { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
-        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
-        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 8-12 reps" },
-        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 8-12 reps" },
-        { name: "Leg Curl", type: "lower", loc: ["gym"], img: "images/leg-curl.png", guide: "3 sets • 8-12 reps" },
-        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
-        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 60 sec" },
-        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "2 sets • 50 reps" }
+        { name: "Dumbbell Press", type: "Upper Body", loc: ["home", "gym"] },
+        { name: "Lat Pulldown", type: "Upper Body", loc: ["gym"] },
+        { name: "Push Ups", type: "Upper Body", loc: ["home", "gym", "cardio"] },
+        { name: "Goblet Squat", type: "Lower Body", loc: ["home", "gym"] },
+        { name: "Plank", type: "Core", loc: ["home", "gym", "studio"] },
+        { name: "Swim (any distance)", type: "Cardio", loc: ["cardio"] },
+        { name: "Run (any distance)", type: "Cardio", loc: ["cardio"] },
+        { name: "Hot Yoga", type: "Studio", loc: ["studio"] },
+        { name: "Reformer Pilates", type: "Studio", loc: ["studio"] }
     ];
 
-    // --- SETUP ---
     window.onload = function() {
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
             let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = i;
+            opt.value = i; opt.innerHTML = i;
             select.appendChild(opt);
         }
         const savedDay = localStorage.getItem('familyWorkoutDay');
         if (savedDay) select.value = savedDay;
         updateProgressUI();
+        renderAccordion();
     }
 
-    function updateProgressUI() {
-        let day = parseInt(document.getElementById('dayInput').value);
-        document.getElementById('visual-progress').style.width = day + "%";
-        document.getElementById('progress-text').innerText = day + "% Completed";
-    }
-
-    function updateSliderVal(val) {
-        document.getElementById('slider-val-display').innerText = val;
-        state.count = parseInt(val);
+    function switchTab(tab) {
+        document.getElementById('workout-section').classList.toggle('hidden', tab !== 'workout');
+        document.getElementById('nutrition-section').classList.toggle('hidden', tab !== 'nutrition');
+        document.getElementById('tab-workout').classList.toggle('active', tab === 'workout');
+        document.getElementById('tab-nutrition').classList.toggle('active', tab === 'nutrition');
     }
 
     function setLoc(loc) {
         state.location = loc;
-        document.getElementById('opt-home').classList.remove('selected');
-        document.getElementById('opt-gym').classList.remove('selected');
-        document.getElementById('opt-out').classList.remove('selected');
-        document.getElementById('opt-' + loc).classList.add('selected');
-        if (state.mode === 'build') renderBuildList();
+        ['home', 'gym', 'cardio', 'studio'].forEach(l => document.getElementById('opt-'+l).classList.remove('selected'));
+        document.getElementById('opt-'+loc).classList.add('selected');
+        renderAccordion();
     }
 
-    function setMode(mode) {
-        state.mode = mode;
-        document.getElementById('btn-mode-random').classList.remove('active');
-        document.getElementById('btn-mode-build').classList.remove('active');
-        document.getElementById('btn-mode-' + mode).classList.add('active');
-        if (mode === 'random') {
-            document.getElementById('random-options').style.display = 'block';
-            document.getElementById('build-options').style.display = 'none';
-        } else {
-            document.getElementById('random-options').style.display = 'none';
-            document.getElementById('build-options').style.display = 'block';
-            renderBuildList();
-        }
-    }
+    function renderAccordion() {
+        const container = document.getElementById('accordion-container');
+        container.innerHTML = '';
+        const types = [...new Set(exerciseDB.map(ex => ex.type))];
+        
+        types.forEach(type => {
+            const exercises = exerciseDB.filter(ex => ex.type === type && ex.loc.includes(state.location));
+            if (exercises.length === 0) return;
 
-    function setFocus(val, el) {
-        state.focus = val;
-        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
+            const header = document.createElement('div');
+            header.className = 'accordion-header';
+            header.innerHTML = `<span>${type} (${exercises.length})</span> <span>▾</span>`;
+            header.onclick = () => {
+                const content = header.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            };
 
-    // --- GENERATION & BUILD LOGIC ---
-    let selectedIndices = [];
-    
-    function renderBuildList() {
-        const listContainer = document.getElementById('build-list');
-        listContainer.style.display = 'block';
-        listContainer.innerHTML = '';
-        selectedIndices = [];
-        const categories = [
-            { id: 'upper', label: 'Upper Body' },
-            { id: 'lower', label: 'Lower Body' },
-            { id: 'core', label: 'Core & Abs' }
-        ];
-        categories.forEach(cat => {
-            const categoryExercises = exerciseDB.filter((ex) => ex.loc.includes(state.location) && ex.type === cat.id);
-            if (categoryExercises.length > 0) {
-                const header = document.createElement('div');
-                header.className = 'category-header';
-                header.innerText = cat.label;
-                listContainer.appendChild(header);
-                categoryExercises.forEach(ex => {
-                    const originalIndex = exerciseDB.indexOf(ex);
-                    let item = document.createElement('div');
-                    item.className = 'build-item';
-                    item.innerHTML = `
-                        <div style="font-weight:600">${ex.name}</div>
-                        <div class="check-circle">✓</div>
-                    `;
-                    item.onclick = function() {
-                        if (selectedIndices.includes(originalIndex)) {
-                            selectedIndices = selectedIndices.filter(i => i !== originalIndex);
-                            item.classList.remove('selected');
-                        } else {
-                            selectedIndices.push(originalIndex);
-                            item.classList.add('selected');
-                        }
-                    };
-                    listContainer.appendChild(item);
-                });
-            }
+            const content = document.createElement('div');
+            content.className = 'accordion-content';
+            exercises.forEach(ex => {
+                const item = document.createElement('div');
+                item.className = 'segment-option';
+                item.style.margin = '5px';
+                item.innerText = ex.name;
+                item.onclick = (e) => {
+                    e.stopPropagation();
+                    item.classList.toggle('selected');
+                    if(item.classList.contains('selected')) currentWorkout.push(ex);
+                    else currentWorkout = currentWorkout.filter(w => w.name !== ex.name);
+                };
+                content.appendChild(item);
+            });
+            container.appendChild(header);
+            container.appendChild(content);
         });
-    }
-
-    function generateRandomWorkout() {
-        let pool = exerciseDB.filter(ex => {
-            let locMatch = ex.loc.includes(state.location);
-            let typeMatch = (state.focus === 'both') ? true : (ex.type === state.focus);
-            return locMatch && typeMatch;
-        });
-        pool.sort(() => 0.5 - Math.random());
-        currentWorkout = pool.slice(0, state.count);
-        renderResults();
     }
 
     function generateBuildWorkout() {
-        if (selectedIndices.length === 0) { alert("Please select at least one exercise!"); return; }
-        currentWorkout = selectedIndices.map(i => exerciseDB[i]);
+        const custom = document.getElementById('custom-exercise').value;
+        if (currentWorkout.length === 0 && !custom) return alert("Select an exercise!");
         renderResults();
     }
 
     function renderResults() {
         const container = document.getElementById('cards-container');
-        container.innerHTML = '';
-        const w = warmups[state.location];
-        document.getElementById('warmup-container').innerHTML = `
-            <div class="warmup-card">
-                <div style="font-weight:bold; font-size:16px; margin-bottom:5px;">${w.title}</div>
-                <div>${w.desc}</div>
-            </div>
-        `;
+        container.innerHTML = '<h2>Today\'s Plan</h2>';
         currentWorkout.forEach(ex => {
-            container.innerHTML += `
-                <div class="exercise-card">
-                    <img src="${ex.img}" class="exercise-img" alt="${ex.name}" onerror="this.src='https://via.placeholder.com/400x200?text=${ex.name}'">
-                    <div class="exercise-details">
-                        <div class="exercise-name">${ex.name}</div>
-                        <div class="exercise-instruction"> ${ex.guide}</div>
-                    </div>
-                </div>`;
+            container.innerHTML += `<div class="habit-card" style="margin-bottom:5px">✅ ${ex.name}</div>`;
         });
-        document.getElementById('workout-results').style.display = 'block';
-        setTimeout(() => { document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'}); }, 100);
-    }
-
-    function handleFinishClick() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "You crushed it!";
-        btn.classList.add('success');
-        setTimeout(() => { shareToFamily(); }, 1500);
+        const custom = document.getElementById('custom-exercise').value;
+        if(custom) container.innerHTML += `<div class="habit-card">✅ ${custom}</div>`;
+        
+        document.getElementById('workout-results').classList.remove('hidden');
+        document.getElementById('workout-ui').classList.add('hidden');
     }
 
     function shareToFamily() {
-        // 1. Combine selected users + the "Other" name
-        let finalParticipants = [...selectedUsers];
-        const otherInput = document.getElementById('other-name-input');
-        
-        if (otherInput.value.trim() && otherInput.style.display !== 'none') {
-            // This line splits "Andi, Carlos" into two separate names automatically
-            const extras = otherInput.value.split(',').map(name => name.trim());
-            finalParticipants.push(...extras);
-        }
+        const day = document.getElementById('dayInput').value;
+        let users = selectedUsers.join(' & ') || "The Team";
+        let exercises = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
+        const custom = document.getElementById('custom-exercise').value;
+        if(custom) exercises += `\n✅ ${custom}`;
 
-        // 2. Prepare the text logic
-        const currentDay = document.getElementById('dayInput').value;
-        const nextDay = parseInt(currentDay) + 1;
-        localStorage.setItem('familyWorkoutDay', nextDay);
-        let locText = state.location === 'gym' ? "BRETTON WOODS" : state.location.toUpperCase();
+        const message = `🔥 *${users}* just completed Day ${day} of 100!!\n\n*The Workout:* \n${exercises}\n\nLet's gooo! 🚀`;
         
-        let userText = "";
-        // Use the NEW finalParticipants list here instead of selectedUsers
-        if (finalParticipants.length === 0) {
-            userText = "The Noguera Team";
-        } else if (finalParticipants.length === 1) {
-            userText = finalParticipants[0];
-        } else {
-            const temp = [...finalParticipants];
-            const last = temp.pop();
-            userText = temp.join(', ') + ' & ' + last;
-        }
-        
-        let listText = currentWorkout.map(ex => `✅ ${ex.name}`).join('\n');
-        let message = `🔥 *100 Day Challenge Update!* 🚨🔔\n\n👤 *${userText}* just crushed day ${currentDay}!\n📍 At: ${locText}\n\n*The Workout:*\n✅ ${warmups[state.location].title}\n${listText}\n\nOnly ${100 - currentDay} days to go! 🎉`.trim();
-
         if (navigator.share) {
-            navigator.share({ title: 'Workout Complete!', text: message }).catch(console.error);
+            navigator.share({ text: message });
         } else {
-            alert("Message Preview:\n\n" + message);
+            alert(message);
         }
-        document.getElementById('dayInput').value = nextDay;
-        updateProgressUI();
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "✅ Finish & Share to Family";
-        btn.classList.remove('success');
-        document.getElementById('other-name-input').value = '';
+        localStorage.setItem('familyWorkoutDay', parseInt(day) + 1);
+        location.reload(); 
     }
-</script>
-    
-</body>
+
+    // Modal & Utility Helpers
+    function openModal() { document.getElementById('user-modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('user-modal').style.display = 'none'; updateTeamBtn(); }
+    function handleOutsideClick(e) { if(e.target.id === 'user-modal') closeModal(); }
+    function toggleUser(name, el) { el.classList.toggle('selected'); if(selectedUsers.includes(name)) selectedUsers = selectedUsers.filter(u => u !== name); else selectedUsers.push(name); }
+    function updateTeamBtn() { document.getElementById('team-trigger-btn').innerText = `✅ Team (${selectedUsers.length})`; }
+    function setMode(m) { state.mode = m; document.getElementById('build-options').classList.toggle('hidden', m!=='build'); document.getElementById('random-options').classList.toggle('hidden', m==='build'); }
+    function updateHabit(h, val) { state[h] = Math.max(0, state[h] + val); document.getElementById(h+'-count').innerText = state[h]; }
+    function updateProgressUI() { let day = document.getElementById('dayInput').value; document.getElementById('visual-progress').style.width = day + "%"; }
+    function handleFinishClick() { confetti(); setTimeout(shareToFamily, 1500); }
+</script>    
 </html>
