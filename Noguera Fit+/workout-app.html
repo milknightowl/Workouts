@@ -729,7 +729,7 @@
 
     function shareScorecard() {
         let day = document.getElementById('dayInput').value;
-        let text = `🔥 NogueraFit: Day ${day} Scorecard 🔥\n\n`;
+        let text = `🔥 NogueraFit: Day ${day} Scorecard\n\n`;
         
         if(workoutCompleted) {
             text += `✅ Workout: Completed\n`;
@@ -738,10 +738,12 @@
             text += `❌ Workout: Not Completed\n`;
         }
         
-        text += `\n-- Nutrition --\n`;
+        text += `\n-- Healthy Habits --\n`;
         text += `💧 Water: ${habitsData.water.current}/${habitsData.water.goal}\n`;
         text += `🥦 Veggies: ${habitsData.veggies.current}/${habitsData.veggies.goal}\n`;
-
+        text += `🍎 Fruits: ${habitsData.fruits.current}/${habitsData.fruits.goal}\n`;
+        text += `🥜 Healthy Snacks: ${habitsData.snacks.current};
+        
         if (navigator.share) {
             navigator.share({ title: 'Noguera Fitness Scorecard', text: text }).catch(console.error);
         } else {
