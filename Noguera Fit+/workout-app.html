@@ -742,7 +742,7 @@
         text += `💧 Water: ${habitsData.water.current}/${habitsData.water.goal}\n`;
         text += `🥦 Veggies: ${habitsData.veggies.current}/${habitsData.veggies.goal}\n`;
         text += `🍎 Fruits: ${habitsData.fruits.current}/${habitsData.fruits.goal}\n`;
-        text += `🥜 Healthy Snacks: ${habitsData.snacks.current};
+        text += `🥜 Healthy Snacks: ${habitsData.snacks.current}`;
         
         if (navigator.share) {
             navigator.share({ title: 'Noguera Fitness Scorecard', text: text }).catch(console.error);
