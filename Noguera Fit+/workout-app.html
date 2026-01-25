@@ -258,7 +258,7 @@
                     <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
                 </div>
                 
-                <div class="label">Count</div>
+                <div class="label">How Many Exercises?</div>
                 <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
@@ -462,7 +462,7 @@
         let userToUpdate = selectedUsers.length > 0 ? selectedUsers[0] : null;
 
         if (!userToUpdate) {
-            alert("Please select who did the workout using the 'Select Team' button first!");
+            alert("Please select a user!");
             return;
         }
 
