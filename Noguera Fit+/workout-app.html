@@ -322,6 +322,7 @@
                 <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
                 <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
                 <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
+                <div class="segment-option" onclick="toggleUser('Ceci', this)">Ceci</div>
                 <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
             </div>
             <input type="text" id="other-name-input" placeholder="Guest Name..." style="display:none; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box;">
@@ -459,12 +460,23 @@
 
     // --- WORKOUT LOGIC ---
     function handleFinishWorkout() {
-        let userToUpdate = selectedUsers.length > 0 ? selectedUsers[0] : null;
+        // --- FIXED LOGIC START ---
+        // Prioritize selected bubble, otherwise check text input
+        let userToUpdate = null;
+        if (selectedUsers.length > 0) {
+            userToUpdate = selectedUsers[0];
+        } else {
+            const otherInput = document.getElementById('other-name-input');
+            if (otherInput && otherInput.value.trim() !== "") {
+                userToUpdate = otherInput.value.trim();
+            }
+        }
 
         if (!userToUpdate) {
-            alert("Please select a user!");
+            alert("Please select a team member or enter a Guest Name!");
             return;
         }
+        // --- FIXED LOGIC END ---
 
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
