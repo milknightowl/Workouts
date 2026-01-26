@@ -458,10 +458,8 @@
         confetti({ particleCount: 30, spread: 40, origin: { y: 0.5 }, colors: ['#8E8E93'] });
     }
 
-    // --- WORKOUT LOGIC ---
     function handleFinishWorkout() {
-        // --- FIXED LOGIC START ---
-        // Prioritize selected bubble, otherwise check text input
+        // 1. Validate User
         let userToUpdate = null;
         if (selectedUsers.length > 0) {
             userToUpdate = selectedUsers[0];
@@ -476,8 +474,8 @@
             alert("Please select a team member or enter a Guest Name!");
             return;
         }
-        // --- FIXED LOGIC END ---
 
+        // 2. Prepare UI (Confetti, Audio, Button State)
         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
         
@@ -485,12 +483,20 @@
         btn.innerText = "Syncing...";
         btn.classList.add('completed');
         
+        // 3. GET DATES (The Fix)
+        const dayNumber = document.getElementById('dayInput').value; // e.g., "1", "45"
+        const timestamp = new Date().toLocaleString(); // e.g., "1/26/2026, 6:00:00 PM"
+
+        // 4. PREPARE DATA PACKET
         const payload = {
-            name: userToUpdate,
-            location: state.location,
-            workout: currentWorkout.map(ex => ({ name: ex.name, type: ex.type }))
+            date: timestamp,         // When it happened
+            day: dayNumber,          // Which day of the challenge (1-100)
+            name: userToUpdate,      // Who did it
+            location: state.location,// Where (Gym/Home)
+            workout: currentWorkout.map(ex => ex.name).join(", ") // List of exercises
         };
 
+        // 5. SEND TO GOOGLE SHEETS
         fetch(API_URL, {
             method: 'POST',
             mode: 'no-cors',
@@ -502,12 +508,17 @@
             const sWork = document.getElementById('score-workout');
             sWork.innerText = "✅ Completed";
             sWork.classList.add('done');
+            
+            // Save locally so the app remembers today
+            localStorage.setItem('familyWorkoutDay', dayNumber);
+            
             setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 800);
         }).catch(err => {
             console.error(err);
             btn.innerText = "Saved (Offline)";
         });
     }
+
 
     // --- STANDARD APP LOGIC ---
     function switchTab(tabName) {
