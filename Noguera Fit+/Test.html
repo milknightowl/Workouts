@@ -46,21 +46,42 @@
 
         /* --- HEADER --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
-        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
-        .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        
+        .user-select-btn {
+            background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue);
+            display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0;
+        }
+
+        .btn-barcode { 
+            background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; 
+            font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px;
+        }
 
         /* --- PROGRESS SECTION --- */
         .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 12px; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 6px; }
+        
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
         /* --- CAROUSEL --- */
-        .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
+        .carousel-track {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; }
+
+        .card-slide {
+            flex: 0 0 92%; scroll-snap-align: center;
+            background: white; border-radius: 24px; padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative;
+            border: 1px solid rgba(0,0,0,0.02);
+            overflow: hidden; 
+        }
+        
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
@@ -102,11 +123,6 @@
         .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
-
-        /* --- LOCATION SWITCHER --- */
-        .loc-switch-container { display: flex; background: #E5E5EA; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
-        .loc-btn { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 700; color: #8E8E93; border-radius: 9px; cursor: pointer; transition: 0.2s; }
-        .loc-btn.active { background: white; color: black; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 
         /* --- WORKOUT UI --- */
         .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
@@ -150,6 +166,12 @@
         .modal-title { font-size: 18px; font-weight: 800; }
         .btn-close { background: #E5E5EA; border: none; width: 28px; height: 28px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
 
+        /* Location Selector in Modal */
+        .loc-selector-modal { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; }
+        .loc-chip { flex: 1; padding: 10px; border: none; background: white; border-radius: 12px; font-weight: 700; color: #8E8E93; font-size: 13px; cursor: pointer; white-space: nowrap; }
+        .loc-chip.active { background: #333; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+
+        /* Categories */
         .cat-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
         .cat-chip { padding: 8px 16px; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #888; cursor: pointer; border: 1px solid transparent; }
         .cat-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
@@ -244,11 +266,6 @@
         </div>
 
         <div id="workout-view">
-            <div class="loc-switch-container">
-                <div id="loc-home" class="loc-btn" onclick="setLoc('home')">Home / Outdoor</div>
-                <div id="loc-gym" class="loc-btn active" onclick="setLoc('gym')">Gym</div>
-            </div>
-
             <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
                 <span class="big-icon">➕</span>
                 <span style="font-weight:700; font-size:16px; color:#333;">Start Workout</span>
@@ -299,13 +316,22 @@
                 <div class="modal-title">Build Routine</div>
                 <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
             </div>
-            <div class="cat-list">
-                <div class="cat-chip active" onclick="filterBatch('upper', this)">Upper</div>
-                <div class="cat-chip" onclick="filterBatch('lower', this)">Lower</div>
-                <div class="cat-chip" onclick="filterBatch('core', this)">Core</div>
-                <div class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</div>
-                <div class="cat-chip" onclick="filterBatch('studio', this)">Studio</div>
+            
+            <div class="loc-selector-modal">
+                <button id="mloc-home" class="loc-chip active" onclick="setModalLoc('home')">Home</button>
+                <button id="mloc-gym" class="loc-chip" onclick="setModalLoc('gym')">Gym</button>
+                <button id="mloc-bodyweight" class="loc-chip" onclick="setModalLoc('bodyweight')">No Equip</button>
+                <button id="mloc-studio" class="loc-chip" onclick="setModalLoc('studio')">Studio</button>
             </div>
+
+            <div class="cat-list">
+                <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper</button>
+                <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower</button>
+                <button id="cat-core" class="cat-chip" onclick="filterBatch('core', this)">Core</button>
+                <button id="cat-cardio" class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</button>
+                <button id="cat-studio" class="cat-chip" onclick="filterBatch('studio', this)">Studio</button>
+            </div>
+
             <div id="batch-list" class="select-list"></div>
             <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add to Workout</button>
         </div>
@@ -356,7 +382,8 @@
     let dailyLog = [];       
     let selectedBatch = new Set();
     let familyData = []; 
-    let currentLocation = 'gym'; // Default
+    let currentLocation = 'home'; // Default
+    let currentCategory = 'upper'; // Default
 
     let habitsData = {
         water: { current: 0, goal: 8 },
@@ -365,7 +392,7 @@
         snacks: { current: 0, goal: 2 }
     };
 
-    // Added 'loc' field to filter
+    // Updated with bodyweight and studio tags
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
@@ -374,19 +401,20 @@
         { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 8-12 reps" },
         { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 8-12 reps" },
         { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 8-12 reps" },
-        { name: "Push Ups", type: "upper", loc: ["home", "gym"], img: "images/push-ups.png", guide: "3 sets • Failure" },
+        { name: "Push Ups", type: "upper", loc: ["home", "gym", "bodyweight", "studio"], img: "images/push-ups.png", guide: "3 sets • Failure" },
         { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
         { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 8-12 reps" },
         { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 8-12 reps" },
         { name: "Leg Curl", type: "lower", loc: ["gym"], img: "images/leg-curl.png", guide: "3 sets • 8-12 reps" },
         { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
-        { name: "Plank", type: "core", loc: ["home", "gym"], img: "images/plank.png", guide: "3 sets • 60 sec" },
-        { name: "Crunches", type: "core", loc: ["home", "gym"], img: "images/crunches.png", guide: "2 sets • 50 reps" },
-        { name: "Running", type: "cardio", loc: ["home", "gym"], img: "images/running.png", guide: "20-30 mins" },
+        { name: "Air Squats", type: "lower", loc: ["home", "gym", "bodyweight", "studio"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
+        { name: "Plank", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/plank.png", guide: "3 sets • 60 sec" },
+        { name: "Crunches", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/crunches.png", guide: "2 sets • 50 reps" },
+        { name: "Running", type: "cardio", loc: ["home", "gym", "bodyweight"], img: "images/running.png", guide: "20-30 mins" },
         { name: "Swimming", type: "cardio", loc: ["gym"], img: "images/swimming.png", guide: "20-30 mins" },
-        { name: "Hot Yoga", type: "studio", loc: ["home", "gym"], img: "images/yoga.png", guide: "Class" },
-        { name: "Reformer Pilates", type: "studio", loc: ["home", "gym"], img: "images/pilates.png", guide: "Class" }
+        { name: "Hot Yoga", type: "studio", loc: ["studio"], img: "images/yoga.png", guide: "Class" },
+        { name: "Reformer Pilates", type: "studio", loc: ["studio"], img: "images/pilates.png", guide: "Class" },
+        { name: "Mat Pilates", type: "studio", loc: ["home", "studio", "bodyweight"], img: "images/pilates.png", guide: "Class" }
     ];
 
     window.onload = function() {
@@ -414,12 +442,14 @@
         });
     }
 
-    // --- LOCATION LOGIC ---
-    function setLoc(loc) {
+    // --- LOCATION & CATEGORY LOGIC ---
+    function setModalLoc(loc) {
         currentLocation = loc;
-        document.querySelectorAll('.loc-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('loc-'+loc).classList.add('active');
-        saveState();
+        document.querySelectorAll('.loc-chip').forEach(b => b.classList.remove('active'));
+        document.getElementById('mloc-'+loc).classList.add('active');
+        
+        // Refresh list with current category + new location
+        refreshExerciseList();
     }
 
     // --- LOGGING & HISTORY ---
@@ -488,7 +518,7 @@
             date: new Date().toLocaleString(),
             day: document.getElementById('dayInput').value,
             name: finalName,
-            location: currentLocation, // Sends 'gym' or 'home'
+            location: currentLocation, // Sends current location
             workout: workoutStr + " | " + habitStr
         };
 
@@ -584,17 +614,27 @@
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
-        filterBatch('upper', document.querySelector('.cat-chip'));
+        setModalLoc('home'); // Reset to default "Home"
+        // Also reset active category UI
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        document.getElementById('cat-upper').classList.add('active');
+        currentCategory = 'upper';
+        refreshExerciseList();
     }
 
     function filterBatch(type, btnEl) {
         document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
         btnEl.classList.add('active');
+        currentCategory = type;
+        refreshExerciseList();
+    }
+
+    function refreshExerciseList() {
         const container = document.getElementById('batch-list');
         container.innerHTML = '';
         
         // Filter by Type AND Location
-        const list = exerciseDB.filter(ex => ex.type === type && (ex.loc ? ex.loc.includes(currentLocation) : true));
+        const list = exerciseDB.filter(ex => ex.type === currentCategory && (ex.loc ? ex.loc.includes(currentLocation) : true));
         
         if (list.length === 0) {
              container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found for this location.</div>`;
@@ -712,7 +752,11 @@
         currentStaging = saved.staging || [];
         dailyLog = saved.log || [];
         habitsData = saved.habits || habitsData;
-        if(saved.loc) setLoc(saved.loc);
+        
+        // Removed global 'loc' load since we always default modal to 'home' when opening,
+        // but if you want to remember location between reloads, you can keep it.
+        // I removed setLoc from loadState to force clean state or user default interaction.
+        
         if (saved.user) {
             currentUser = saved.user;
             document.getElementById('header-username').innerText = "👤 " + saved.user;
