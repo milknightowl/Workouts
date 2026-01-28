@@ -320,7 +320,7 @@
             
             <div class="modal-tabs">
                 <div id="tab-browse" class="modal-tab active" onclick="switchModalTab('browse')">Browse List</div>
-                <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Magic Generator</div>
+                <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Workout Generator</div>
             </div>
 
             <div id="view-browse" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
@@ -347,9 +347,9 @@
                 <div class="gen-section">
                     <div class="gen-label">1. Where are you?</div>
                     <div class="filter-scroll">
-                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home (Has Equip)</button>
-                        <button id="gloc-bodyweight" class="loc-chip" onclick="setGenLoc('bodyweight')">Home (No Equip)</button>
+                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
                         <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym/Studio</button>
+                        <button id="gloc-bodyweight" class="loc-chip" onclick="setGenLoc('bodyweight')">Bodyweight</button>
                     </div>
                 </div>
 
@@ -358,7 +358,7 @@
                     <div style="display:flex; flex-wrap:wrap; gap:8px;">
                         <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper Body</button>
                         <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower Body</button>
-                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core & Abs</button>
+                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core</button>
                         <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
                     </div>
                 </div>
