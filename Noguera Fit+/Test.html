@@ -20,6 +20,7 @@
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
+            --ios-gold: #FFD700;
             --text-dark: #1C1C1E;
             --text-light: #8E8E93;
         }
@@ -67,33 +68,30 @@
 
         /* --- CAROUSEL --- */
         .carousel-track {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 15px;
-            padding-bottom: 10px;
-            margin: 0 -15px;
-            padding: 0 15px 20px 15px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px;
+            -ms-overflow-style: none; scrollbar-width: none;
         }
         .carousel-track::-webkit-scrollbar { display: none; }
 
         .card-slide {
-            flex: 0 0 92%;
-            scroll-snap-align: center;
+            flex: 0 0 92%; scroll-snap-align: center;
             background: white; border-radius: 24px; padding: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative;
             border: 1px solid rgba(0,0,0,0.02);
+            /* Important for keeping the header bar inside */
+            overflow: hidden; 
         }
         
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        .card-slide::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background-color: #007AFF; }
+        /* HEADER BARS - Fixed Radius */
+        .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
+        .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
         
-        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
+        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; }
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
         .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
 
@@ -103,6 +101,7 @@
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
+        /* Sync Button */
         .btn-sync { 
             width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; 
             border: none; cursor: pointer; margin-top: 15px; transition: 0.2s;
@@ -113,7 +112,7 @@
         .btn-sync.synced { background-color: var(--ios-green); color: white; }
 
         /* --- LEADERBOARD --- */
-        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; }
+        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
         .lb-list { max-height: 250px; overflow-y: auto; }
         .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
         
@@ -219,7 +218,7 @@
 
         <div class="carousel-track" id="carousel-track">
             
-            <div class="card-slide">
+            <div class="card-slide score-card-bg">
                 <div class="scorecard-header">
                     <div class="scorecard-title" id="score-title">Scorecard</div>
                     <div class="scorecard-date" id="today-date">Today</div>
@@ -245,15 +244,15 @@
                     <span class="score-val" id="score-snacks">0 / 2</span>
                 </div>
                 
-                <button id="main-action-btn" class="btn-sync" onclick="handleMainAction()">
-                    ☁️ Save Scorecard
+                <button id="main-action-btn" class="btn-sync" onclick="shareScorecard()">
+                    📤 Share Scorecard
                 </button>
             </div>
 
-            <div class="card-slide">
+            <div class="card-slide leaderboard-bg">
                 <div class="scorecard-header">
-                    <div class="scorecard-title">Family Board</div>
-                    <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer;">↻</div>
+                    <div class="scorecard-title">Family Rankings</div>
+                    <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
                 </div>
                 <div class="lb-headers">
                     <span>Rank / Name</span>
@@ -286,8 +285,8 @@
 
             <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
             
-            <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleMainAction()">
-                ☁️ Save Scorecard
+            <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
+                Add to Scorecard
             </button>
         </div>
         
@@ -336,7 +335,7 @@
     <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
-            <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
+            <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
                 <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
                 <button class="cat-chip" onclick="selectUser('Papi')">Papi</button>
                 <button class="cat-chip" onclick="selectUser('Santi')">Santi</button>
@@ -370,11 +369,14 @@
 
 <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwZ6Es95wHMe2C4-SFDraVwkyEy2lpchaY4zXmdCt15FTCBJsGWp3emGfTqoe5soeze/exec"; 
+    
+    // Hardcoded list to ensure everyone appears on leaderboard
+    const FAMILY_NAMES = ["Mami", "Papi", "Santi", "Fran", "Dana", "Matu", "Caro", "Sofi", "Andi", "Meredith", "Ceci"];
 
     let currentUser = null; 
-    let currentLog = [];
+    let currentStaging = []; // Cards on screen
+    let dailyLog = [];       // Logged/Banked items (hidden)
     let selectedBatch = new Set();
-    let isSynced = false;
     let familyData = []; 
 
     let habitsData = {
@@ -431,26 +433,33 @@
         });
     }
 
-    function handleMainAction() {
-        if (!isSynced) syncToCloud();
-        else shareScorecard();
-    }
-
-    function syncToCloud() {
+    // --- LOGIC: LOGGING & SYNCING ---
+    function handleLogAction() {
         if (!currentUser && !document.getElementById('other-input').value) {
             alert("⚠️ Please select who you are at the top!");
             openUserModal();
             return;
         }
 
-        const btn1 = document.getElementById('main-action-btn');
-        const btn2 = document.getElementById('list-save-btn');
-        btn1.innerHTML = "⏳ Saving...";
-        btn2.innerHTML = "⏳ Saving...";
+        // Move Staging -> Daily Log
+        dailyLog = dailyLog.concat(currentStaging);
+        currentStaging = []; // Clear screen
         
+        saveState();
+        renderLog(); // This will show empty state
+        
+        // Visual Feedback
+        document.getElementById('success-sound').play().catch(()=>{});
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        
+        // Sync to cloud silently
+        syncToCloud();
+    }
+
+    function syncToCloud() {
         const finalName = currentUser || document.getElementById('other-input').value;
         const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
-        const workoutStr = currentLog.length > 0 ? currentLog.map(i => i.name).join(", ") : "Rest Day";
+        const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
         
         const payload = {
             date: new Date().toLocaleString(),
@@ -464,27 +473,18 @@
             method: 'POST', mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
-        }).then(() => {
-            isSynced = true;
-            document.getElementById('success-sound').play().catch(()=>{});
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            
-            const newText = "📤 Share Scorecard";
-            btn1.innerHTML = newText; btn1.classList.add('synced');
-            btn2.innerHTML = newText; btn2.classList.add('synced');
-            localStorage.setItem('nogueraFit_synced', 'true');
-        }).catch(err => {
-            alert("Error syncing. Check internet.");
-            btn1.innerHTML = "☁️ Retry Sync";
-        });
+        }).catch(err => console.log(err));
     }
 
     function shareScorecard() {
         const day = document.getElementById('dayInput').value;
         let text = `🔥 NogueraFit Day ${day}\n`;
-        if (currentLog.length > 0) {
+        if (dailyLog.length > 0) {
             text += `✅ WORKOUT:\n`;
-            currentLog.forEach(i => text += `• ${i.name}\n`);
+            dailyLog.forEach(i => text += `• ${i.name}\n`);
+        } else if (currentStaging.length > 0) {
+            text += `⚠️ In Progress:\n`;
+            currentStaging.forEach(i => text += `• ${i.name}\n`);
         } else {
             text += `💤 Rest Day\n`;
         }
@@ -498,11 +498,20 @@
         else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
     }
 
+    // --- LEADERBOARD LOGIC ---
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         try {
             const res = await fetch(API_URL);
-            familyData = await res.json();
+            const rawData = await res.json();
+            
+            // Merge raw data with FAMILY_NAMES
+            familyData = FAMILY_NAMES.map(name => {
+                const found = rawData.find(r => r.name === name);
+                if (found) return found;
+                return { name: name, streak: 0, dates: [], status: 'pending' };
+            });
+
             if(currentUser) autoSetDay(currentUser);
             renderLeaderboardCard();
         } catch(e) { 
@@ -523,7 +532,7 @@
             if (idx === 1) rankClass = 'rank-2';
             if (idx === 2) rankClass = 'rank-3';
 
-            let lastText = "Inactive";
+            let lastText = "Never";
             if (u.dates && u.dates.length > 0) {
                 const lastMs = Math.max(...u.dates);
                 const daysAgo = Math.floor((new Date() - new Date(lastMs)) / (1000 * 60 * 60 * 24));
@@ -549,26 +558,7 @@
         });
     }
 
-    function autoSetDay(name) {
-        const userStats = familyData.find(u => u.name === name);
-        if(userStats) {
-            const nextDay = userStats.streak + 1;
-            document.getElementById('dayInput').value = nextDay;
-            updateProgressUI();
-        }
-    }
-
-    function selectUser(name) {
-        currentUser = name;
-        document.getElementById('header-username').innerText = "👤 " + name;
-        // Update Card Title
-        document.getElementById('score-title').innerText = name + "'s Scorecard";
-        closeModal('modal-user');
-        if(familyData.length > 0) autoSetDay(name);
-        else fetchFamilyData().then(() => autoSetDay(name));
-        saveState();
-    }
-
+    // --- WORKOUT MANAGEMENT ---
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
@@ -598,7 +588,7 @@
     function confirmBatchAdd() {
         selectedBatch.forEach(name => {
             const details = exerciseDB.find(e => e.name === name) || { name: name, img: '', guide: 'Custom' };
-            currentLog.push(details);
+            currentStaging.push(details);
         });
         saveState();
         renderLog();
@@ -614,20 +604,27 @@
 
         container.innerHTML = '';
 
-        if (currentLog.length === 0) {
+        // Display Count = Daily Logged + Current Staging
+        const totalCount = dailyLog.length + currentStaging.length;
+        if(totalCount > 0) {
+            scoreVal.innerText = `${totalCount} Done`;
+            scoreVal.classList.add('done');
+        } else {
+            scoreVal.innerText = "0 Done";
+            scoreVal.classList.remove('done');
+        }
+
+        if (currentStaging.length === 0) {
             trigger.style.display = 'flex';
             addMore.style.display = 'none';
             listSaveBtn.style.display = 'none';
-            scoreVal.innerText = "0 Done";
-            scoreVal.classList.remove('done');
         } else {
             trigger.style.display = 'none';
             addMore.style.display = 'block';
             listSaveBtn.style.display = 'flex';
-            scoreVal.innerText = `${currentLog.length} Done`;
-            scoreVal.classList.add('done');
+            listSaveBtn.innerText = `Add ${currentStaging.length} to Scorecard`;
 
-            currentLog.forEach((item, idx) => {
+            currentStaging.forEach((item, idx) => {
                 const card = document.createElement('div');
                 card.className = 'exercise-card';
                 const imgSrc = item.img ? item.img : `https://via.placeholder.com/400x200?text=${item.name}`;
@@ -646,17 +643,38 @@
 
     function removeLogItem(idx) {
         if(confirm("Remove this exercise?")) {
-            currentLog.splice(idx, 1);
+            currentStaging.splice(idx, 1);
             saveState();
             renderLog();
         }
+    }
+
+    // --- STATE MANAGEMENT ---
+    function autoSetDay(name) {
+        const userStats = familyData.find(u => u.name === name);
+        if(userStats && userStats.streak > 0) {
+            const nextDay = userStats.streak + 1;
+            document.getElementById('dayInput').value = nextDay;
+            updateProgressUI();
+        }
+    }
+
+    function selectUser(name) {
+        currentUser = name;
+        document.getElementById('header-username').innerText = "👤 " + name;
+        document.getElementById('score-title').innerText = name + "'s Scorecard";
+        closeModal('modal-user');
+        if(familyData.length > 0) autoSetDay(name);
+        else fetchFamilyData().then(() => autoSetDay(name));
+        saveState();
     }
 
     function saveState() {
         const data = {
             date: new Date().toDateString(),
             day: document.getElementById('dayInput').value,
-            log: currentLog,
+            staging: currentStaging,
+            log: dailyLog,
             habits: habitsData,
             user: currentUser
         };
@@ -670,24 +688,16 @@
         const saved = JSON.parse(raw);
         if (saved.date !== new Date().toDateString()) {
             localStorage.removeItem('nogueraFit_data');
-            localStorage.removeItem('nogueraFit_synced');
             return; 
         }
         document.getElementById('dayInput').value = saved.day;
-        currentLog = saved.log || [];
+        currentStaging = saved.staging || [];
+        dailyLog = saved.log || [];
         habitsData = saved.habits || habitsData;
         if (saved.user) {
             currentUser = saved.user;
             document.getElementById('header-username').innerText = "👤 " + saved.user;
             document.getElementById('score-title').innerText = saved.user + "'s Scorecard";
-        }
-        if (localStorage.getItem('nogueraFit_synced') === 'true') {
-            const newText = "📤 Share Scorecard";
-            const btn1 = document.getElementById('main-action-btn');
-            const btn2 = document.getElementById('list-save-btn');
-            btn1.innerHTML = newText; btn1.classList.add('synced');
-            btn2.innerHTML = newText; btn2.classList.add('synced');
-            isSynced = true;
         }
         updateScorecardStatus();
     }
@@ -702,6 +712,7 @@
         });
     }
 
+    // --- HELPERS ---
     function initHabits() {
         document.querySelectorAll('.circle-row').forEach(row => {
             if(row.innerHTML !== '') return;
