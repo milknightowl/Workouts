@@ -20,12 +20,9 @@
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
-            --ios-red: #FF3B30;
-            --ios-purple: #AF52DE;
-            --ios-orange: #FF9500;
+            --ios-gold: #FFD700;
             --text-dark: #1C1C1E;
             --text-light: #8E8E93;
-            --border-color: #E5E5EA;
         }
 
         * { box-sizing: border-box; }
@@ -40,325 +37,396 @@
         }
 
         .app-content {
-            padding: 20px;
+            padding: 15px;
             max-width: 600px;
             margin: 0 auto;
             padding-bottom: 120px;
+            overflow-x: hidden;
         }
 
-        /* --- PRETTY SCORECARD --- */
-        .scorecard-container {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.02);
-        }
+        /* --- HEADER --- */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
+        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
+        .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
-        /* scorecard Bar */
-        .scorecard-container::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 6px;
-            background-color: #007AFF;
-        }
+        /* --- PROGRESS --- */
+        .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 12px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 6px; }
+        .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
+        .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
-        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
-        .scorecard-title { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; background: -webkit-linear-gradient(45deg, #1C1C1E, #444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .scorecard-date { font-size: 13px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
+        /* --- CAROUSEL --- */
+        .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
+        .carousel-track::-webkit-scrollbar { display: none; }
+        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; }
+        .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
+        .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 8px 0; border-bottom: 1px dashed #F2F2F7; }
+        /* HEADER BARS */
+        .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
+        .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
+        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; }
+        .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
+        .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
+        .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
         .score-row:last-of-type { border-bottom: none; }
-        .score-label { font-weight: 600; color: #555; display: flex; align-items: center; gap: 8px; font-size: 16px; }
-        .score-val { font-weight: 800; color: #1C1C1E; font-size: 17px; }
+        .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
+        .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
+        .btn-sync { width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; margin-top: 15px; transition: 0.2s; background-color: #E5E5EA; color: var(--ios-blue); display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-sync:active { background-color: #D1D1D6; }
+        .btn-sync.synced { background-color: var(--ios-green); color: white; }
 
-        /* --- ACTION GRID --- */
-        .score-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-score-share, .btn-leaderboard { padding: 14px; border-radius: 16px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: transform 0.1s; }
-        .btn-score-share { background-color: #F2F2F7; color: var(--ios-blue); }
-        .btn-leaderboard { background-color: #FFF8E1; color: #FF9500; }
-        .btn-score-share:active, .btn-leaderboard:active { transform: scale(0.96); opacity: 0.8; }
+        /* --- LEADERBOARD --- */
+        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
+        .lb-list { max-height: 250px; overflow-y: auto; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+        .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
+        .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
+        .lb-details { display: flex; flex-direction: column; }
+        .lb-name { font-weight: 700; font-size: 15px; color: #1C1C1E; }
+        .lb-sub { font-size: 11px; color: #8E8E93; font-weight: 500; }
+        .lb-stat-box { text-align: right; }
+        .lb-val-main { font-weight: 800; font-size: 16px; color: #1C1C1E; }
+        .lb-val-sub { font-size: 11px; color: var(--ios-blue); font-weight: 600; }
 
         /* --- TABS --- */
-        .tab-bar { display: flex; background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 8px; gap: 5px; position: sticky; top: 10px; z-index: 100; margin-bottom: 25px; border-radius: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); width: 100%; }
-        .tab-btn { flex: 1; padding: 12px; border-radius: 12px; text-align: center; font-weight: 700; font-size: 14px; cursor: pointer; color: var(--text-light); transition: all 0.2s ease; }
-        .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tab-bar { display: flex; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 5px; gap: 5px; position: sticky; top: 10px; z-index: 90; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--text-light); transition: all 0.2s; }
+        .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
-        /* --- GENERAL UI --- */
-        .progress-header { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; color: var(--text-light); margin-top: 10px; margin-bottom: 8px; text-transform: uppercase; }
-        .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 10px; height: 16px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 10px; }
+        /* --- WORKOUT UI --- */
+        .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
+        .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
+        .big-icon { font-size: 32px; display: block; margin-bottom: 5px; }
 
-        .day-counter-wrapper { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 20px 0; font-size: 16px; color: var(--text-dark); background: white; padding: 12px; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .day-select { font-size: 20px; font-weight: 800; color: var(--ios-blue); border: none; background: transparent; text-align: center; -webkit-appearance: none; padding: 0 10px; }
+        .exercise-card { background: white; border-radius: 18px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: slideIn 0.3s ease-out; position: relative; }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; border-bottom: 1px solid #F2F2F7; }
+        .exercise-details { padding: 18px; }
+        .exercise-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #1C1C1E; }
+        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; display: inline-block; }
+        .btn-remove-card { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 50%; color: #FF3B30; font-weight: bold; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 
-        .label { font-size: 14px; text-transform: uppercase; color: var(--text-light); margin-bottom: 10px; margin-left: 5px; font-weight: 700; margin-top: 30px; letter-spacing: 0.5px; }
+        .btn-add-more { background: white; color: var(--ios-blue); border: 1px solid var(--ios-blue); width: 100%; padding: 14px; border-radius: 14px; font-weight: 700; margin-bottom: 10px; cursor: pointer; font-size: 15px; }
 
-        .segmented-control { display: flex; background-color: #E5E5EA; border-radius: 12px; padding: 4px; }
-        .segment-option { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; font-weight: 600; border-radius: 9px; cursor: pointer; transition: 0.2s; color: var(--text-light); }
-        .segment-option.selected { background-color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); color: var(--text-dark); }
-
-        .mode-wrapper { display: flex; gap: 15px; margin-bottom: 20px; }
-        .mode-btn { flex: 1; padding: 20px; border-radius: 16px; border: 2px solid transparent; background: white; font-weight: 700; text-align: center; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: 0.2s; }
-        .mode-btn.active { border-color: var(--ios-blue); color: var(--ios-blue); background: #F0F8FF; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,122,255,0.15); }
-
-        .slider-container { background: white; padding: 20px; border-radius: 16px; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 26px; width: 26px; border-radius: 50%; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-top: -11px; border: 1px solid rgba(0,0,0,0.1); }
-        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 5px; background: #E5E5EA; border-radius: 3px; }
-
-        .category-header { font-size: 20px; font-weight: 800; margin: 25px 0 12px 5px; color: var(--text-dark); }
-        .build-item { background: white; padding: 18px; border-radius: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .build-item.selected { background-color: #F0F8FF; border-color: var(--ios-blue); }
-        .check-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #C7C7CC; display: flex; align-items: center; justify-content: center; color: transparent; font-weight: bold; }
-        .build-item.selected .check-circle { background: var(--ios-blue); border-color: var(--ios-blue); color: white; }
-
-        .btn-main { background-color: var(--ios-blue); color: white; width: 100%; padding: 18px; border-radius: 16px; font-size: 17px; font-weight: 700; border: none; cursor: pointer; margin-top: 25px; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
-        .btn-action { background-color: var(--ios-green); color: white; width: 100%; padding: 18px; border-radius: 16px; font-size: 17px; font-weight: 700; border: none; margin-top: 20px; cursor: pointer; box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3); }
-        .btn-action.completed { background-color: #333; pointer-events: none; opacity: 0.8; box-shadow: none; }
-
-        #workout-results { display: none; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;}
-        .warmup-card { background: #FFF8E1; border-left: 6px solid #FFC107; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
-        .exercise-card { background: white; border-radius: 18px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-        .exercise-img { width: 100%; height: 220px; object-fit: contain; background-color: white; padding: 10px; box-sizing: border-box; }
-        .exercise-details { padding: 20px; border-top: 1px solid #eee; }
-        .exercise-name { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 12px; border-radius: 10px; font-size: 15px; font-weight: 600; line-height: 1.4; }
+        /* --- HISTORY LIST --- */
+        .history-container { margin-top: 30px; border-top: 1px solid #E5E5EA; padding-top: 20px; }
+        .history-title { font-size: 14px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; }
+        .history-item { background: white; padding: 12px 16px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+        .btn-undo { color: #FF3B30; font-weight: 700; border: none; background: none; cursor: pointer; padding: 5px; font-size: 16px; }
 
         /* --- HABITS --- */
         .hidden-view { display: none !important; }
-        .habit-card { background: white; border-radius: 20px; padding: 22px; margin-bottom: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-        .habit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-        .habit-title { font-weight: 700; font-size: 18px; color: #1C1C1E; }
-        .habit-count { font-weight: 600; color: var(--text-light); font-size: 15px; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; }
-        .habit-progress-bg { width: 100%; height: 10px; background: #F2F2F7; border-radius: 6px; margin-bottom: 18px; overflow: hidden; }
-        .habit-progress-fill { height: 100%; width: 0%; transition: width 0.3s ease; border-radius: 6px; }
+        .habit-card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .habit-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
+        .habit-title { font-weight: 700; font-size: 16px; }
+        .habit-count { font-size: 14px; font-weight: 600; color: #888; background: #f2f2f7; padding: 3px 8px; border-radius: 6px; }
+        .habit-bar-bg { height: 8px; background: #F2F2F7; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+        .habit-bar-fill { height: 100%; width: 0%; border-radius: 4px; transition: 0.3s; }
+        .circle-row { display: flex; gap: 8px; }
+        .habit-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
+        .habit-circle.active { transform: scale(1.1); border-color: transparent; }
+        .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
+
+        /* --- MODALS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
         
-        .circle-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .habit-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .habit-circle.active { border-color: transparent; transform: scale(1.1); }
+        .modal-content { 
+            background: #F2F2F7; width: 100%; max-width: 600px; 
+            border-radius: 24px 24px 0 0; padding: 25px; 
+            height: 80vh !important; /* FIXED HEIGHT 90% */
+            max-height: none !important;
+            display: flex; flex-direction: column;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
         
-        .bg-water { background-color: #5AC8FA !important; }
-        .bg-veggie { background-color: var(--ios-green) !important; }
-        .bg-fruit { background-color: var(--ios-red) !important; }
-        .bg-snack { background-color: var(--ios-purple) !important; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
+        .modal-title { font-size: 20px; font-weight: 800; }
+        .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
 
-        /* --- MODAL SYSTEM --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 10000; align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 85%; max-width: 400px; border-radius: 24px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: popUp 0.2s ease-out; }
-        .family-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px; background-color: #F2F2F7; padding: 15px; border-radius: 16px; }
-        @keyframes popUp { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-tabs { display: flex; background: #E5E5EA; border-radius: 10px; padding: 3px; margin-bottom: 15px; flex-shrink: 0; }
+        .modal-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 8px; cursor: pointer; }
+        .modal-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        #gym-pass-card { background: white; border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02); }
+        .filter-section-title { font-size: 12px; font-weight: 700; color: #8E8E93; margin: 15px 0 8px 5px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* --- LEADERBOARD SPECIFIC --- */
-        .leaderboard-tabs { display: flex; background: #E5E5EA; padding: 4px; border-radius: 12px; margin-bottom: 20px; }
-        .lb-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 9px; cursor: pointer; }
-        .lb-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .lb-list { max-height: 300px; overflow-y: auto; }
-        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; animation: fadeIn 0.3s ease-out; }
-        .lb-user-info { display: flex; align-items: center; gap: 12px; }
-        .lb-rank { width: 24px; font-weight: 800; color: #C7C7CC; text-align: center; }
-        .lb-rank.top-3 { color: #FF9500; font-size: 1.2em; }
-        .lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: #E5E5EA; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #555; font-size: 14px; }
-        .lb-name { font-weight: 600; font-size: 15px; }
-        .btn-nudge { background: #E5E5EA; color: var(--ios-blue); border: none; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
-        .btn-nudge:hover { background: #d1d1d6; }
-        .btn-nudge.nudged { background: transparent; color: #C7C7CC; cursor: default; }
-        .status-done { color: var(--ios-green); font-weight: 700; font-size: 13px; background: rgba(52, 199, 89, 0.1); padding: 4px 10px; border-radius: 12px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; -webkit-overflow-scrolling: touch; }
+        .loc-chip, .cat-chip, .focus-chip { padding: 10px 16px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; transition: 0.1s; }
+        .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
+
+        .select-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
+        
+        .select-item { 
+            background: white; padding: 10px 20px; border-radius: 16px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            cursor: pointer; transition: 0.1s; min-height: 80px; 
+        }
+        .select-item.selected { background: #E3F2FD; border: 1px solid var(--ios-blue); }
+        .select-left { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .select-check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; color: transparent; flex-shrink: 0; }
+        .select-item.selected .select-check { background: var(--ios-blue); border-color: var(--ios-blue); color: white; font-size: 16px; }
+        .select-name { font-weight: 700; font-size: 16px; line-height: 1.3; }
+        .no-equip-tag { font-size: 11px; background: #E5E5EA; color: #555; padding: 3px 6px; border-radius: 6px; margin-left: 6px; font-weight: 600; white-space: nowrap; }
+        
+        .select-img { width: 80px; height: 60px; object-fit: contain; margin-left: 10px; mix-blend-mode: multiply; }
+
+        .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+
+        /* Generator UI */
+        .gen-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
+        .gen-label { font-size: 13px; font-weight: 700; color: #8E8E93; margin-bottom: 10px; text-transform: uppercase; }
+        .slider-container { display: flex; align-items: center; gap: 15px; }
+        input[type=range] { flex: 1; }
+        .slider-val { font-weight: 800; font-size: 20px; width: 30px; text-align: center; }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
     </style>
 </head>
 <body>
 
     <div class="app-content">
-        <div class="scorecard-container">
-            <div class="scorecard-header">
-                <div class="scorecard-title">Daily Scorecard</div>
-                <div class="scorecard-date" id="today-date">Today</div>
+        <div class="top-nav">
+            <button class="user-select-btn" onclick="openUserModal()">
+                <span id="header-username">👥 Select Team</span> <span>▼</span>
+            </button>
+            <button class="btn-barcode" onclick="openBarcode()">Gym Pass</button>
+        </div>
+
+        <div class="progress-wrapper">
+            <div class="progress-header"><span>Challenge Progress</span><span id="progress-text">0%</span></div>
+            <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
+            <div class="day-controls">
+                Day <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select> of 100
             </div>
-            <div class="score-row">
-                <span class="score-label">🏋️ Workout</span>
-                <span class="score-val" id="score-workout">Pending...</span>
+        </div>
+
+        <div class="carousel-track" id="carousel-track">
+            
+            <div class="card-slide score-card-bg">
+                <div class="scorecard-header">
+                    <div class="scorecard-title" id="score-title">Scorecard</div>
+                    <div class="scorecard-date" id="today-date">Today</div>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">🏋️ Exercise</span>
+                    <span class="score-val" id="score-workout">0 Done</span>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">💧 Water</span>
+                    <span class="score-val" id="score-water">0 / 8</span>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">🥦 Veggies</span>
+                    <span class="score-val" id="score-veggies">0 / 5</span>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">🍎 Fruits</span>
+                    <span class="score-val" id="score-fruits">0 / 5</span>
+                </div>
+                <div class="score-row">
+                    <span class="score-label">🥜 Snacks</span>
+                    <span class="score-val" id="score-snacks">0 / 2</span>
+                </div>
+                
+                <button id="main-action-btn" class="btn-sync" onclick="shareScorecard()">
+                    📤 Share Scorecard
+                </button>
             </div>
-            <div class="score-row">
-                <span class="score-label">💧 Water</span>
-                <span class="score-val" id="score-water">0 / 8</span>
+
+            <div class="card-slide leaderboard-bg">
+                <div class="scorecard-header">
+                    <div class="scorecard-title">Family Rankings</div>
+                    <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
+                </div>
+                <div class="lb-headers">
+                    <span>Rank / Name</span>
+                    <span>Total Days Logged</span>
+                </div>
+                <div id="lb-container" class="lb-list">
+                    <div style="text-align:center; padding:20px; color:#aaa;">Loading...</div>
+                </div>
             </div>
-            <div class="score-row">
-                <span class="score-label">🥦 Veggies</span>
-                <span class="score-val" id="score-veggies">0 / 5</span>
-            </div>
-            <div class="score-row">
-                <span class="score-label">🍎 Fruits</span>
-                <span class="score-val" id="score-fruits">0 / 5</span>
-            </div>
-            <div class="score-row">
-                <span class="score-label">🥜 Snacks</span>
-                <span class="score-val" id="score-snacks">0 / 2</span>
-            </div>
-            <div class="score-actions">
-                <button class="btn-score-share" onclick="shareScorecard()">📤 Share</button>
-                <button class="btn-leaderboard" onclick="openLeaderboard()">🏆 Leaderboard</button>
-            </div>
+        </div>
+
+        <div class="carousel-dots">
+            <div class="dot active" id="dot-0"></div>
+            <div class="dot" id="dot-1"></div>
         </div>
 
         <div class="tab-bar">
             <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
-            <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">HABITS</div>
+            <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
         </div>
 
         <div id="workout-view">
-            <div class="progress-header"><span>Streak</span><span id="progress-text">0% Done</span></div>
-            <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
-
-            <div class="day-counter-wrapper">
-                <span>Day</span>
-                <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select>
-                <span>of 100</span>
+            <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
+                <span class="big-icon">➕</span>
+                <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
+                <span style="font-size:13px;">Tap to select exercises</span>
             </div>
 
-            <div id="gym-pass-card">
-                <h3 style="margin-top:0; color:#333;">Bretton Woods</h3>
-                <img src="images/barcode.jpg" alt="Gym Barcode" style="width: 80%; height: auto; display: block; margin: 10px auto; border-radius: 6px;">
-                <div style="font-size:13px; color:#888; font-weight:500;">Scan to Enter</div>
-            </div>
+            <div id="cards-container"></div>
 
-            <div class="label">Who is training?</div>
-            <button id="team-trigger-btn" class="btn-main" style="background:white; color:var(--ios-blue); border:1px solid #ddd; margin-top:0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);" onclick="openModal()">
-                👥 Select Team (0)
-            </button>
+            <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
             
-            <div class="label">Location</div>
-            <div class="segmented-control">
-                <div class="segment-option selected" id="opt-home" onclick="setLoc('home')">Home</div>
-                <div class="segment-option" id="opt-gym" onclick="setLoc('gym')">Gym</div>
-                <div class="segment-option" id="opt-out" onclick="setLoc('out')">Outdoors</div>
-            </div>
+            <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
+                Add to Scorecard
+            </button>
 
-            <div class="label">How to start?</div>
-            <div class="mode-wrapper">
-                <div class="mode-btn active" id="btn-mode-random" onclick="setMode('random')">🎲 Surprise Me</div>
-                <div class="mode-btn" id="btn-mode-build" onclick="setMode('build')">🧱 Build Own</div>
-            </div>
-
-            <div id="random-options">
-                <div class="label">Focus</div>
-                <div class="segmented-control">
-                    <div class="segment-option" onclick="setFocus('upper', this)">Upper</div>
-                    <div class="segment-option" onclick="setFocus('lower', this)">Lower</div>
-                    <div class="segment-option selected" onclick="setFocus('both', this)">Full Body</div>
-                </div>
-                
-                <div class="label">How Many Exercises?</div>
-                <div class="slider-container" style="flex-direction: column; align-items: stretch; gap: 5px;">
-                    <div style="display: flex; align-items: center; gap: 15px;">
-                        <input type="range" id="exercise-slider" min="3" max="6" value="3" step="1" list="tickmarks" oninput="updateSliderVal(this.value)">
-                        <div class="slider-value" id="slider-val-display">3</div>
-                    </div>
-                </div>
-                
-                <button class="btn-main" onclick="generateRandomWorkout()">⚡️ Create Workout ⚡️</button>
-            </div>
-
-            <div id="build-options" style="display:none;">
-                <div class="label">Select Exercises</div>
-                <div id="build-list"></div>
-                <button class="btn-main" onclick="generateBuildWorkout()">View Workout ➔</button>
-            </div>
-
-            <div id="workout-results">
-                <h2 style="font-size:24px;">Today's Plan</h2>
-                <div id="warmup-container"></div>
-                <div id="cards-container"></div>
-                <button id="finish-btn" class="btn-action" onclick="handleFinishWorkout()">✅ Mark Workout Complete</button>
+            <div id="history-section" class="history-container" style="display:none;">
+                <div class="history-title">Logged Today</div>
+                <div id="history-list"></div>
             </div>
         </div>
         
         <div id="nutrition-view" class="hidden-view">
-            <h1 style="text-align: center; margin-bottom: 30px; font-weight:800; color: #1C1C1E;">Daily Habits</h1>
             <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0 / 8</span></div>
-                <div class="habit-progress-bg"><div id="bar-water" class="habit-progress-fill bg-water"></div></div>
+                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
+                <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
                 <div class="circle-row" data-habit="water" data-goal="8"></div>
             </div>
             <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0 / 5</span></div>
-                <div class="habit-progress-bg"><div id="bar-veggies" class="habit-progress-fill bg-veggie"></div></div>
+                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
+                <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
                 <div class="circle-row" data-habit="veggies" data-goal="5"></div>
             </div>
             <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0 / 5</span></div>
-                <div class="habit-progress-bg"><div id="bar-fruits" class="habit-progress-fill bg-fruit"></div></div>
+                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
+                <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
                 <div class="circle-row" data-habit="fruits" data-goal="5"></div>
             </div>
             <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0 / 2</span></div>
-                <div class="habit-progress-bg"><div id="bar-snacks" class="habit-progress-fill bg-snack"></div></div>
+                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
+                <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
                 <div class="circle-row" data-habit="snacks" data-goal="2"></div>
             </div>
         </div>
     </div>
 
-    <div id="user-modal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 style="text-align:center; margin-top:0; font-size:22px;">Select Team</h2>
-            <div class="family-grid">
-                <div class="segment-option" onclick="toggleUser('Mami', this)">Mami</div>
-                <div class="segment-option" onclick="toggleUser('Papi', this)">Papi</div>
-                <div class="segment-option" onclick="toggleUser('Santi', this)">Santi</div>
-                <div class="segment-option" onclick="toggleUser('Fran', this)">Fran</div>
-                <div class="segment-option" onclick="toggleUser('Dana', this)">Dana</div>
-                <div class="segment-option" onclick="toggleUser('Matu', this)">Matu</div>
-                <div class="segment-option" onclick="toggleUser('Caro', this)">Caro</div>
-                <div class="segment-option" onclick="toggleUser('Sofi', this)">Sofi</div>
-                <div class="segment-option" onclick="toggleUser('Andi', this)">Andi</div>
-                <div class="segment-option" onclick="toggleUser('Meredith', this)">Meredith</div>
-                <div class="segment-option" onclick="toggleUser('Ceci', this)">Ceci</div>
-                <div class="segment-option" id="other-btn" onclick="toggleOther()">+ Other</div>
+    <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">Add Workout</div>
+                <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
             </div>
-            <input type="text" id="other-name-input" placeholder="Guest Name..." style="display:none; width: 100%; margin-top: 15px; padding: 14px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; box-sizing: border-box;">
-            <button class="btn-main" onclick="closeModal()">Done</button>
+            
+            <div class="modal-tabs">
+                <div id="tab-browse" class="modal-tab active" onclick="switchModalTab('browse')">Browse List</div>
+                <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Workout Generator</div>
+            </div>
+
+            <div id="view-browse" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+                <div class="filter-section-title">📍 Filter by Location</div>
+                <div class="filter-scroll">
+                    <button id="mloc-home" class="loc-chip active" onclick="setModalLoc('home')">Home / Outdoor</button>
+                    <button id="mloc-gym" class="loc-chip" onclick="setModalLoc('gym')">Gym / Studio</button>
+                </div>
+
+                <div class="filter-section-title">💪 Filter by Body Part</div>
+                <div class="filter-scroll">
+                    <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper</button>
+                    <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower</button>
+                    <button id="cat-core" class="cat-chip" onclick="filterBatch('core', this)">Core</button>
+                    <button id="cat-cardio" class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</button>
+                    <button id="cat-studio" class="cat-chip" onclick="filterBatch('studio', this)">Studio</button>
+                </div>
+
+                <div id="batch-list" class="select-list"></div>
+                <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
+            </div>
+
+            <div id="view-magic" style="display:none; flex-direction:column; height:100%; overflow-y:auto;">
+                <div class="gen-section">
+                    <div class="gen-label">1. Where are you?</div>
+                    <div class="filter-scroll">
+                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
+                        <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym/Studio</button>
+                        <button id="gloc-bodyweight" class="loc-chip" onclick="setGenLoc('bodyweight')">Bodyweight</button>
+                    </div>
+                </div>
+
+                <div class="gen-section">
+                    <div class="gen-label">2. Focus (Select Multiple)</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                        <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper</button>
+                        <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower</button>
+                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core</button>
+                        <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
+                    </div>
+                </div>
+
+                <div class="gen-section">
+                    <div class="gen-label">3. Number of Exercises</div>
+                    <div class="slider-container">
+                        <input type="range" id="gen-slider" min="2" max="8" value="4" oninput="document.getElementById('gen-val').innerText = this.value">
+                        <div class="slider-val" id="gen-val">4</div>
+                    </div>
+                </div>
+
+                <button class="btn-confirm-add" style="margin-top:auto;" onclick="runGenerator()">✨ Create Workout</button>
+            </div>
+
         </div>
     </div>
 
-    <div id="leaderboard-modal" class="modal-overlay">
-        <div class="modal-content" style="height: 500px; display: flex; flex-direction: column;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2 style="margin:0; font-size:22px;">Family Standings</h2>
-                <div style="cursor:pointer; font-size:20px; padding:5px;" onclick="closeLeaderboard()">✕</div>
+    <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
+        <div class="modal-content" style="height:auto;" onclick="event.stopPropagation()">
+            <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
+            <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
+                <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
+                <button class="cat-chip" onclick="selectUser('Papi')">Papi</button>
+                <button class="cat-chip" onclick="selectUser('Santi')">Santi</button>
+                <button class="cat-chip" onclick="selectUser('Fran')">Fran</button>
+                <button class="cat-chip" onclick="selectUser('Dana')">Dana</button>
+                <button class="cat-chip" onclick="selectUser('Matu')">Matu</button>
+                <button class="cat-chip" onclick="selectUser('Caro')">Caro</button>
+                <button class="cat-chip" onclick="selectUser('Sofi')">Sofi</button>
+                <button class="cat-chip" onclick="selectUser('Andi')">Andi</button>
+                <button class="cat-chip" onclick="selectUser('Meredith')">Meredith</button>
+                <button class="cat-chip" onclick="selectUser('Ceci')">Ceci</button>
+                <button class="cat-chip" id="other-toggle" onclick="document.getElementById('other-input').style.display='block'">+ Other</button>
             </div>
-            <div class="leaderboard-tabs">
-                <div class="lb-tab active" id="tab-today" onclick="switchLbTab('today')">Today</div>
-                <div class="lb-tab" id="tab-streak" onclick="switchLbTab('streak')">🔥 Streaks</div>
+            <input type="text" id="other-input" placeholder="Guest Name..." style="display:none; width:100%; padding:15px; margin-top:15px; border:1px solid #ddd; border-radius:12px;">
+            <button class="btn-confirm-add" style="margin-top:20px;" onclick="closeModal('modal-user')">Done</button>
+        </div>
+    </div>
+
+    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: flex-start; padding-top: 50px;">
+        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px; height:auto;" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div style="font-weight:700; font-size:16px;">Gym Pass</div>
+                <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
             </div>
-            <div id="lb-content" class="lb-list"></div>
-            <div style="margin-top:auto; padding-top:15px; text-align:center; font-size:12px; color:#aaa;">Updates refresh every morning</div>
+            <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
+            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:6px; display:block;">
         </div>
     </div>
 
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
-    // --- CONFIGURATION ---
-    const API_URL = "https://script.google.com/macros/s/AKfycbwZ6Es95wHMe2C4-SFDraVwkyEy2lpchaY4zXmdCt15FTCBJsGWp3emGfTqoe5soeze/exec"; 
-
-    // --- STATE ---
-    let state = { location: 'home', mode: 'random', focus: 'both', count: 3 };
-    let selectedUsers = []; 
-    let currentWorkout = [];
-    let workoutCompleted = false;
-    let familyData = []; // Starts empty, filled by Google Sheets
-    let currentLbTab = 'today';
+    const API_URL = "https://script.google.com/macros/s/AKfycbx5yiTqUVvrzSQo8nNre09ksQKtn5U3DzDn_JXZkqyrIc_RFzniyaENNHTXgnodjCky/exec"; 
     
+    const FAMILY_NAMES = ["Mami", "Papi", "Santi", "Fran", "Dana", "Matu", "Caro", "Sofi", "Andi", "Meredith", "Ceci"];
+
+    let currentUser = null; 
+    let currentStaging = []; 
+    let dailyLog = [];       
+    let selectedBatch = new Set();
+    let familyData = []; 
+    let modalLocation = 'home'; // Default for modal
+    let genLocation = 'home'; // Default for generator
+    let currentCategory = 'upper'; 
+    let genFocus = new Set();
+
     let habitsData = {
         water: { current: 0, goal: 8 },
         veggies: { current: 0, goal: 5 }, 
@@ -366,235 +434,7 @@
         snacks: { current: 0, goal: 2 }
     };
 
-    // --- LEADERBOARD & DATA SYNC ---
-    async function openLeaderboard() {
-        document.getElementById('leaderboard-modal').style.display = 'flex';
-        document.getElementById('lb-content').innerHTML = `
-            <div style="text-align:center; padding:40px; color:#888;">
-                <div style="font-size:24px; margin-bottom:10px;">⏳</div>
-                Fetching scores...
-            </div>
-        `;
-
-        try {
-            const response = await fetch(API_URL);
-            const data = await response.json();
-            familyData = data.map(u => ({
-                name: u.name,
-                streak: u.streak,
-                status: u.status,
-                time: u.time
-            }));
-            renderLeaderboard();
-        } catch (error) {
-            console.error("Leaderboard Error:", error);
-            document.getElementById('lb-content').innerHTML = `
-                <div style="text-align:center; padding:30px; color:#FF3B30;">
-                    <div style="font-weight:bold; margin-bottom:5px;">Connection Failed</div>
-                    <div style="font-size:12px;">Check your internet or the script URL.</div>
-                </div>
-            `;
-        }
-    }
-
-    function closeLeaderboard() { document.getElementById('leaderboard-modal').style.display = 'none'; }
-
-    function switchLbTab(tab) {
-        currentLbTab = tab;
-        document.getElementById('tab-today').classList.toggle('active', tab === 'today');
-        document.getElementById('tab-streak').classList.toggle('active', tab === 'streak');
-        renderLeaderboard();
-    }
-
-    function renderLeaderboard() {
-        const container = document.getElementById('lb-content');
-        container.innerHTML = '';
-        
-        let sortedData = [...familyData];
-        if (currentLbTab === 'today') {
-            sortedData.sort((a, b) => (a.status === 'done' ? -1 : 1));
-        } else {
-            sortedData.sort((a, b) => b.streak - a.streak);
-        }
-
-        sortedData.forEach((user, index) => {
-            let rightSideContent = '';
-            let rankClass = index < 3 ? 'top-3' : '';
-            let rankDisplay = index + 1;
-            
-            if (currentLbTab === 'today') {
-                if (user.status === 'done') {
-                    rightSideContent = `<span class="status-done">✅ Done</span>`;
-                } else {
-                    rightSideContent = `<button class="btn-nudge" onclick="nudgeUser(this, '${user.name}')">👋 Nudge</button>`;
-                }
-            } else {
-                rightSideContent = `<span style="font-weight:800; color:#FF9500;">🔥 ${user.streak}</span>`;
-                if(index === 0) rankDisplay = "👑";
-            }
-
-            const initials = user.name.substring(0,2).toUpperCase();
-            const row = `
-            <div class="lb-row">
-                <div class="lb-user-info">
-                    <div class="lb-rank ${rankClass}">${rankDisplay}</div>
-                    <div class="lb-avatar">${initials}</div>
-                    <div class="lb-name">${user.name}</div>
-                </div>
-                <div>${rightSideContent}</div>
-            </div>`;
-            container.innerHTML += row;
-        });
-        
-        if(sortedData.length === 0) {
-             container.innerHTML = `<div style="text-align:center; padding:20px; color:#aaa;">No data found.</div>`;
-        }
-    }
-
-    function nudgeUser(btn, name) {
-        btn.innerText = "🔔 Sent!";
-        btn.classList.add('nudged');
-        btn.disabled = true;
-        confetti({ particleCount: 30, spread: 40, origin: { y: 0.5 }, colors: ['#8E8E93'] });
-    }
-
-    function handleFinishWorkout() {
-        // 1. Validate User
-        let userToUpdate = null;
-        if (selectedUsers.length > 0) {
-            userToUpdate = selectedUsers[0];
-        } else {
-            const otherInput = document.getElementById('other-name-input');
-            if (otherInput && otherInput.value.trim() !== "") {
-                userToUpdate = otherInput.value.trim();
-            }
-        }
-
-        if (!userToUpdate) {
-            alert("Please select a team member or enter a Guest Name!");
-            return;
-        }
-
-        // 2. Prepare UI (Confetti, Audio, Button State)
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        document.getElementById("success-sound").play().catch(e => console.log("Audio play failed"));
-        
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "Syncing...";
-        btn.classList.add('completed');
-        
-        // 3. GET DATES (The Fix)
-        const dayNumber = document.getElementById('dayInput').value; // e.g., "1", "45"
-        const timestamp = new Date().toLocaleString(); // e.g., "1/26/2026, 6:00:00 PM"
-
-        // 4. PREPARE DATA PACKET
-        const payload = {
-            date: timestamp,         // When it happened
-            day: dayNumber,          // Which day of the challenge (1-100)
-            name: userToUpdate,      // Who did it
-            location: state.location,// Where (Gym/Home)
-            workout: currentWorkout.map(ex => ex.name).join(", ") // List of exercises
-        };
-
-        // 5. SEND TO GOOGLE SHEETS
-        fetch(API_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).then(() => {
-            btn.innerText = "Saved to Cloud!";
-            workoutCompleted = true;
-            const sWork = document.getElementById('score-workout');
-            sWork.innerText = "✅ Completed";
-            sWork.classList.add('done');
-            
-            // Save locally so the app remembers today
-            localStorage.setItem('familyWorkoutDay', dayNumber);
-            
-            setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 800);
-        }).catch(err => {
-            console.error(err);
-            btn.innerText = "Saved (Offline)";
-        });
-    }
-
-
-    // --- STANDARD APP LOGIC ---
-    function switchTab(tabName) {
-        const workoutView = document.getElementById('workout-view');
-        const nutritionView = document.getElementById('nutrition-view');
-        const tabWorkout = document.getElementById('tab-workout');
-        const tabNutrition = document.getElementById('tab-nutrition');
-
-        if (tabName === 'workout') {
-            workoutView.classList.remove('hidden-view');
-            nutritionView.classList.add('hidden-view');
-            tabWorkout.classList.add('active');
-            tabNutrition.classList.remove('active');
-        } else {
-            workoutView.classList.add('hidden-view');
-            nutritionView.classList.remove('hidden-view');
-            tabWorkout.classList.remove('active');
-            tabNutrition.classList.add('active');
-            initHabitCircles();
-        }
-    }
-
-    function toggleUser(name, element) {
-        if (selectedUsers.includes(name)) {
-            selectedUsers = selectedUsers.filter(u => u !== name);
-            element.classList.remove('selected');
-        } else {
-            selectedUsers.push(name);
-            element.classList.add('selected');
-        }
-    }
-
-    function openModal() { document.getElementById('user-modal').style.display = 'flex'; }
-    function toggleOther() {
-        const input = document.getElementById('other-name-input');
-        const btn = document.getElementById('other-btn');
-        if (input.style.display === 'none') {
-            input.style.display = 'block';
-            btn.classList.add('selected');
-            input.focus(); 
-        } else {
-            input.style.display = 'none';
-            btn.classList.remove('selected');
-            input.value = ''; 
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('user-modal').style.display = 'none';
-        const btn = document.getElementById('team-trigger-btn');
-        const otherInput = document.getElementById('other-name-input');
-        const otherName = otherInput.value.trim();
-        const hasOther = (otherInput.style.display !== 'none' && otherName !== "");
-        let displayNames = [...selectedUsers];
-        if (hasOther) displayNames.push(otherName);
-
-        if (displayNames.length === 0) {
-            btn.innerHTML = "👥 Select Team (0)";
-            btn.style.background = "white";
-            btn.style.color = "var(--ios-blue)";
-        } else {
-            let summary = displayNames.join(", ");
-            if (summary.length > 20) summary = summary.substring(0, 20) + "...";
-            btn.innerHTML = "✅ " + summary;
-            btn.style.background = "var(--ios-blue)";
-            btn.style.color = "white";
-        }
-    }
-
-    // --- EXERCISE DATA & GENERATION ---
-    const warmups = {
-        gym: { title: "🔥 Treadmill Warm-up", desc: "10 Minutes Treadmill Walk • High Incline • 2.0 MPH" },
-        home: { title: "🧘 Home Warm-up", desc: "5 Minutes: Light Stretch + 20 Air Squats + Arm Circles (No Cardio)" },
-        out: { title: "🌳 Outdoor Warm-up", desc: "5 Minutes: Brisk Walk + Dynamic Stretching" }
-    };
-
+    // DB with updated location tags
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
@@ -603,232 +443,506 @@
         { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png", guide: "3 sets • 8-12 reps" },
         { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png", guide: "3 sets • 8-12 reps" },
         { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png", guide: "3 sets • 8-12 reps" },
-        { name: "Push Ups", type: "upper", loc: ["home", "gym", "out"], img: "images/push-ups.png", guide: "3 sets • Failure" },
+        { name: "Push Ups", type: "upper", loc: ["home", "gym", "bodyweight", "studio"], img: "images/push-ups.png", guide: "3 sets • Failure" },
         { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
         { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png", guide: "3 sets • 8-12 reps" },
         { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png", guide: "3 sets • 8-12 reps" },
         { name: "Leg Curl", type: "lower", loc: ["gym"], img: "images/leg-curl.png", guide: "3 sets • 8-12 reps" },
-        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym", "out"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym", "out"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
-        { name: "Plank", type: "core", loc: ["home", "gym", "out"], img: "images/plank.png", guide: "3 sets • 60 sec" },
-        { name: "Crunches", type: "core", loc: ["home", "gym", "out"], img: "images/crunches.png", guide: "2 sets • 50 reps" }
+        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym"], img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
+        { name: "Air Squats", type: "lower", loc: ["home", "gym", "bodyweight", "studio"], img: "images/air-squat.png", guide: "3 sets • 20 reps" },
+        { name: "Plank", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/plank.png", guide: "3 sets • 60 sec" },
+        { name: "Crunches", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/crunches.png", guide: "2 sets • 50 reps" },
+        { name: "Running", type: "cardio", loc: ["home", "gym", "bodyweight"], img: "images/running.png", guide: "20-30 mins" },
+        { name: "Swimming", type: "cardio", loc: ["gym"], img: "images/swimming.png", guide: "20-30 mins" },
+        { name: "Hot Yoga", type: "studio", loc: ["studio", "gym"], img: "images/yoga.png", guide: "Class" },
+        { name: "Reformer Pilates", type: "studio", loc: ["studio", "gym"], img: "images/pilates.png", guide: "Class" },
+        { name: "Mat Pilates", type: "studio", loc: ["home", "studio", "bodyweight"], img: "images/pilates.png", guide: "Class" }
     ];
 
     window.onload = function() {
-        const d = new Date();
-        document.getElementById('today-date').innerText = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
-            let opt = document.createElement('option');
-            opt.value = i; opt.innerHTML = i; select.appendChild(opt);
+            let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt);
         }
-        const savedDay = localStorage.getItem('familyWorkoutDay');
-        if (savedDay) select.value = savedDay;
+
+        fetchFamilyData(); 
+        loadState();
         updateProgressUI();
-        initHabitCircles();
+        initHabits();
+        renderLog();
+        renderHistory();
+
+        const track = document.getElementById('carousel-track');
+        track.addEventListener('scroll', () => {
+            const index = Math.round(track.scrollLeft / track.offsetWidth);
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                if (i === index) d.classList.add('active');
+                else d.classList.remove('active');
+            });
+        });
     }
 
-    function updateProgressUI() {
-        let day = parseInt(document.getElementById('dayInput').value);
-        document.getElementById('visual-progress').style.width = day + "%";
-        document.getElementById('progress-text').innerText = day + "% Done";
-    }
-
-    function updateSliderVal(val) {
-        document.getElementById('slider-val-display').innerText = val;
-        state.count = parseInt(val);
-    }
-
-    function setLoc(loc) {
-        state.location = loc;
-        document.getElementById('opt-home').classList.remove('selected');
-        document.getElementById('opt-gym').classList.remove('selected');
-        document.getElementById('opt-out').classList.remove('selected');
-        document.getElementById('opt-' + loc).classList.add('selected');
-        if (state.mode === 'build') renderBuildList();
-    }
-
-    function setMode(mode) {
-        state.mode = mode;
-        document.getElementById('btn-mode-random').classList.remove('active');
-        document.getElementById('btn-mode-build').classList.remove('active');
-        document.getElementById('btn-mode-' + mode).classList.add('active');
-        if (mode === 'random') {
-            document.getElementById('random-options').style.display = 'block';
-            document.getElementById('build-options').style.display = 'none';
+    // --- MODAL UI LOGIC ---
+    function switchModalTab(tab) {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-'+tab).classList.add('active');
+        
+        if (tab === 'browse') {
+            document.getElementById('view-browse').style.display = 'flex';
+            document.getElementById('view-magic').style.display = 'none';
         } else {
-            document.getElementById('random-options').style.display = 'none';
-            document.getElementById('build-options').style.display = 'block';
-            renderBuildList();
+            document.getElementById('view-browse').style.display = 'none';
+            document.getElementById('view-magic').style.display = 'flex';
         }
     }
 
-    function setFocus(val, el) {
-        state.focus = val;
-        Array.from(el.parentElement.children).forEach(c => c.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    let selectedIndices = [];
-    function renderBuildList() {
-        const listContainer = document.getElementById('build-list');
-        listContainer.style.display = 'block';
-        listContainer.innerHTML = '';
-        selectedIndices = [];
-        const categories = [ { id: 'upper', label: 'Upper Body' }, { id: 'lower', label: 'Lower Body' }, { id: 'core', label: 'Core & Abs' } ];
-        categories.forEach(cat => {
-            const categoryExercises = exerciseDB.filter((ex) => ex.loc.includes(state.location) && ex.type === cat.id);
-            if (categoryExercises.length > 0) {
-                const header = document.createElement('div');
-                header.className = 'category-header';
-                header.innerText = cat.label;
-                listContainer.appendChild(header);
-                categoryExercises.forEach(ex => {
-                    const originalIndex = exerciseDB.indexOf(ex);
-                    let item = document.createElement('div');
-                    item.className = 'build-item';
-                    item.innerHTML = ` <div style="font-weight:600">${ex.name}</div> <div class="check-circle">✓</div> `;
-                    item.onclick = function() {
-                        if (selectedIndices.includes(originalIndex)) {
-                            selectedIndices = selectedIndices.filter(i => i !== originalIndex);
-                            item.classList.remove('selected');
-                        } else {
-                            selectedIndices.push(originalIndex);
-                            item.classList.add('selected');
-                        }
-                    };
-                    listContainer.appendChild(item);
-                });
-            }
+    function setModalLoc(loc) {
+        modalLocation = loc;
+        document.querySelectorAll('.loc-chip').forEach(b => {
+            if(b.id.startsWith('mloc-')) b.classList.remove('active');
         });
+        document.getElementById('mloc-'+loc).classList.add('active');
+        refreshExerciseList();
     }
 
-    function generateRandomWorkout() {
-        let pool = exerciseDB.filter(ex => {
-            let locMatch = ex.loc.includes(state.location);
-            let typeMatch = (state.focus === 'both') ? true : (ex.type === state.focus);
-            return locMatch && typeMatch;
+    function setGenLoc(loc) {
+        genLocation = loc;
+        document.querySelectorAll('.loc-chip').forEach(b => {
+            if(b.id.startsWith('gloc-')) b.classList.remove('active');
         });
-        pool.sort(() => 0.5 - Math.random());
-        currentWorkout = pool.slice(0, state.count);
-        renderResults();
+        document.getElementById('gloc-'+loc).classList.add('active');
     }
 
-    function generateBuildWorkout() {
-        if (selectedIndices.length === 0) { alert("Please select at least one exercise!"); return; }
-        currentWorkout = selectedIndices.map(i => exerciseDB[i]);
-        renderResults();
+    function toggleFocus(focus, btn) {
+        if(genFocus.has(focus)) {
+            genFocus.delete(focus);
+            btn.classList.remove('active');
+        } else {
+            genFocus.add(focus);
+            btn.classList.add('active');
+        }
     }
 
-    function renderResults() {
-        const container = document.getElementById('cards-container');
-        container.innerHTML = '';
-        const w = warmups[state.location];
-        document.getElementById('warmup-container').innerHTML = `
-            <div class="warmup-card">
-                <div style="font-weight:bold; font-size:16px; margin-bottom:5px;">${w.title}</div>
-                <div>${w.desc}</div>
-            </div>`;
-        currentWorkout.forEach(ex => {
-            container.innerHTML += `
-                <div class="exercise-card">
-                    <img src="${ex.img}" class="exercise-img" alt="${ex.name}" onerror="this.src='https://via.placeholder.com/400x200?text=${ex.name}'">
-                    <div class="exercise-details">
-                        <div class="exercise-name">${ex.name}</div>
-                        <div class="exercise-instruction"> ${ex.guide}</div>
-                    </div>
-                </div>`;
-        });
-        document.getElementById('workout-results').style.display = 'block';
-        setTimeout(() => { document.getElementById('workout-results').scrollIntoView({behavior: 'smooth'}); }, 100);
+    // --- WORKOUT GENERATOR ---
+    function runGenerator() {
+        if (genFocus.size === 0) { alert("Select at least one focus!"); return; }
         
-        const btn = document.getElementById('finish-btn');
-        btn.innerText = "✅ Mark Workout Complete";
-        btn.classList.remove('completed');
-        workoutCompleted = false;
-        document.getElementById('score-workout').innerText = "Pending...";
-        document.getElementById('score-workout').classList.remove('done');
+        const count = parseInt(document.getElementById('gen-slider').value);
+        let pool = exerciseDB.filter(ex => {
+            let locMatch = false;
+            // Map generator location to DB tags
+            if (genLocation === 'home') locMatch = ex.loc.includes('home') || ex.loc.includes('bodyweight');
+            if (genLocation === 'gym') locMatch = ex.loc.includes('gym') || ex.loc.includes('studio');
+            if (genLocation === 'bodyweight') locMatch = ex.loc.includes('bodyweight');
+            
+            return locMatch && genFocus.has(ex.type);
+        });
+
+        if(pool.length === 0) { alert("No exercises found for this combo."); return; }
+
+        pool.sort(() => 0.5 - Math.random());
+        const selected = pool.slice(0, count);
+        
+        selected.forEach(ex => currentStaging.push(ex));
+        
+        saveState();
+        renderLog();
+        closeModal('modal-batch');
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+    }
+
+    // --- BROWSE LOGIC ---
+    function openBatchSelect() {
+        document.getElementById('modal-batch').style.display = 'flex';
+        selectedBatch.clear();
+        setModalLoc('home'); 
+        switchModalTab('browse');
+        // Reset category to Upper
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        document.getElementById('cat-upper').classList.add('active');
+        currentCategory = 'upper';
+        refreshExerciseList();
+    }
+
+    function filterBatch(type, btnEl) {
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        btnEl.classList.add('active');
+        currentCategory = type;
+        refreshExerciseList();
+    }
+
+    function refreshExerciseList() {
+        const container = document.getElementById('batch-list');
+        container.innerHTML = '';
+        
+        const list = exerciseDB.filter(ex => {
+            const isCat = ex.type === currentCategory;
+            let isLoc = false;
+            if (modalLocation === 'home') isLoc = ex.loc.includes('home') || ex.loc.includes('bodyweight');
+            else if (modalLocation === 'gym') isLoc = ex.loc.includes('gym') || ex.loc.includes('studio');
+            // 'bodyweight' filter should ONLY show bodyweight items
+            else if (modalLocation === 'bodyweight') isLoc = ex.loc.includes('bodyweight');
+            return isCat && isLoc;
+        });
+        
+        if (list.length === 0) {
+             container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found.</div>`;
+             return;
+        }
+
+        list.forEach(ex => {
+            const div = document.createElement('div');
+            div.className = 'select-item';
+            if(selectedBatch.has(ex.name)) div.classList.add('selected');
+            
+            const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
+            
+            // Add No Equip tag if applicable
+            let nameHTML = ex.name;
+            if(ex.loc.includes('bodyweight')) {
+                nameHTML += ' <span class="no-equip-tag">No Equip</span>';
+            }
+
+            div.innerHTML = `
+                <div class="select-left">
+                    <div class="select-check">✓</div>
+                    <div class="select-name">${nameHTML}</div>
+                </div>
+                <img src="${imgSrc}" class="select-img">
+            `;
+            
+            div.onclick = () => {
+                if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
+                else { selectedBatch.add(ex.name); div.classList.add('selected'); }
+                document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
+            };
+            container.appendChild(div);
+        });
+    }
+
+    function confirmBatchAdd() {
+        selectedBatch.forEach(name => {
+            const details = exerciseDB.find(e => e.name === name) || { name: name, img: '', guide: 'Custom' };
+            currentStaging.push(details);
+        });
+        saveState();
+        renderLog();
+        closeModal('modal-batch');
+    }
+
+    // --- MAIN APP LOGIC ---
+    function handleLogAction() {
+        if (!currentUser && !document.getElementById('other-input').value) {
+            alert("⚠️ Please select who you are at the top!");
+            openUserModal();
+            return;
+        }
+        dailyLog = dailyLog.concat(currentStaging);
+        currentStaging = []; 
+        saveState();
+        renderLog(); 
+        renderHistory();
+        document.getElementById('success-sound').play().catch(()=>{});
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        syncToCloud();
+    }
+
+    function renderLog() {
+        const container = document.getElementById('cards-container');
+        const trigger = document.getElementById('add-trigger-area');
+        const addMore = document.getElementById('add-more-btn');
+        const listSaveBtn = document.getElementById('list-save-btn');
+
+        container.innerHTML = '';
+
+        if (currentStaging.length === 0) {
+            trigger.style.display = 'flex';
+            addMore.style.display = 'none';
+            listSaveBtn.style.display = 'none';
+        } else {
+            trigger.style.display = 'none';
+            addMore.style.display = 'block';
+            listSaveBtn.style.display = 'flex';
+            listSaveBtn.innerText = `Add ${currentStaging.length} to Scorecard`;
+
+            currentStaging.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                const imgSrc = item.img ? item.img : `https://via.placeholder.com/400x200?text=${item.name}`;
+                card.innerHTML = `
+                    <button class="btn-remove-card" onclick="removeStagingItem(${idx})">✕</button>
+                    <img src="${imgSrc}" class="exercise-img" alt="${item.name}">
+                    <div class="exercise-details">
+                        <div class="exercise-name">${item.name}</div>
+                        <div class="exercise-instruction">${item.guide}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    }
+
+    function removeStagingItem(idx) {
+        currentStaging.splice(idx, 1);
+        saveState();
+        renderLog();
+    }
+
+    function renderHistory() {
+        const historySec = document.getElementById('history-section');
+        const historyList = document.getElementById('history-list');
+        const scoreVal = document.getElementById('score-workout');
+
+        if (dailyLog.length === 0) {
+            historySec.style.display = 'none';
+            scoreVal.innerText = "0 Done";
+            scoreVal.classList.remove('done');
+        } else {
+            historySec.style.display = 'block';
+            historyList.innerHTML = '';
+            scoreVal.innerText = `${dailyLog.length} Done`;
+            scoreVal.classList.add('done');
+
+            dailyLog.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `<span>✅ ${item.name}</span><button class="btn-undo" onclick="undoLogItem(${idx})">✕</button>`;
+                historyList.appendChild(div);
+            });
+        }
+    }
+
+    function undoLogItem(idx) {
+        if(confirm("Remove this log entry?")) {
+            dailyLog.splice(idx, 1);
+            saveState();
+            renderHistory();
+            syncToCloud(); 
+        }
+    }
+
+    function syncToCloud() {
+        const finalName = currentUser || document.getElementById('other-input').value;
+        const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
+        const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
+        
+        // Location logic for saving
+        // If items came from generator or manual select, we could track per item, but simplifying to modalLocation
+        // Just sending "Logged" for now or the last selected modal location
+        const payload = {
+            date: new Date().toLocaleString(),
+            day: document.getElementById('dayInput').value,
+            name: finalName,
+            location: modalLocation, 
+            workout: workoutStr + " | " + habitStr
+        };
+
+        fetch(API_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(err => console.log(err));
     }
 
     function shareScorecard() {
-        let day = document.getElementById('dayInput').value;
-        let text = `🔥 NogueraFit: Day ${day} Scorecard\n\n`;
-        
-        if(workoutCompleted) {
-            text += `✅ Workout: Completed\n`;
-            if(selectedUsers.length > 0) text += `👥 Team: ${selectedUsers.join(', ')}\n`;
+        const day = document.getElementById('dayInput').value;
+        let text = `🔥 NogueraFit Day ${day}\n`;
+        if (dailyLog.length > 0) {
+            text += `✅ WORKOUT:\n`;
+            dailyLog.forEach(i => text += `• ${i.name}\n`);
+        } else if (currentStaging.length > 0) {
+            text += `⚠️ In Progress:\n`;
+            currentStaging.forEach(i => text += `• ${i.name}\n`);
         } else {
-            text += `❌ Workout: Not Completed\n`;
+            text += `💤 Rest Day\n`;
         }
-        
-        text += `\n-- Healthy Habits --\n`;
-        text += `💧 Water: ${habitsData.water.current}/${habitsData.water.goal}\n`;
-        text += `🥦 Veggies: ${habitsData.veggies.current}/${habitsData.veggies.goal}\n`;
-        text += `🍎 Fruits: ${habitsData.fruits.current}/${habitsData.fruits.goal}\n`;
-        text += `🥜 Healthy Snacks: ${habitsData.snacks.current}`;
-        
-        if (navigator.share) {
-            navigator.share({ title: 'Noguera Fitness Scorecard', text: text }).catch(console.error);
-        } else {
-            navigator.clipboard.writeText(text);
-            const btn = document.querySelector('.btn-score-share');
-            btn.innerText = "Copied!";
-            setTimeout(() => { btn.innerText = "📤 Share"; }, 2000);
+        text += `\n🥗 NUTRITION:\n`;
+        text += `💧 Water: ${habitsData.water.current}/8\n`;
+        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
+        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
+        text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
+
+        if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
+        else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
+    }
+
+    // --- LEADERBOARD & STATE ---
+    async function fetchFamilyData() {
+        const cont = document.getElementById('lb-container');
+        try {
+            const res = await fetch(API_URL);
+            const rawData = await res.json();
+            
+            familyData = FAMILY_NAMES.map(name => {
+                const found = rawData.find(r => r.name === name);
+                if (found) return found;
+                return { name: name, streak: 0, lastDate: 0, status: 'pending' };
+            });
+
+            if(currentUser) autoSetDay(currentUser);
+            renderLeaderboardCard();
+        } catch(e) { 
+            console.log(e); 
+            cont.innerHTML = "<div style='text-align:center; padding:20px;'>Offline Mode</div>";
         }
     }
 
-    function initHabitCircles() {
-        document.querySelectorAll('.circle-row').forEach(row => {
-            if(row.innerHTML !== '') return; 
-            const goal = parseInt(row.getAttribute('data-goal'));
-            const habit = row.getAttribute('data-habit');
-            habitsData[habit].goal = goal;
+    function renderLeaderboardCard() {
+        const container = document.getElementById('lb-container');
+        container.innerHTML = '';
+        familyData.sort((a,b) => b.streak - a.streak);
 
-            for(let i=0; i<goal; i++) {
-                let d = document.createElement('div');
-                d.className = 'habit-circle';
-                d.onclick = function() {
-                    const currentVal = habitsData[habit].current;
-                    const clickedVal = i + 1;
-                    let newVal = (currentVal === clickedVal && clickedVal === 1) ? 0 : clickedVal;
-                    updateHabitStats(habit, goal, newVal);
-                };
-                row.appendChild(d);
+        familyData.forEach((u, idx) => {
+            let rankClass = 'rank-low';
+            if (idx === 0) rankClass = 'rank-1';
+            if (idx === 1) rankClass = 'rank-2';
+            if (idx === 2) rankClass = 'rank-3';
+
+            let lastText = "Last: Never";
+            if (u.lastDate && u.lastDate > 0) {
+                const daysAgo = Math.floor((new Date() - new Date(u.lastDate)) / (1000 * 60 * 60 * 24));
+                lastText = daysAgo === 0 ? "Last: Today" : `Last: ${daysAgo}d ago`;
             }
+
+            const div = document.createElement('div');
+            div.className = 'lb-row';
+            div.innerHTML = `
+                <div style="display:flex; align-items:center;">
+                    <div class="lb-rank ${rankClass}">${idx+1}</div>
+                    <div class="lb-details">
+                        <div class="lb-name">${u.name}</div>
+                        <div class="lb-sub">${lastText}</div>
+                    </div>
+                </div>
+                <div class="lb-stat-box">
+                    <div class="lb-val-main">${u.streak}</div>
+                    <div class="lb-val-sub">Days</div>
+                </div>
+            `;
+            container.appendChild(div);
         });
     }
 
-    function updateHabitStats(habit, goal, newVal) {
-        const row = document.querySelector(`.circle-row[data-habit="${habit}"]`);
-        const circles = row.children;
-        habitsData[habit].current = newVal;
-
-        for(let j=0; j<goal; j++) {
-            if (j < newVal) {
-                circles[j].classList.add('active');
-                let color = '#007AFF';
-                if(habit === 'water') color = '#5AC8FA';
-                if(habit === 'veggies') color = '#34C759';
-                if(habit === 'fruits') color = '#FF3B30';
-                if(habit === 'snacks') color = '#AF52DE';
-                circles[j].style.backgroundColor = color;
-            } else {
-                circles[j].classList.remove('active');
-                circles[j].style.backgroundColor = 'transparent';
-            }
+    function autoSetDay(name) {
+        const userStats = familyData.find(u => u.name === name);
+        if(userStats && userStats.streak > 0) {
+            const nextDay = userStats.streak + 1;
+            document.getElementById('dayInput').value = nextDay;
+            updateProgressUI();
         }
-        document.getElementById(`count-${habit}`).innerText = `${newVal} / ${goal}`;
-        const pct = (newVal / goal) * 100;
-        document.getElementById(`bar-${habit}`).style.width = `${pct}%`;
-
-        const scoreEl = document.getElementById(`score-${habit}`);
-        if(scoreEl) {
-            scoreEl.innerText = `${newVal} / ${goal}`;
-            if(newVal >= goal) scoreEl.classList.add('done');
-            else scoreEl.classList.remove('done');
-        }
-        if (newVal === goal) confetti({ particleCount: 50, spread: 60, origin: { y: 0.3 } }); 
     }
+
+    function selectUser(name) {
+        currentUser = name;
+        document.getElementById('header-username').innerText = "👤 " + name;
+        document.getElementById('score-title').innerText = name + "'s Scorecard";
+        closeModal('modal-user');
+        if(familyData.length > 0) autoSetDay(name);
+        else fetchFamilyData().then(() => autoSetDay(name));
+        saveState();
+    }
+
+    function saveState() {
+        const data = {
+            date: new Date().toDateString(),
+            day: document.getElementById('dayInput').value,
+            staging: currentStaging,
+            log: dailyLog,
+            habits: habitsData,
+            user: currentUser,
+            loc: modalLocation
+        };
+        localStorage.setItem('nogueraFit_data', JSON.stringify(data));
+        updateScorecardStatus();
+    }
+
+    function loadState() {
+        const raw = localStorage.getItem('nogueraFit_data');
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (saved.date !== new Date().toDateString()) {
+            localStorage.removeItem('nogueraFit_data');
+            return; 
+        }
+        document.getElementById('dayInput').value = saved.day;
+        currentStaging = saved.staging || [];
+        dailyLog = saved.log || [];
+        habitsData = saved.habits || habitsData;
+        if (saved.user) {
+            currentUser = saved.user;
+            document.getElementById('header-username').innerText = "👤 " + saved.user;
+            document.getElementById('score-title').innerText = saved.user + "'s Scorecard";
+        }
+        updateScorecardStatus();
+        renderHistory();
+    }
+
+    function updateScorecardStatus() {
+        ['water','veggies','fruits','snacks'].forEach(h => {
+            const cur = habitsData[h].current;
+            const goal = habitsData[h].goal;
+            const el = document.getElementById(`score-${h}`);
+            el.innerText = `${cur} / ${goal}`;
+            if(cur >= goal) el.classList.add('done'); else el.classList.remove('done');
+        });
+    }
+
+    function initHabits() {
+        document.querySelectorAll('.circle-row').forEach(row => {
+            if(row.innerHTML !== '') return;
+            const h = row.getAttribute('data-habit');
+            const g = parseInt(row.getAttribute('data-goal'));
+            for(let i=0; i<g; i++) {
+                const d = document.createElement('div');
+                d.className = 'habit-circle';
+                d.onclick = () => {
+                    const cVal = habitsData[h].current;
+                    const nVal = (cVal === i+1 && i===0) ? 0 : i+1;
+                    updateHabitVisuals(h, g, nVal);
+                    saveState();
+                };
+                row.appendChild(d);
+            }
+            updateHabitVisuals(h, g, habitsData[h].current);
+        });
+    }
+
+    function updateHabitVisuals(h, g, val) {
+        habitsData[h].current = val;
+        const row = document.querySelector(`.circle-row[data-habit="${h}"]`);
+        const colors = { water: '#5AC8FA', veggies: '#34C759', fruits: '#FF3B30', snacks: '#AF52DE' };
+        Array.from(row.children).forEach((c, i) => {
+            if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
+            else { c.classList.remove('active'); c.style.background = 'transparent'; }
+        });
+        document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
+        document.getElementById(`bar-${h}`).style.width = `${(val/g)*100}%`;
+        updateScorecardStatus();
+    }
+
+    function updateProgressUI() {
+        const d = document.getElementById('dayInput').value;
+        document.getElementById('visual-progress').style.width = d + '%';
+        document.getElementById('progress-text').innerText = d + '%';
+    }
+
+    function switchTab(t) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-'+t).classList.add('active');
+        if(t === 'workout') {
+            document.getElementById('workout-view').classList.remove('hidden-view');
+            document.getElementById('nutrition-view').classList.add('hidden-view');
+        } else {
+            document.getElementById('workout-view').classList.add('hidden-view');
+            document.getElementById('nutrition-view').classList.remove('hidden-view');
+        }
+    }
+
+    function openBarcode() { document.getElementById('modal-barcode').style.display = 'flex'; }
+    function openUserModal() { document.getElementById('modal-user').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
 </body>
 </html>
