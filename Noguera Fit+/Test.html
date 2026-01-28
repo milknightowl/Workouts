@@ -110,11 +110,6 @@
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
-        /* --- LOCATION SWITCHER --- */
-        .loc-switch-container { display: flex; background: #E5E5EA; border-radius: 12px; padding: 4px; margin-bottom: 20px; }
-        .loc-btn { flex: 1; text-align: center; padding: 10px; font-size: 14px; font-weight: 700; color: #8E8E93; border-radius: 9px; cursor: pointer; transition: 0.2s; }
-        .loc-btn.active { background: white; color: black; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-
         /* --- WORKOUT UI --- */
         .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
         .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
@@ -151,29 +146,58 @@
 
         /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
-        .modal-content { background: #F2F2F7; width: 100%; max-width: 600px; border-radius: 20px 20px 0 0; padding: 20px; max-height: 85vh; overflow-y: auto; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* FIXED HEIGHT MODAL */
+        .modal-content { 
+            background: #F2F2F7; width: 100%; max-width: 600px; 
+            border-radius: 24px 24px 0 0; padding: 25px; 
+            height: 70vh; /* Fixed height */
+            display: flex; flex-direction: column;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
         
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .modal-title { font-size: 18px; font-weight: 800; }
-        .btn-close { background: #E5E5EA; border: none; width: 28px; height: 28px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
+        .modal-title { font-size: 20px; font-weight: 800; }
+        .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
 
-        /* Location Selector in Modal */
-        .loc-selector-modal { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 20px; padding-bottom: 5px; }
-        .loc-chip { flex: 1; padding: 10px; border: none; background: white; border-radius: 12px; font-weight: 700; color: #8E8E93; font-size: 13px; cursor: pointer; white-space: nowrap; }
-        .loc-chip.active { background: #333; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        /* MODAL TABS */
+        .modal-tabs { display: flex; background: #E5E5EA; border-radius: 10px; padding: 3px; margin-bottom: 15px; flex-shrink: 0; }
+        .modal-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 8px; cursor: pointer; }
+        .modal-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
-        /* Categories */
-        .cat-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-        .cat-chip { padding: 8px 16px; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #888; cursor: pointer; border: 1px solid transparent; }
-        .cat-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
+        /* Location & Category Scroll */
+        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; flex-shrink: 0; -webkit-overflow-scrolling: touch; }
+        .loc-chip, .cat-chip, .focus-chip { padding: 10px 16px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; transition: 0.1s; }
+        .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
 
-        .select-list { display: flex; flex-direction: column; gap: 8px; max-height: 400px; overflow-y: auto; }
-        .select-item { background: white; padding: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.1s; }
+        /* THE LIST */
+        .select-list { 
+            flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; 
+            padding-bottom: 20px;
+        }
+        
+        /* BIG LIST ITEMS */
+        .select-item { 
+            background: white; padding: 10px 20px; border-radius: 16px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            cursor: pointer; transition: 0.1s; min-height: 80px; /* Double size */
+        }
         .select-item.selected { background: #E3F2FD; border: 1px solid var(--ios-blue); }
-        .select-check { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; color: transparent; }
-        .select-item.selected .select-check { background: var(--ios-blue); border-color: var(--ios-blue); color: white; font-size: 14px; }
+        .select-left { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .select-check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; color: transparent; flex-shrink: 0; }
+        .select-item.selected .select-check { background: var(--ios-blue); border-color: var(--ios-blue); color: white; font-size: 16px; }
+        .select-name { font-weight: 700; font-size: 16px; line-height: 1.3; }
+        
+        .select-img { width: 80px; height: 60px; object-fit: contain; margin-left: 10px; mix-blend-mode: multiply; }
 
-        .btn-confirm-add { width: 100%; padding: 16px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; }
+        .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
+
+        /* Generator UI */
+        .gen-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
+        .gen-label { font-size: 13px; font-weight: 700; color: #8E8E93; margin-bottom: 10px; text-transform: uppercase; }
+        .slider-container { display: flex; align-items: center; gap: 15px; }
+        input[type=range] { flex: 1; }
+        .slider-val { font-weight: 800; font-size: 20px; width: 30px; text-align: center; }
 
         @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -304,32 +328,69 @@
     <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
-                <div class="modal-title">Build Routine</div>
+                <div class="modal-title">Add Workout</div>
                 <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
             </div>
             
-            <div class="loc-selector-modal">
-                <button id="mloc-home" class="loc-chip active" onclick="setModalLoc('home')">Home</button>
-                <button id="mloc-gym" class="loc-chip" onclick="setModalLoc('gym')">Gym</button>
-                <button id="mloc-bodyweight" class="loc-chip" onclick="setModalLoc('bodyweight')">No Equip</button>
-                <button id="mloc-studio" class="loc-chip" onclick="setModalLoc('studio')">Studio</button>
+            <div class="modal-tabs">
+                <div id="tab-browse" class="modal-tab active" onclick="switchModalTab('browse')">Browse List</div>
+                <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Magic Generator</div>
             </div>
 
-            <div class="cat-list">
-                <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper</button>
-                <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower</button>
-                <button id="cat-core" class="cat-chip" onclick="filterBatch('core', this)">Core</button>
-                <button id="cat-cardio" class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</button>
-                <button id="cat-studio" class="cat-chip" onclick="filterBatch('studio', this)">Studio</button>
+            <div id="view-browse" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+                <div class="filter-scroll">
+                    <button id="mloc-home" class="loc-chip active" onclick="setModalLoc('home')">Home</button>
+                    <button id="mloc-gym" class="loc-chip" onclick="setModalLoc('gym')">Gym/Studio</button>
+                    <button id="mloc-bodyweight" class="loc-chip" onclick="setModalLoc('bodyweight')">Bodyweight Only</button>
+                </div>
+
+                <div class="filter-scroll">
+                    <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper</button>
+                    <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower</button>
+                    <button id="cat-core" class="cat-chip" onclick="filterBatch('core', this)">Core</button>
+                    <button id="cat-cardio" class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</button>
+                    <button id="cat-studio" class="cat-chip" onclick="filterBatch('studio', this)">Studio</button>
+                </div>
+
+                <div id="batch-list" class="select-list"></div>
+                <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
             </div>
 
-            <div id="batch-list" class="select-list"></div>
-            <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add to Workout</button>
+            <div id="view-magic" style="display:none; flex-direction:column; height:100%; overflow-y:auto;">
+                <div class="gen-section">
+                    <div class="gen-label">1. Where are you?</div>
+                    <div class="filter-scroll">
+                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
+                        <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym/Studio</button>
+                    </div>
+                </div>
+
+                <div class="gen-section">
+                    <div class="gen-label">2. Focus (Select Multiple)</div>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                        <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper Body</button>
+                        <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower Body</button>
+                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core & Abs</button>
+                        <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
+                    </div>
+                </div>
+
+                <div class="gen-section">
+                    <div class="gen-label">3. Number of Exercises</div>
+                    <div class="slider-container">
+                        <input type="range" id="gen-slider" min="2" max="8" value="4" oninput="document.getElementById('gen-val').innerText = this.value">
+                        <div class="slider-val" id="gen-val">4</div>
+                    </div>
+                </div>
+
+                <button class="btn-confirm-add" style="margin-top:auto;" onclick="runGenerator()">✨ Create Workout</button>
+            </div>
+
         </div>
     </div>
 
     <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
-        <div class="modal-content" onclick="event.stopPropagation()">
+        <div class="modal-content" style="height:auto;" onclick="event.stopPropagation()">
             <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
             <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
                 <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
@@ -351,7 +412,7 @@
     </div>
 
     <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: flex-start; padding-top: 50px;">
-        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px;" onclick="event.stopPropagation()">
+        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px; height:auto;" onclick="event.stopPropagation()">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <div style="font-weight:700; font-size:16px;">Gym Pass</div>
                 <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
@@ -373,8 +434,10 @@
     let dailyLog = [];       
     let selectedBatch = new Set();
     let familyData = []; 
-    let currentLocation = 'home'; // Default
-    let currentCategory = 'upper'; // Default
+    let modalLocation = 'home'; // Default for modal
+    let genLocation = 'home'; // Default for generator
+    let currentCategory = 'upper'; 
+    let genFocus = new Set();
 
     let habitsData = {
         water: { current: 0, goal: 8 },
@@ -383,7 +446,7 @@
         snacks: { current: 0, goal: 2 }
     };
 
-    // Updated with bodyweight and studio tags
+    // DB with updated location tags
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
@@ -403,8 +466,8 @@
         { name: "Crunches", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/crunches.png", guide: "2 sets • 50 reps" },
         { name: "Running", type: "cardio", loc: ["home", "gym", "bodyweight"], img: "images/running.png", guide: "20-30 mins" },
         { name: "Swimming", type: "cardio", loc: ["gym"], img: "images/swimming.png", guide: "20-30 mins" },
-        { name: "Hot Yoga", type: "studio", loc: ["studio"], img: "images/yoga.png", guide: "Class" },
-        { name: "Reformer Pilates", type: "studio", loc: ["studio"], img: "images/pilates.png", guide: "Class" },
+        { name: "Hot Yoga", type: "studio", loc: ["studio", "gym"], img: "images/yoga.png", guide: "Class" },
+        { name: "Reformer Pilates", type: "studio", loc: ["studio", "gym"], img: "images/pilates.png", guide: "Class" },
         { name: "Mat Pilates", type: "studio", loc: ["home", "studio", "bodyweight"], img: "images/pilates.png", guide: "Class" }
     ];
 
@@ -433,181 +496,81 @@
         });
     }
 
-    // --- LOCATION & CATEGORY LOGIC ---
-    function setModalLoc(loc) {
-        currentLocation = loc;
-        document.querySelectorAll('.loc-chip').forEach(b => b.classList.remove('active'));
-        document.getElementById('mloc-'+loc).classList.add('active');
+    // --- MODAL UI LOGIC ---
+    function switchModalTab(tab) {
+        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('tab-'+tab).classList.add('active');
         
-        // Refresh list with current category + new location
+        if (tab === 'browse') {
+            document.getElementById('view-browse').style.display = 'flex';
+            document.getElementById('view-magic').style.display = 'none';
+        } else {
+            document.getElementById('view-browse').style.display = 'none';
+            document.getElementById('view-magic').style.display = 'flex';
+        }
+    }
+
+    function setModalLoc(loc) {
+        modalLocation = loc;
+        document.querySelectorAll('.loc-chip').forEach(b => {
+            if(b.id.startsWith('mloc-')) b.classList.remove('active');
+        });
+        document.getElementById('mloc-'+loc).classList.add('active');
         refreshExerciseList();
     }
 
-    // --- LOGGING & HISTORY ---
-    function handleLogAction() {
-        if (!currentUser && !document.getElementById('other-input').value) {
-            alert("⚠️ Please select who you are at the top!");
-            openUserModal();
-            return;
-        }
+    function setGenLoc(loc) {
+        genLocation = loc;
+        document.querySelectorAll('.loc-chip').forEach(b => {
+            if(b.id.startsWith('gloc-')) b.classList.remove('active');
+        });
+        document.getElementById('gloc-'+loc).classList.add('active');
+    }
 
-        dailyLog = dailyLog.concat(currentStaging);
-        currentStaging = []; 
+    function toggleFocus(focus, btn) {
+        if(genFocus.has(focus)) {
+            genFocus.delete(focus);
+            btn.classList.remove('active');
+        } else {
+            genFocus.add(focus);
+            btn.classList.add('active');
+        }
+    }
+
+    // --- WORKOUT GENERATOR ---
+    function runGenerator() {
+        if (genFocus.size === 0) { alert("Select at least one focus!"); return; }
+        
+        const count = parseInt(document.getElementById('gen-slider').value);
+        let pool = exerciseDB.filter(ex => {
+            let locMatch = false;
+            // Map generator location to DB tags
+            if (genLocation === 'home') locMatch = ex.loc.includes('home') || ex.loc.includes('bodyweight');
+            if (genLocation === 'gym') locMatch = ex.loc.includes('gym') || ex.loc.includes('studio');
+            
+            return locMatch && genFocus.has(ex.type);
+        });
+
+        if(pool.length === 0) { alert("No exercises found for this combo."); return; }
+
+        pool.sort(() => 0.5 - Math.random());
+        const selected = pool.slice(0, count);
+        
+        selected.forEach(ex => currentStaging.push(ex));
         
         saveState();
-        renderLog(); 
-        renderHistory();
-        
-        document.getElementById('success-sound').play().catch(()=>{});
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-        
-        syncToCloud();
+        renderLog();
+        closeModal('modal-batch');
+        confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
     }
 
-    function renderHistory() {
-        const historySec = document.getElementById('history-section');
-        const historyList = document.getElementById('history-list');
-        const scoreVal = document.getElementById('score-workout');
-
-        if (dailyLog.length === 0) {
-            historySec.style.display = 'none';
-            scoreVal.innerText = "0 Done";
-            scoreVal.classList.remove('done');
-        } else {
-            historySec.style.display = 'block';
-            historyList.innerHTML = '';
-            scoreVal.innerText = `${dailyLog.length} Done`;
-            scoreVal.classList.add('done');
-
-            dailyLog.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'history-item';
-                div.innerHTML = `
-                    <span>✅ ${item.name}</span>
-                    <button class="btn-undo" onclick="undoLogItem(${idx})">✕</button>
-                `;
-                historyList.appendChild(div);
-            });
-        }
-    }
-
-    function undoLogItem(idx) {
-        if(confirm("Remove this log entry?")) {
-            dailyLog.splice(idx, 1);
-            saveState();
-            renderHistory();
-            syncToCloud(); // Re-sync with item removed
-        }
-    }
-
-    function syncToCloud() {
-        const finalName = currentUser || document.getElementById('other-input').value;
-        const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
-        const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
-        
-        const payload = {
-            date: new Date().toLocaleString(),
-            day: document.getElementById('dayInput').value,
-            name: finalName,
-            location: currentLocation, // Sends current location
-            workout: workoutStr + " | " + habitStr
-        };
-
-        fetch(API_URL, {
-            method: 'POST', mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).catch(err => console.log(err));
-    }
-
-    function shareScorecard() {
-        const day = document.getElementById('dayInput').value;
-        let text = `🔥 NogueraFit Day ${day}\n`;
-        if (dailyLog.length > 0) {
-            text += `✅ WORKOUT:\n`;
-            dailyLog.forEach(i => text += `• ${i.name}\n`);
-        } else if (currentStaging.length > 0) {
-            text += `⚠️ In Progress:\n`;
-            currentStaging.forEach(i => text += `• ${i.name}\n`);
-        } else {
-            text += `💤 Rest Day\n`;
-        }
-        text += `\n🥗 NUTRITION:\n`;
-        text += `💧 Water: ${habitsData.water.current}/8\n`;
-        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
-        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
-        text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
-
-        if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
-        else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
-    }
-
-    // --- LEADERBOARD LOGIC ---
-    async function fetchFamilyData() {
-        const cont = document.getElementById('lb-container');
-        try {
-            const res = await fetch(API_URL);
-            const rawData = await res.json();
-            
-            // Re-map to ensure we have all names, even if not in DB
-            familyData = FAMILY_NAMES.map(name => {
-                const found = rawData.find(r => r.name === name);
-                if (found) return found;
-                return { name: name, streak: 0, lastDate: 0, status: 'pending' };
-            });
-
-            if(currentUser) autoSetDay(currentUser);
-            renderLeaderboardCard();
-        } catch(e) { 
-            console.log(e); 
-            cont.innerHTML = "<div style='text-align:center; padding:20px;'>Offline Mode</div>";
-        }
-    }
-
-    function renderLeaderboardCard() {
-        const container = document.getElementById('lb-container');
-        container.innerHTML = '';
-        
-        familyData.sort((a,b) => b.streak - a.streak);
-
-        familyData.forEach((u, idx) => {
-            let rankClass = 'rank-low';
-            if (idx === 0) rankClass = 'rank-1';
-            if (idx === 1) rankClass = 'rank-2';
-            if (idx === 2) rankClass = 'rank-3';
-
-            // Calculate "Last Seen" using u.lastDate from new GS
-            let lastText = "Last: Never";
-            if (u.lastDate && u.lastDate > 0) {
-                const daysAgo = Math.floor((new Date() - new Date(u.lastDate)) / (1000 * 60 * 60 * 24));
-                lastText = daysAgo === 0 ? "Last: Today" : `Last: ${daysAgo}d ago`;
-            }
-
-            const div = document.createElement('div');
-            div.className = 'lb-row';
-            div.innerHTML = `
-                <div style="display:flex; align-items:center;">
-                    <div class="lb-rank ${rankClass}">${idx+1}</div>
-                    <div class="lb-details">
-                        <div class="lb-name">${u.name}</div>
-                        <div class="lb-sub">${lastText}</div>
-                    </div>
-                </div>
-                <div class="lb-stat-box">
-                    <div class="lb-val-main">${u.streak}</div>
-                    <div class="lb-val-sub">Days</div>
-                </div>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    // --- WORKOUT MANAGEMENT ---
+    // --- BROWSE LOGIC ---
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
-        setModalLoc('home'); // Reset to default "Home"
-        // Also reset active category UI
+        setModalLoc('home'); 
+        switchModalTab('browse');
+        // Reset category to Upper
         document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
         document.getElementById('cat-upper').classList.add('active');
         currentCategory = 'upper';
@@ -625,11 +588,18 @@
         const container = document.getElementById('batch-list');
         container.innerHTML = '';
         
-        // Filter by Type AND Location
-        const list = exerciseDB.filter(ex => ex.type === currentCategory && (ex.loc ? ex.loc.includes(currentLocation) : true));
+        const list = exerciseDB.filter(ex => {
+            const isCat = ex.type === currentCategory;
+            let isLoc = false;
+            if (modalLocation === 'home') isLoc = ex.loc.includes('home');
+            else if (modalLocation === 'gym') isLoc = ex.loc.includes('gym') || ex.loc.includes('studio');
+            else if (modalLocation === 'bodyweight') isLoc = ex.loc.includes('bodyweight');
+            else if (modalLocation === 'studio') isLoc = ex.loc.includes('studio');
+            return isCat && isLoc;
+        });
         
         if (list.length === 0) {
-             container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found for this location.</div>`;
+             container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found.</div>`;
              return;
         }
 
@@ -637,7 +607,17 @@
             const div = document.createElement('div');
             div.className = 'select-item';
             if(selectedBatch.has(ex.name)) div.classList.add('selected');
-            div.innerHTML = `<span>${ex.name}</span><div class="select-check">✓</div>`;
+            
+            const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
+
+            div.innerHTML = `
+                <div class="select-left">
+                    <div class="select-check">✓</div>
+                    <div class="select-name">${ex.name}</div>
+                </div>
+                <img src="${imgSrc}" class="select-img">
+            `;
+            
             div.onclick = () => {
                 if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
                 else { selectedBatch.add(ex.name); div.classList.add('selected'); }
@@ -655,6 +635,23 @@
         saveState();
         renderLog();
         closeModal('modal-batch');
+    }
+
+    // --- MAIN APP LOGIC ---
+    function handleLogAction() {
+        if (!currentUser && !document.getElementById('other-input').value) {
+            alert("⚠️ Please select who you are at the top!");
+            openUserModal();
+            return;
+        }
+        dailyLog = dailyLog.concat(currentStaging);
+        currentStaging = []; 
+        saveState();
+        renderLog(); 
+        renderHistory();
+        document.getElementById('success-sound').play().catch(()=>{});
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        syncToCloud();
     }
 
     function renderLog() {
@@ -698,7 +695,141 @@
         renderLog();
     }
 
-    // --- STATE & UTILS ---
+    function renderHistory() {
+        const historySec = document.getElementById('history-section');
+        const historyList = document.getElementById('history-list');
+        const scoreVal = document.getElementById('score-workout');
+
+        if (dailyLog.length === 0) {
+            historySec.style.display = 'none';
+            scoreVal.innerText = "0 Done";
+            scoreVal.classList.remove('done');
+        } else {
+            historySec.style.display = 'block';
+            historyList.innerHTML = '';
+            scoreVal.innerText = `${dailyLog.length} Done`;
+            scoreVal.classList.add('done');
+
+            dailyLog.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `<span>✅ ${item.name}</span><button class="btn-undo" onclick="undoLogItem(${idx})">✕</button>`;
+                historyList.appendChild(div);
+            });
+        }
+    }
+
+    function undoLogItem(idx) {
+        if(confirm("Remove this log entry?")) {
+            dailyLog.splice(idx, 1);
+            saveState();
+            renderHistory();
+            syncToCloud(); 
+        }
+    }
+
+    function syncToCloud() {
+        const finalName = currentUser || document.getElementById('other-input').value;
+        const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
+        const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
+        
+        // Location logic for saving
+        // If items came from generator or manual select, we could track per item, but simplifying to modalLocation
+        // Just sending "Logged" for now or the last selected modal location
+        const payload = {
+            date: new Date().toLocaleString(),
+            day: document.getElementById('dayInput').value,
+            name: finalName,
+            location: modalLocation, 
+            workout: workoutStr + " | " + habitStr
+        };
+
+        fetch(API_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(err => console.log(err));
+    }
+
+    function shareScorecard() {
+        const day = document.getElementById('dayInput').value;
+        let text = `🔥 NogueraFit Day ${day}\n`;
+        if (dailyLog.length > 0) {
+            text += `✅ WORKOUT:\n`;
+            dailyLog.forEach(i => text += `• ${i.name}\n`);
+        } else if (currentStaging.length > 0) {
+            text += `⚠️ In Progress:\n`;
+            currentStaging.forEach(i => text += `• ${i.name}\n`);
+        } else {
+            text += `💤 Rest Day\n`;
+        }
+        text += `\n🥗 NUTRITION:\n`;
+        text += `💧 Water: ${habitsData.water.current}/8\n`;
+        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
+        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
+        text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
+
+        if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
+        else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
+    }
+
+    // --- LEADERBOARD & STATE ---
+    async function fetchFamilyData() {
+        const cont = document.getElementById('lb-container');
+        try {
+            const res = await fetch(API_URL);
+            const rawData = await res.json();
+            
+            familyData = FAMILY_NAMES.map(name => {
+                const found = rawData.find(r => r.name === name);
+                if (found) return found;
+                return { name: name, streak: 0, lastDate: 0, status: 'pending' };
+            });
+
+            if(currentUser) autoSetDay(currentUser);
+            renderLeaderboardCard();
+        } catch(e) { 
+            console.log(e); 
+            cont.innerHTML = "<div style='text-align:center; padding:20px;'>Offline Mode</div>";
+        }
+    }
+
+    function renderLeaderboardCard() {
+        const container = document.getElementById('lb-container');
+        container.innerHTML = '';
+        familyData.sort((a,b) => b.streak - a.streak);
+
+        familyData.forEach((u, idx) => {
+            let rankClass = 'rank-low';
+            if (idx === 0) rankClass = 'rank-1';
+            if (idx === 1) rankClass = 'rank-2';
+            if (idx === 2) rankClass = 'rank-3';
+
+            let lastText = "Last: Never";
+            if (u.lastDate && u.lastDate > 0) {
+                const daysAgo = Math.floor((new Date() - new Date(u.lastDate)) / (1000 * 60 * 60 * 24));
+                lastText = daysAgo === 0 ? "Last: Today" : `Last: ${daysAgo}d ago`;
+            }
+
+            const div = document.createElement('div');
+            div.className = 'lb-row';
+            div.innerHTML = `
+                <div style="display:flex; align-items:center;">
+                    <div class="lb-rank ${rankClass}">${idx+1}</div>
+                    <div class="lb-details">
+                        <div class="lb-name">${u.name}</div>
+                        <div class="lb-sub">${lastText}</div>
+                    </div>
+                </div>
+                <div class="lb-stat-box">
+                    <div class="lb-val-main">${u.streak}</div>
+                    <div class="lb-val-sub">Days</div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
     function autoSetDay(name) {
         const userStats = familyData.find(u => u.name === name);
         if(userStats && userStats.streak > 0) {
@@ -726,7 +857,7 @@
             log: dailyLog,
             habits: habitsData,
             user: currentUser,
-            loc: currentLocation
+            loc: modalLocation
         };
         localStorage.setItem('nogueraFit_data', JSON.stringify(data));
         updateScorecardStatus();
@@ -744,11 +875,6 @@
         currentStaging = saved.staging || [];
         dailyLog = saved.log || [];
         habitsData = saved.habits || habitsData;
-        
-        // Removed global 'loc' load since we always default modal to 'home' when opening,
-        // but if you want to remember location between reloads, you can keep it.
-        // I removed setLoc from loadState to force clean state or user default interaction.
-        
         if (saved.user) {
             currentUser = saved.user;
             document.getElementById('header-username').innerText = "👤 " + saved.user;
