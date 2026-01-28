@@ -40,7 +40,7 @@
             max-width: 600px;
             margin: 0 auto;
             padding-bottom: 120px;
-            overflow-x: hidden; /* Prevent body scroll from carousel */
+            overflow-x: hidden;
         }
 
         /* --- HEADER --- */
@@ -65,34 +65,32 @@
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
-        /* --- CAROUSEL (SWIPEABLE CARDS) --- */
+        /* --- CAROUSEL --- */
         .carousel-track {
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 15px;
             padding-bottom: 10px;
-            margin: 0 -15px; /* Bleed out */
-            padding: 0 15px 20px 15px; /* Inner padding */
-            -ms-overflow-style: none;  /* Hide scrollbar IE */
-            scrollbar-width: none;  /* Hide scrollbar Firefox */
+            margin: 0 -15px;
+            padding: 0 15px 20px 15px;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         .carousel-track::-webkit-scrollbar { display: none; }
 
         .card-slide {
-            flex: 0 0 92%; /* Shows a sliver of the next card */
+            flex: 0 0 92%;
             scroll-snap-align: center;
             background: white; border-radius: 24px; padding: 20px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative;
             border: 1px solid rgba(0,0,0,0.02);
         }
         
-        /* Carousel Dots */
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        /* Card Decoration */
         .card-slide::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px; background-color: #007AFF; }
         
         .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; }
@@ -105,7 +103,6 @@
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
-        /* Sync Button (Grey Style) */
         .btn-sync { 
             width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; 
             border: none; cursor: pointer; margin-top: 15px; transition: 0.2s;
@@ -115,7 +112,7 @@
         .btn-sync:active { background-color: #D1D1D6; }
         .btn-sync.synced { background-color: var(--ios-green); color: white; }
 
-        /* --- LEADERBOARD SPECIFIC --- */
+        /* --- LEADERBOARD --- */
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; }
         .lb-list { max-height: 250px; overflow-y: auto; }
         .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
@@ -141,7 +138,7 @@
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
-        /* --- WORKOUT CARDS UI --- */
+        /* --- WORKOUT CARDS --- */
         .big-add-btn {
             background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px;
             text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -174,7 +171,6 @@
         .habit-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
         .habit-circle.active { transform: scale(1.1); border-color: transparent; }
         
-        /* Colors */
         .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
 
         /* --- MODALS --- */
@@ -225,7 +221,7 @@
             
             <div class="card-slide">
                 <div class="scorecard-header">
-                    <div class="scorecard-title">Scorecard</div>
+                    <div class="scorecard-title" id="score-title">Scorecard</div>
                     <div class="scorecard-date" id="today-date">Today</div>
                 </div>
                 <div class="score-row">
@@ -373,10 +369,8 @@
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
-    // --- CONFIGURATION ---
     const API_URL = "https://script.google.com/macros/s/AKfycbwZ6Es95wHMe2C4-SFDraVwkyEy2lpchaY4zXmdCt15FTCBJsGWp3emGfTqoe5soeze/exec"; 
 
-    // --- STATE ---
     let currentUser = null; 
     let currentLog = [];
     let selectedBatch = new Set();
@@ -427,7 +421,6 @@
         initHabits();
         renderLog();
 
-        // Carousel Scroll Listener for Dots
         const track = document.getElementById('carousel-track');
         track.addEventListener('scroll', () => {
             const index = Math.round(track.scrollLeft / track.offsetWidth);
@@ -438,13 +431,9 @@
         });
     }
 
-    // --- MAIN ACTIONS ---
     function handleMainAction() {
-        if (!isSynced) {
-            syncToCloud();
-        } else {
-            shareScorecard();
-        }
+        if (!isSynced) syncToCloud();
+        else shareScorecard();
     }
 
     function syncToCloud() {
@@ -493,23 +482,22 @@
     function shareScorecard() {
         const day = document.getElementById('dayInput').value;
         let text = `🔥 NogueraFit Day ${day}\n`;
-        if (currentLog.length > 0) { 
-            text += `✅ WORKOUT:\n`; 
-            currentLog.forEach(i => text += `• ${i.name}\n`); 
-        } else { 
-            text += `💤 Rest Day\n`; 
-        } 
-        text += `\n🥗 NUTRITION:\n`; 
-        text += `💧 Water: ${habitsData.water.current}/8\n`; 
-        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`; 
-        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`; 
-        text += `🥜 Snacks: ${habitsData.snacks.current}/2`; 
-        
-        if (navigator.share) navigator.share({ title: 'NogueraFit', text: text }); 
+        if (currentLog.length > 0) {
+            text += `✅ WORKOUT:\n`;
+            currentLog.forEach(i => text += `• ${i.name}\n`);
+        } else {
+            text += `💤 Rest Day\n`;
+        }
+        text += `\n🥗 NUTRITION:\n`;
+        text += `💧 Water: ${habitsData.water.current}/8\n`;
+        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
+        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
+        text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
+
+        if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
         else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
     }
 
-    // --- LEADERBOARD LOGIC ---
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         try {
@@ -527,7 +515,6 @@
         const container = document.getElementById('lb-container');
         container.innerHTML = '';
         
-        // Sort by total streak (Workouts Logged)
         familyData.sort((a,b) => b.streak - a.streak);
 
         familyData.forEach((u, idx) => {
@@ -536,7 +523,6 @@
             if (idx === 1) rankClass = 'rank-2';
             if (idx === 2) rankClass = 'rank-3';
 
-            // Calculate "Last Seen" text
             let lastText = "Inactive";
             if (u.dates && u.dates.length > 0) {
                 const lastMs = Math.max(...u.dates);
@@ -563,7 +549,6 @@
         });
     }
 
-    // --- REST OF LOGIC ---
     function autoSetDay(name) {
         const userStats = familyData.find(u => u.name === name);
         if(userStats) {
@@ -576,6 +561,8 @@
     function selectUser(name) {
         currentUser = name;
         document.getElementById('header-username').innerText = "👤 " + name;
+        // Update Card Title
+        document.getElementById('score-title').innerText = name + "'s Scorecard";
         closeModal('modal-user');
         if(familyData.length > 0) autoSetDay(name);
         else fetchFamilyData().then(() => autoSetDay(name));
@@ -692,6 +679,7 @@
         if (saved.user) {
             currentUser = saved.user;
             document.getElementById('header-username').innerText = "👤 " + saved.user;
+            document.getElementById('score-title').innerText = saved.user + "'s Scorecard";
         }
         if (localStorage.getItem('nogueraFit_synced') === 'true') {
             const newText = "📤 Share Scorecard";
