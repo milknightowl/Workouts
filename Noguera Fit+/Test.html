@@ -20,10 +20,8 @@
             --ios-blue: #007AFF;
             --ios-green: #34C759;
             --ios-gray: #F2F2F7;
-            --ios-red: #FF3B30;
             --text-dark: #1C1C1E;
             --text-light: #8E8E93;
-            --bg-off-white: #F9F9F9;
         }
 
         * { box-sizing: border-box; }
@@ -48,16 +46,16 @@
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
         
         .user-select-btn {
-            background: none; border: none; font-size: 17px; font-weight: 700; color: var(--ios-blue);
+            background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue);
             display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0;
         }
 
         .btn-barcode { 
             background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; 
-            font-size: 12px; font-weight: 700; color: #555; cursor: pointer; 
+            font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px;
         }
 
-        /* --- PROGRESS SECTION (Moved Up) --- */
+        /* --- PROGRESS SECTION --- */
         .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 12px; }
@@ -66,7 +64,7 @@
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
-        /* --- SCORECARD --- */
+        /* --- SCORECARD (Detailed) --- */
         .scorecard-container {
             background: white; border-radius: 24px; padding: 20px; margin-bottom: 25px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; overflow: hidden;
@@ -78,16 +76,19 @@
 
         .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
         .score-row:last-of-type { border-bottom: none; }
-        .score-label { font-weight: 600; color: #666; }
+        .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
+        /* Sync Button (Grey Style) */
         .btn-sync { 
-            width: 100%; padding: 14px; border-radius: 14px; font-size: 15px; font-weight: 700; 
+            width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; 
             border: none; cursor: pointer; margin-top: 15px; transition: 0.2s;
-            background-color: var(--text-dark); color: white; display: flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: #E5E5EA; color: var(--ios-blue); 
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .btn-sync.synced { background-color: var(--ios-green); pointer-events: auto; } /* Turns green but stays clickable for share */
+        .btn-sync:active { background-color: #D1D1D6; }
+        .btn-sync.synced { background-color: var(--ios-green); color: white; }
 
         /* --- TABS --- */
         .tab-bar { display: flex; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 5px; gap: 5px; position: sticky; top: 10px; z-index: 90; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
@@ -96,8 +97,7 @@
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
-        /* --- WORKOUT LOGGER --- */
-        /* Combined Empty/Add State */
+        /* --- WORKOUT CARDS UI --- */
         .big-add-btn {
             background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px;
             text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px;
@@ -106,16 +106,16 @@
         .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
         .big-icon { font-size: 32px; display: block; margin-bottom: 5px; }
 
-        /* Log List */
-        .log-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
-        .log-item { background: white; padding: 14px 18px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.02); animation: slideIn 0.2s ease-out; }
-        .log-item-name { font-weight: 600; font-size: 15px; }
-        .log-item-meta { font-size: 12px; color: #888; margin-top: 2px; }
-        .btn-delete { color: #FF3B30; background: none; border: none; font-size: 18px; padding: 5px; cursor: pointer; }
+        .exercise-card { background: white; border-radius: 18px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: slideIn 0.3s ease-out; position: relative; }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; border-bottom: 1px solid #F2F2F7; }
+        .exercise-details { padding: 18px; }
+        .exercise-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #1C1C1E; }
+        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; display: inline-block; }
+        .btn-remove-card { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 50%; color: #FF3B30; font-weight: bold; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 
         .btn-add-more { 
-            background: white; color: var(--ios-blue); border: 1px solid var(--ios-blue); width: 100%; padding: 12px; 
-            border-radius: 14px; font-weight: 700; margin-bottom: 30px; cursor: pointer;
+            background: white; color: var(--ios-blue); border: 1px solid var(--ios-blue); width: 100%; padding: 14px; 
+            border-radius: 14px; font-weight: 700; margin-bottom: 30px; cursor: pointer; font-size: 15px;
         }
 
         /* --- HABITS --- */
@@ -154,20 +154,13 @@
 
         .btn-confirm-add { width: 100%; padding: 16px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; }
 
-        /* Leaderboard Overhaul */
+        /* Leaderboard Modal Overrides */
         .lb-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 10px; border-bottom: 1px solid #E5E5EA; background: white; }
-        .lb-row:nth-child(even) { background: #FAFAFC; }
         .lb-rank { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; margin-right: 12px; font-size: 14px; }
-        .rank-1 { background: #FFD700; color: #B48902; } /* Gold */
-        .rank-2 { background: #C0C0C0; color: #555; } /* Silver */
-        .rank-3 { background: #CD7F32; color: #6A3906; } /* Bronze */
+        .rank-1 { background: #FFD700; color: #B48902; }
+        .rank-2 { background: #C0C0C0; color: #555; }
+        .rank-3 { background: #CD7F32; color: #6A3906; }
         .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 12px; }
-        
-        .lb-details { flex: 1; }
-        .lb-name { font-weight: 700; font-size: 15px; color: #1C1C1E; }
-        .lb-status { font-size: 13px; font-weight: 600; text-align: right; }
-        .status-done { color: var(--ios-green); }
-        .status-pending { color: #C7C7CC; font-weight: 500; }
 
         @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -199,18 +192,27 @@
             </div>
             <div class="score-row">
                 <span class="score-label">🏋️ Exercise</span>
-                <span class="score-val" id="score-workout">0 Activities</span>
+                <span class="score-val" id="score-workout">0 Done</span>
             </div>
             <div class="score-row">
-                <span class="score-label">💧 Nutrition</span>
-                <span class="score-val" id="score-nutrition">Incomplete</span>
+                <span class="score-label">💧 Water</span>
+                <span class="score-val" id="score-water">0 / 8</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🥦 Veggies</span>
+                <span class="score-val" id="score-veggies">0 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🍎 Fruits</span>
+                <span class="score-val" id="score-fruits">0 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🥜 Snacks</span>
+                <span class="score-val" id="score-snacks">0 / 2</span>
             </div>
             
             <button id="main-action-btn" class="btn-sync" onclick="handleMainAction()">
                 ☁️ Sync to Cloud
-            </button>
-            <button class="btn-sync" style="background:#FFF8E1; color:#FF9500; margin-top:8px;" onclick="openLeaderboard()">
-                🏆 Leaderboard
             </button>
         </div>
 
@@ -226,7 +228,7 @@
                 <span style="font-size:13px;">Tap to select exercises</span>
             </div>
 
-            <ul id="log-list" class="log-list"></ul>
+            <div id="cards-container"></div>
 
             <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
         </div>
@@ -253,6 +255,12 @@
                 <div class="circle-row" data-habit="snacks" data-goal="2"></div>
             </div>
         </div>
+
+        <div style="text-align:center; padding:20px;">
+            <button onclick="openLeaderboard()" style="background:none; border:none; color:#8E8E93; font-weight:600; font-size:14px; cursor:pointer;">
+                🏆 View Standings
+            </button>
+        </div>
     </div>
 
     <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
@@ -261,7 +269,6 @@
                 <div class="modal-title">Build Routine</div>
                 <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
             </div>
-            
             <div class="cat-list">
                 <div class="cat-chip active" onclick="filterBatch('upper', this)">Upper</div>
                 <div class="cat-chip" onclick="filterBatch('lower', this)">Lower</div>
@@ -269,10 +276,8 @@
                 <div class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</div>
                 <div class="cat-chip" onclick="filterBatch('studio', this)">Studio</div>
             </div>
-
             <div id="batch-list" class="select-list"></div>
-            
-            <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Exercises</button>
+            <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add to Workout</button>
         </div>
     </div>
 
@@ -298,18 +303,21 @@
         </div>
     </div>
 
-    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')">
-        <div class="modal-content" style="text-align:center;" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Gym Pass</div><button class="btn-close" onclick="closeModal('modal-barcode')">✕</button></div>
-            <h3 style="margin:0 0 10px 0;">Bretton Woods</h3>
-            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:8px;">
+    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: center;">
+        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px;" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div style="font-weight:700; font-size:16px;">Gym Pass</div>
+                <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
+            </div>
+            <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
+            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:6px; display:block;">
         </div>
     </div>
 
     <div id="leaderboard-modal" class="modal-overlay">
         <div class="modal-content" style="padding:0; overflow:hidden; max-height:80vh; display:flex; flex-direction:column;">
-            <div style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
-                <div style="font-size:20px; font-weight:800;">Standings</div>
+            <div style="padding:15px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:18px; font-weight:800;">Standings</div>
                 <button class="btn-close" onclick="document.getElementById('leaderboard-modal').style.display='none'">✕</button>
             </div>
             <div style="padding:10px; background:#F2F2F7; display:flex; gap:10px;">
@@ -340,30 +348,39 @@
         snacks: { current: 0, goal: 2 }
     };
 
+    // Full DB with Images/Guides restored
     const exerciseDB = [
-        { name: "Dumbbell Shoulder Press", type: "upper" }, { name: "Incline Dumbbell Press", type: "upper" },
-        { name: "Cable Tricep Pushdown", type: "upper" }, { name: "Lat Pulldown", type: "upper" },
-        { name: "Seated Cable Row", type: "upper" }, { name: "Dumbbell Row", type: "upper" },
-        { name: "Bicep Curls", type: "upper" }, { name: "Push Ups", type: "upper" },
-        { name: "Goblet Squat", type: "lower" }, { name: "Leg Press", type: "lower" },
-        { name: "Leg Extension", type: "lower" }, { name: "Leg Curl", type: "lower" },
-        { name: "Bulgarian Split Squat", type: "lower" }, { name: "Air Squats", type: "lower" },
-        { name: "Plank", type: "core" }, { name: "Crunches", type: "core" },
-        { name: "Running", type: "cardio" }, { name: "Swimming", type: "cardio" },
-        { name: "Elliptical", type: "cardio" }, { name: "Stairmaster", type: "cardio" },
-        { name: "Hot Yoga", type: "studio" }, { name: "Reformer Pilates", type: "studio" },
-        { name: "Mat Pilates", type: "studio" }
+        { name: "Dumbbell Shoulder Press", type: "upper", img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
+        { name: "Incline Dumbbell Press", type: "upper", img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
+        { name: "Cable Tricep Pushdown", type: "upper", img: "images/cable-tricep-pushdown.png", guide: "3 sets • 12 reps" },
+        { name: "Lat Pulldown", type: "upper", img: "images/lat-pulldown.png", guide: "3 sets • 8-12 reps" },
+        { name: "Seated Cable Row", type: "upper", img: "images/seated-cable-row.png", guide: "3 sets • 8-12 reps" },
+        { name: "Dumbbell Row", type: "upper", img: "images/dumbbell-row.png", guide: "3 sets • 8-12 reps" },
+        { name: "Bicep Curls", type: "upper", img: "images/bicep-curls.png", guide: "3 sets • 8-12 reps" },
+        { name: "Push Ups", type: "upper", img: "images/push-ups.png", guide: "3 sets • Failure" },
+        { name: "Goblet Squat", type: "lower", img: "images/goblet-squat.png", guide: "3 sets • 12 reps" },
+        { name: "Leg Press", type: "lower", img: "images/leg-press.png", guide: "3 sets • 8-12 reps" },
+        { name: "Leg Extension", type: "lower", img: "images/leg-extension.png", guide: "3 sets • 8-12 reps" },
+        { name: "Leg Curl", type: "lower", img: "images/leg-curl.png", guide: "3 sets • 8-12 reps" },
+        { name: "Bulgarian Split Squat", type: "lower", img: "images/bulgarian-split-squat.png", guide: "3 sets • 8 reps/leg" },
+        { name: "Air Squats", type: "lower", img: "images/air-squat.png", guide: "3 sets • 20 reps" },
+        { name: "Plank", type: "core", img: "images/plank.png", guide: "3 sets • 60 sec" },
+        { name: "Crunches", type: "core", img: "images/crunches.png", guide: "2 sets • 50 reps" },
+        { name: "Running", type: "cardio", img: "images/running.png", guide: "20-30 mins" },
+        { name: "Swimming", type: "cardio", img: "images/swimming.png", guide: "20-30 mins" },
+        { name: "Hot Yoga", type: "studio", img: "images/yoga.png", guide: "Class" },
+        { name: "Reformer Pilates", type: "studio", img: "images/pilates.png", guide: "Class" }
     ];
 
     window.onload = function() {
         document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         
-        // Days 1-100
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) {
             let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt);
         }
 
+        fetchFamilyData(); // Fetch DB data immediately for Auto-Day logic
         loadState();
         updateProgressUI();
         initHabits();
@@ -389,10 +406,7 @@
         const btn = document.getElementById('main-action-btn');
         btn.innerHTML = "⏳ Syncing...";
         
-        // Determine User Name
         const finalName = currentUser || document.getElementById('other-input').value;
-
-        // Compile Data
         const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
         const workoutStr = currentLog.length > 0 ? currentLog.map(i => i.name).join(", ") : "Rest Day";
         
@@ -413,11 +427,8 @@
             document.getElementById('success-sound').play().catch(()=>{});
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             
-            // Transform Button
             btn.innerHTML = "📤 Share Scorecard";
             btn.classList.add('synced');
-            
-            // Save local marker
             localStorage.setItem('nogueraFit_synced', 'true');
         }).catch(err => {
             alert("Error syncing. Check internet.");
@@ -428,40 +439,24 @@
     function shareScorecard() {
         const day = document.getElementById('dayInput').value;
         let text = `🔥 NogueraFit Day ${day}\n`;
-        
-        if (currentLog.length > 0) {
-            text += `✅ WORKOUT:\n`;
-            currentLog.forEach(i => text += `• ${i.name}\n`);
-        } else {
-            text += `💤 Rest Day\n`;
-        }
-
-        text += `\n🥗 NUTRITION:\n`;
-        text += `💧 Water: ${habitsData.water.current}/8\n`;
-        text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
-        text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
-        text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
+        if (currentLog.length > 0) currentLog.forEach(i => text += `• ${i.name}\n`);
+        else text += `💤 Rest Day\n`;
+        text += `\n💧 ${habitsData.water.current}/8 | 🥦 ${habitsData.veggies.current}/5\n🍎 ${habitsData.fruits.current}/5 | 🥜 ${habitsData.snacks.current}/2`;
 
         if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
-        else {
-            navigator.clipboard.writeText(text);
-            alert("Copied to clipboard!");
-        }
+        else { navigator.clipboard.writeText(text); alert("Copied!"); }
     }
 
-    // --- LOGGING LOGIC ---
+    // --- WORKOUT LOGIC (RICH CARDS) ---
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
-        filterBatch('upper', document.querySelector('.cat-chip')); // Default to upper
+        filterBatch('upper', document.querySelector('.cat-chip'));
     }
 
     function filterBatch(type, btnEl) {
-        // UI
         document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
         btnEl.classList.add('active');
-
-        // Render List
         const container = document.getElementById('batch-list');
         container.innerHTML = '';
         const list = exerciseDB.filter(ex => ex.type === type);
@@ -469,19 +464,11 @@
         list.forEach(ex => {
             const div = document.createElement('div');
             div.className = 'select-item';
-            // Check if already in batch OR already in log
-            const isSelected = selectedBatch.has(ex.name);
-            if(isSelected) div.classList.add('selected');
-
+            if(selectedBatch.has(ex.name)) div.classList.add('selected');
             div.innerHTML = `<span>${ex.name}</span><div class="select-check">✓</div>`;
             div.onclick = () => {
-                if (selectedBatch.has(ex.name)) {
-                    selectedBatch.delete(ex.name);
-                    div.classList.remove('selected');
-                } else {
-                    selectedBatch.add(ex.name);
-                    div.classList.add('selected');
-                }
+                if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
+                else { selectedBatch.add(ex.name); div.classList.add('selected'); }
                 document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
             };
             container.appendChild(div);
@@ -490,7 +477,9 @@
 
     function confirmBatchAdd() {
         selectedBatch.forEach(name => {
-            currentLog.push({ name: name, meta: 'Logged' });
+            // Find full exercise details
+            const details = exerciseDB.find(e => e.name === name) || { name: name, img: '', guide: 'Custom' };
+            currentLog.push(details);
         });
         saveState();
         renderLog();
@@ -498,32 +487,39 @@
     }
 
     function renderLog() {
-        const list = document.getElementById('log-list');
+        const container = document.getElementById('cards-container');
         const trigger = document.getElementById('add-trigger-area');
         const addMore = document.getElementById('add-more-btn');
         const scoreVal = document.getElementById('score-workout');
 
-        list.innerHTML = '';
+        container.innerHTML = '';
 
         if (currentLog.length === 0) {
             trigger.style.display = 'flex';
             addMore.style.display = 'none';
-            scoreVal.innerText = "0 Activities";
+            scoreVal.innerText = "0 Done";
             scoreVal.classList.remove('done');
         } else {
             trigger.style.display = 'none';
             addMore.style.display = 'block';
-            scoreVal.innerText = `${currentLog.length} Activities`;
+            scoreVal.innerText = `${currentLog.length} Done`;
             scoreVal.classList.add('done');
 
             currentLog.forEach((item, idx) => {
-                const li = document.createElement('li');
-                li.className = 'log-item';
-                li.innerHTML = `
-                    <div class="log-item-name">${item.name}</div>
-                    <button class="btn-delete" onclick="removeLogItem(${idx})">✕</button>
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                // Use placeholder if image missing
+                const imgSrc = item.img ? item.img : `https://via.placeholder.com/400x200?text=${item.name}`;
+                
+                card.innerHTML = `
+                    <button class="btn-remove-card" onclick="removeLogItem(${idx})">✕</button>
+                    <img src="${imgSrc}" class="exercise-img" alt="${item.name}">
+                    <div class="exercise-details">
+                        <div class="exercise-name">${item.name}</div>
+                        <div class="exercise-instruction">${item.guide}</div>
+                    </div>
                 `;
-                list.appendChild(li);
+                container.appendChild(card);
             });
         }
     }
@@ -536,15 +532,52 @@
         }
     }
 
-    // --- DATA MANAGEMENT ---
+    // --- DATA & AUTO-DAY LOGIC ---
+    async function fetchFamilyData() {
+        try {
+            const res = await fetch(API_URL);
+            familyData = await res.json();
+            // If user is already selected, try updating day
+            if(currentUser) autoSetDay(currentUser);
+        } catch(e) { console.log(e); }
+    }
+
+    function autoSetDay(name) {
+        // Find user in familyData
+        // familyData = [{name: "Sofi", streak: 2}, ...]
+        // If streak is 2, they have finished 2 days, so today is Day 3.
+        const userStats = familyData.find(u => u.name === name);
+        if(userStats) {
+            const nextDay = userStats.streak + 1;
+            document.getElementById('dayInput').value = nextDay;
+            updateProgressUI();
+            console.log(`Auto-set day for ${name}: ${nextDay}`);
+        }
+    }
+
+    function selectUser(name) {
+        currentUser = name;
+        document.getElementById('header-username').innerText = "👤 " + name;
+        closeModal('modal-user');
+        
+        // Trigger Auto-Day
+        if(familyData.length > 0) {
+            autoSetDay(name);
+        } else {
+            // If data hasn't loaded yet, fetch it then set
+            fetchFamilyData().then(() => autoSetDay(name));
+        }
+        
+        saveState();
+    }
+
     function saveState() {
         const data = {
             date: new Date().toDateString(),
             day: document.getElementById('dayInput').value,
             log: currentLog,
             habits: habitsData,
-            user: currentUser,
-            other: document.getElementById('other-input').value
+            user: currentUser
         };
         localStorage.setItem('nogueraFit_data', JSON.stringify(data));
         updateScorecardStatus();
@@ -554,41 +587,35 @@
         const raw = localStorage.getItem('nogueraFit_data');
         if (!raw) return;
         const saved = JSON.parse(raw);
-        
-        // Midnight Reset
         if (saved.date !== new Date().toDateString()) {
             localStorage.removeItem('nogueraFit_data');
             localStorage.removeItem('nogueraFit_synced');
             return; 
         }
-
-        // Restore
         document.getElementById('dayInput').value = saved.day;
         currentLog = saved.log || [];
         habitsData = saved.habits || habitsData;
-        if (saved.user) selectUser(saved.user);
-        if (saved.other) document.getElementById('other-input').value = saved.other;
-        
-        // Restore Sync Button State
+        if (saved.user) {
+            currentUser = saved.user;
+            document.getElementById('header-username').innerText = "👤 " + saved.user;
+        }
         if (localStorage.getItem('nogueraFit_synced') === 'true') {
             const btn = document.getElementById('main-action-btn');
             btn.innerHTML = "📤 Share Scorecard";
             btn.classList.add('synced');
             isSynced = true;
         }
-
         updateScorecardStatus();
     }
 
     function updateScorecardStatus() {
-        // Nutrition Logic
-        const total = 20; // 8+5+5+2
-        const current = habitsData.water.current + habitsData.veggies.current + habitsData.fruits.current + habitsData.snacks.current;
-        const nScore = document.getElementById('score-nutrition');
-        
-        if (current === 0) { nScore.innerText = "Not Started"; nScore.classList.remove('done'); }
-        else if (current >= total) { nScore.innerText = "✅ Complete"; nScore.classList.add('done'); }
-        else { nScore.innerText = "In Progress"; nScore.classList.remove('done'); }
+        ['water','veggies','fruits','snacks'].forEach(h => {
+            const cur = habitsData[h].current;
+            const goal = habitsData[h].goal;
+            const el = document.getElementById(`score-${h}`);
+            el.innerText = `${cur} / ${goal}`;
+            if(cur >= goal) el.classList.add('done'); else el.classList.remove('done');
+        });
     }
 
     function initHabits() {
@@ -596,7 +623,6 @@
             if(row.innerHTML !== '') return;
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
-            
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
@@ -616,27 +642,25 @@
         habitsData[h].current = val;
         const row = document.querySelector(`.circle-row[data-habit="${h}"]`);
         const colors = { water: '#5AC8FA', veggies: '#34C759', fruits: '#FF3B30', snacks: '#AF52DE' };
-        
         Array.from(row.children).forEach((c, i) => {
-            if (i < val) {
-                c.classList.add('active');
-                c.style.background = colors[h];
-            } else {
-                c.classList.remove('active');
-                c.style.background = 'transparent';
-            }
+            if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
+            else { c.classList.remove('active'); c.style.background = 'transparent'; }
         });
-        
         document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
         document.getElementById(`bar-${h}`).style.width = `${(val/g)*100}%`;
         updateScorecardStatus();
+    }
+
+    function updateProgressUI() {
+        const d = document.getElementById('dayInput').value;
+        document.getElementById('visual-progress').style.width = d + '%';
+        document.getElementById('progress-text').innerText = d + '%';
     }
 
     // --- LEADERBOARD ---
     async function openLeaderboard() {
         document.getElementById('leaderboard-modal').style.display = 'flex';
         document.getElementById('lb-content').innerHTML = '<div style="padding:20px; text-align:center; color:#888;">Fetching...</div>';
-        
         try {
             const res = await fetch(API_URL);
             familyData = await res.json();
@@ -656,54 +680,27 @@
 
         const container = document.getElementById('lb-content');
         container.innerHTML = '';
-
         data.forEach((u, idx) => {
             let rankClass = 'rank-low';
             if (idx === 0) rankClass = 'rank-1';
             if (idx === 1) rankClass = 'rank-2';
             if (idx === 2) rankClass = 'rank-3';
-
-            let statusHTML = '';
-            if (mode === 'today') {
-                statusHTML = u.status === 'done' 
-                    ? '<span class="status-done">Worked out today</span>' 
-                    : '<span class="status-pending">Not yet</span>';
-            } else {
-                // Format streak logic
-                let s = u.streak;
-                let txt = `${s} Days`;
-                if (s >= 7 && s < 14) txt = "1 Week";
-                if (s >= 14 && s < 21) txt = "2 Weeks";
-                if (s >= 21) txt = Math.floor(s/7) + " Weeks";
-                statusHTML = `<span style="font-weight:800; color:#FF9500;">🔥 ${txt}</span>`;
-            }
+            
+            let statusHTML = mode === 'today' 
+                ? (u.status === 'done' ? '<span class="status-done">Done</span>' : '<span style="color:#ccc">Pending</span>')
+                : `<span style="font-weight:800; color:#FF9500;">🔥 ${u.streak}</span>`;
 
             const div = document.createElement('div');
             div.className = 'lb-row';
             div.innerHTML = `
                 <div style="display:flex; align-items:center;">
                     <div class="lb-rank ${rankClass}">${idx+1}</div>
-                    <div class="lb-name">${u.name}</div>
+                    <div style="font-weight:700;">${u.name}</div>
                 </div>
-                <div class="lb-status">${statusHTML}</div>
+                <div>${statusHTML}</div>
             `;
             container.appendChild(div);
         });
-    }
-
-    // --- UI HELPERS ---
-    function selectUser(name) {
-        currentUser = name;
-        document.getElementById('header-username').innerText = "👤 " + name;
-        closeModal('modal-user');
-        saveState();
-    }
-    
-    function updateProgressUI() {
-        const d = document.getElementById('dayInput').value;
-        document.getElementById('visual-progress').style.width = d + '%';
-        document.getElementById('progress-text').innerText = d + '%';
-        saveState();
     }
 
     function switchTab(t) {
