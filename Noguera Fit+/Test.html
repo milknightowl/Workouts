@@ -146,6 +146,21 @@
             animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         
+        /* NEW: Modifier for simple, auto-height popups (like Barcode & User Select) */
+        .modal-content--auto {
+            height: auto !important; /* Override the fixed 80vh height */
+            max-height: 80vh !important; /* Ensure it doesn't overflow on small screens */
+            border-radius: 24px; /* Round all corners */
+            max-width: 320px; /* Keep it compact */
+            margin: auto; /* Center it vertically and horizontally */
+            animation: scaleIn 0.2s ease-out !important; 
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
         .modal-title { font-size: 20px; font-weight: 800; }
         .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
@@ -377,8 +392,8 @@
         </div>
     </div>
 
-    <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
-        <div class="modal-content" style="height:auto;" onclick="event.stopPropagation()">
+    <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')" style="align-items: center;">
+        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
             <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
             <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
                 <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
@@ -399,14 +414,14 @@
         </div>
     </div>
 
-    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: flex-start; padding-top: 50px;">
-        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px; height:auto;" onclick="event.stopPropagation()">
+    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: center;">
+        <div class="modal-content modal-content--auto" style="text-align:center; padding: 20px;" onclick="event.stopPropagation()">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                 <div style="font-weight:700; font-size:16px;">Gym Pass</div>
-                <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
+                <button class="btn-close" style="width:30px; height:30px; font-size:16px;" onclick="closeModal('modal-barcode')">✕</button>
             </div>
             <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
-            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:6px; display:block;">
+            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; max-height: 300px; object-fit:contain; border-radius:6px; display:block;">
         </div>
     </div>
 
