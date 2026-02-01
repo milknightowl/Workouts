@@ -210,7 +210,7 @@
             <div id="main-scorecard" class="card-slide state-empty">
                 <div class="scorecard-header">
                     <div class="scorecard-title" id="score-title">Scorecard</div>
-                    <div class="scorecard-date" id="score-status-pill">Empty</div>
+                    <div class="scorecard-date" id="score-status-pill"></div>
                 </div>
                 
                 <div class="score-row"><span class="score-label">🏋️ Exercise</span><span class="score-val" id="score-workout">0 Done</span></div>
@@ -388,9 +388,8 @@
                 <button class="btn-barcode" onclick="selectUser('Andi')" style="justify-content:center; padding:12px;">Andi</button>
                 <button class="btn-barcode" onclick="selectUser('Meredith')" style="justify-content:center; padding:12px;">Meredith</button>
                 <button class="btn-barcode" onclick="selectUser('Ceci')" style="justify-content:center; padding:12px;">Ceci</button>
-                <button class="btn-barcode" onclick="document.getElementById('other-input').style.display='block'" style="justify-content:center; padding:12px;">Other</button>
+                <button class="btn-barcode" onclick="alert('Please speak to the milknight owl to have a new profile added 🦉🌙🥛')" style="justify-content:center; padding:12px;">Other</button>
             </div>
-            <input type="text" id="other-input" placeholder="Guest Name..." style="display:none; width:100%; padding:15px; margin-top:15px; border:1px solid #ddd; border-radius:12px;">
         </div>
     </div>
 
@@ -477,25 +476,28 @@
         const lockedMsg = document.getElementById('msg-locked');
         const actionArea = document.getElementById('action-area');
         
+        // DATE STRING for Status
+        const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
         card.classList.remove('state-empty', 'state-active', 'state-submitted');
         
         const hasActivity = dailyLog.length > 0 || habitsData.water.c > 0 || habitsData.veggies.c > 0 || habitsData.fruits.c > 0 || habitsData.snacks.c > 0;
 
         if (isSubmitted) {
             card.classList.add('state-submitted');
-            pill.innerText = "Submitted";
+            pill.innerText = `${dateStr} (completed)`;
             btn.style.display = 'none';
             lockedMsg.style.display = 'block';
             actionArea.classList.add('hidden');
         } else if (hasActivity) {
             card.classList.add('state-active');
-            pill.innerText = "In Progress";
+            pill.innerText = `${dateStr} (in progress)`;
             btn.style.display = 'block';
             lockedMsg.style.display = 'none';
             actionArea.classList.remove('hidden');
         } else {
             card.classList.add('state-empty');
-            pill.innerText = "Empty";
+            pill.innerText = `${dateStr} (not started)`;
             btn.style.display = 'none';
             lockedMsg.style.display = 'none';
             actionArea.classList.remove('hidden');
@@ -775,7 +777,6 @@
         cont.innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>Loading...</div>";
         
         try {
-            // Timeout promise to prevent infinite hanging
             const timeout = new Promise((_, reject) => setTimeout(() => reject("Timeout"), 8000));
             const fetchReq = fetch(API_URL).then(res => res.json());
             
