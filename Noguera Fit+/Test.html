@@ -19,16 +19,17 @@
         :root {
             --ios-blue: #007AFF;
             --ios-green: #34C759;
-            --ios-gray: #8E8E93;
-            --ios-bg: #F2F2F7;
+            --ios-gray: #F2F2F7;
+            --ios-gold: #FFD700;
             --text-dark: #1C1C1E;
+            --text-light: #8E8E93;
         }
 
         * { box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--ios-bg);
+            background-color: #F2F2F7;
             margin: 0;
             padding: 0;
             color: var(--text-dark);
@@ -39,100 +40,107 @@
             padding: 15px;
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 80px;
+            padding-bottom: 120px;
             overflow-x: hidden;
         }
 
         /* --- HEADER --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
-        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; z-index: 10; }
-        .btn-barcode { background: white; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
+        .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
         /* --- PROGRESS --- */
         .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--ios-gray); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 12px; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 6px; }
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
-        /* --- CAROUSEL (FIXED LAYOUT) --- */
-        .carousel-track { 
-            display: flex; 
-            overflow-x: auto; 
-            scroll-snap-type: x mandatory; 
-            gap: 15px; 
-            padding-bottom: 10px; 
-            margin: 0 -15px; 
-            padding: 0 15px 20px 15px; 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
-            align-items: flex-start; /* CRITICAL FIX: Prevents height stretching */
-        }
+        /* --- CAROUSEL --- */
+        .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; align-items: flex-start; }
         .carousel-track::-webkit-scrollbar { display: none; }
-        
-        .card-slide { 
-            flex: 0 0 92%; 
-            scroll-snap-align: center; 
-            background: white; 
-            border-radius: 24px; 
-            padding: 20px; 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
-            position: relative; 
-            border: 1px solid rgba(0,0,0,0.02); 
-            overflow: hidden; 
-            min-height: 300px; /* Minimum height for consistency */
-        }
-
+        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; min-height: 320px; }
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        /* --- SCORECARD STATES --- */
-        .state-empty .scorecard-header::before { background-color: #C7C7CC; } 
-        .state-empty .scorecard-date { background: #E5E5EA; color: #8E8E93; }
-        
-        .state-active .scorecard-header::before { background-color: var(--ios-blue); }
-        .state-active .scorecard-date { background: rgba(0,122,255,0.1); color: var(--ios-blue); }
-
-        .state-submitted .scorecard-header::before { background-color: var(--ios-green); }
-        .state-submitted .scorecard-date { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
-
+        /* --- SCORECARD STATES (TRAFFIC LIGHT) --- */
         .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; padding-top: 10px; }
         .scorecard-header::before { content: ""; position: absolute; top: -20px; left: -20px; right: -20px; height: 6px; z-index:1; transition: background 0.3s; }
         
+        /* State 1: Not Started (Gray) */
+        .state-empty .scorecard-header::before { background-color: #C7C7CC; }
+        .state-empty .scorecard-date { background: #E5E5EA; color: #8E8E93; }
+
+        /* State 2: In Progress (Blue) */
+        .state-active .scorecard-header::before { background-color: var(--ios-blue); }
+        .state-active .scorecard-date { background: rgba(0,122,255,0.1); color: var(--ios-blue); }
+
+        /* State 3: Completed (Green) */
+        .state-submitted .scorecard-header::before { background-color: var(--ios-green); }
+        .state-submitted .scorecard-date { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
+
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
-        .scorecard-date { font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
+        .scorecard-date { font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
         
         .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
         .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
-        .card-footer-btn { width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 10px; border: none; cursor: pointer; transition: 0.2s; display: none; }
-        .btn-submit-day { background: var(--ios-blue); color: white; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
-        .msg-locked { display: none; text-align: center; color: var(--ios-green); font-weight: 700; margin-top: 15px; font-size: 14px; }
-        .btn-unlock { display: block; margin: 10px auto 0; background: none; border: none; color: #8E8E93; text-decoration: underline; font-size: 12px; cursor: pointer; }
+        .btn-submit-card { width: 100%; padding: 14px; background: var(--ios-blue); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 15px; display: none; cursor: pointer; animation: slideIn 0.3s ease; }
+        .msg-completed { text-align: center; color: var(--ios-green); font-weight: 700; margin-top: 15px; display: none; }
+        .link-edit { color: #8E8E93; text-decoration: underline; font-size: 12px; margin-top: 5px; cursor: pointer; display: block; }
 
-        /* --- DASHBOARD ACTION GRID --- */
-        .action-grid { display: flex; gap: 15px; margin-bottom: 25px; transition: opacity 0.3s; }
-        .action-grid.hidden { display: none; } 
-        
-        .dash-btn { flex: 1; background: white; border: none; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.2s; }
-        .dash-btn:active { transform: scale(0.96); background: #F2F2F7; }
-        .btn-icon { font-size: 32px; display: block; }
-        .btn-label { font-weight: 700; font-size: 15px; color: #1C1C1E; }
+        /* --- LEADERBOARD --- */
+        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
+        .lb-list { max-height: 250px; overflow-y: auto; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+        .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
+        .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
 
-        /* --- LOG LIST --- */
-        .today-section { margin-top: 10px; }
-        .section-title { font-size: 14px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
-        .log-item { background: white; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-bottom: 10px; }
-        .btn-delete-log { color: #FF3B30; background: none; border: none; font-weight: 700; font-size: 18px; padding: 5px 10px; cursor: pointer; }
+        /* --- TABS --- */
+        .tab-bar { display: flex; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 5px; gap: 5px; position: sticky; top: 10px; z-index: 90; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .tab-btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--text-light); transition: all 0.2s; }
+        .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        #tab-workout.active { color: var(--ios-blue); }
+        #tab-nutrition.active { color: var(--ios-green); }
+
+        .hidden-view { display: none !important; }
+
+        /* --- WORKOUT UI --- */
+        .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
+        .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
+        .big-icon { font-size: 32px; display: block; margin-bottom: 5px; }
+
+        .exercise-card { background: white; border-radius: 18px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: slideIn 0.3s ease-out; position: relative; }
+        .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; border-bottom: 1px solid #F2F2F7; }
+        .exercise-details { padding: 18px; }
+        .exercise-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #1C1C1E; }
+        .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; display: inline-block; }
+        .btn-remove-card { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 50%; color: #FF3B30; font-weight: bold; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+
+        .btn-add-more { background: white; color: var(--ios-blue); border: 1px solid var(--ios-blue); width: 100%; padding: 14px; border-radius: 14px; font-weight: 700; margin-bottom: 10px; cursor: pointer; font-size: 15px; }
+
+        /* --- HABITS --- */
+        .habit-card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .habit-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
+        .habit-title { font-weight: 700; font-size: 16px; }
+        .habit-count { font-size: 14px; font-weight: 600; color: #888; background: #f2f2f7; padding: 3px 8px; border-radius: 6px; }
+        .habit-bar-bg { height: 8px; background: #F2F2F7; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
+        .habit-bar-fill { height: 100%; width: 0%; border-radius: 4px; transition: 0.3s; }
+        .circle-row { display: flex; gap: 8px; }
+        .habit-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
+        .habit-circle.active { transform: scale(1.1); border-color: transparent; }
+        .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
 
         /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
         .modal-content { background: #F2F2F7; width: 100%; max-width: 600px; border-radius: 24px 24px 0 0; padding: 25px; height: 90vh !important; display: flex; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        
         .modal-content--auto { height: auto !important; max-height: 80vh !important; border-radius: 24px; max-width: 340px; margin: auto; animation: scaleIn 0.2s ease-out !important; }
+        
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
         .modal-title { font-size: 20px; font-weight: 800; }
         .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
@@ -140,9 +148,10 @@
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        /* --- UNIFIED LIST --- */
+        /* --- UNIFIED SCROLLABLE LIST (No Tabs in Modal) --- */
         .search-bar { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #D1D1D6; font-size: 16px; margin-bottom: 15px; background: white; }
-        .unified-list { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+        .unified-list { flex: 1; overflow-y: auto; padding-bottom: 80px; } /* Pad for FAB */
+        
         .list-section-header { font-size: 13px; font-weight: 800; color: #8E8E93; text-transform: uppercase; margin: 20px 0 8px 5px; position: sticky; top: -1px; background: #F2F2F7; padding: 5px; z-index: 10; }
         
         .select-item { background: white; padding: 10px 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; min-height: 60px; margin-bottom: 8px; }
@@ -154,36 +163,6 @@
 
         .btn-fab-add { position: absolute; bottom: 90px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--ios-blue); color: white; border: none; font-size: 24px; font-weight: 300; box-shadow: 0 4px 12px rgba(0,122,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
         .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: auto; cursor: pointer; font-size: 16px; box-shadow: 0 -10px 20px #F2F2F7; z-index: 60; }
-
-        /* --- PREVIEW CARD --- */
-        .preview-card { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
-        .preview-list { margin: 15px 0; border-top: 1px solid #EEE; }
-        .preview-item { padding: 10px 0; border-bottom: 1px solid #EEE; display: flex; align-items: center; gap: 10px; font-size: 15px; }
-
-        /* --- HABITS --- */
-        .habit-card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .habit-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
-        .habit-title { font-weight: 700; font-size: 16px; }
-        .habit-count { font-size: 14px; font-weight: 600; color: #888; background: #f2f2f7; padding: 3px 8px; border-radius: 6px; }
-        .circle-row { display: flex; gap: 8px; }
-        .habit-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
-        .habit-circle.active { transform: scale(1.1); border-color: transparent; }
-        .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
-
-        /* --- LEADERBOARD (SCROLL FIX) --- */
-        .leaderboard-bg {
-            display: flex; flex-direction: column; /* Organize header and list */
-        }
-        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; flex-shrink: 0; }
-        /* FIXED HEIGHT SCROLLABLE AREA */
-        .lb-list { 
-            overflow-y: auto; 
-            max-height: 250px; /* Force limit */
-            flex-grow: 1;
-        }
-        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
-        .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
-        .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
 
     </style>
 </head>
@@ -219,11 +198,11 @@
                 <div class="score-row"><span class="score-label">🍎 Fruits</span><span class="score-val" id="score-fruits">0 / 5</span></div>
                 <div class="score-row"><span class="score-label">🥜 Snacks</span><span class="score-val" id="score-snacks">0 / 2</span></div>
                 
-                <button id="btn-submit" class="card-footer-btn btn-submit-day" onclick="submitScorecard()">Submit Scorecard</button>
+                <button id="btn-submit-card" class="btn-submit-card" onclick="finishDay()">Submit & Lock Day</button>
                 
-                <div id="msg-locked" class="msg-locked">
-                    <div>✅ Day Complete!</div>
-                    <button class="btn-unlock" onclick="unlockDay()">Not done yet? Edit</button>
+                <div id="msg-completed" class="msg-completed">
+                    <div>✅ Day Logged!</div>
+                    <div class="link-edit" onclick="unlockDay()">Need to edit?</div>
                 </div>
             </div>
 
@@ -242,70 +221,42 @@
             <div class="dot" id="dot-1"></div>
         </div>
 
-        <div id="action-area" class="action-grid">
-            <button class="dash-btn" onclick="openWorkoutWizard()">
-                <span class="btn-icon">🏋️</span>
-                <span class="btn-label">Log Workout</span>
-            </button>
-            <button class="dash-btn" onclick="openNutritionModal()">
-                <span class="btn-icon">🥗</span>
-                <span class="btn-label">Update Nutrition</span>
-            </button>
+        <div id="main-tabs" class="tab-bar">
+            <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
+            <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
         </div>
 
-        <div class="today-section">
-            <div class="section-title">Today's Activity</div>
-            <div id="today-log-list" class="log-list"></div>
+        <div id="workout-view">
+            <div id="add-trigger-area" class="big-add-btn" onclick="openManualSelect()">
+                <span class="big-icon">➕</span>
+                <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
+                <span style="font-size:13px;">Tap to select exercises</span>
+            </div>
+
+            <div id="cards-container"></div>
+            <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openManualSelect()">+ Add More</button>
         </div>
-
-    </div>
-
-    <div id="modal-nutrition" class="modal-overlay" onclick="closeModal('modal-nutrition')">
-        <div class="modal-content" style="height: auto !important; max-height: 80vh;" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">Daily Habits</div>
-                <button class="btn-close" onclick="closeModal('modal-nutrition')">✕</button>
+        
+        <div id="nutrition-view" class="hidden-view">
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
+                <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
+                <div class="circle-row" data-habit="water" data-goal="8"></div>
             </div>
-            <div style="overflow-y:auto;">
-                <div class="habit-card">
-                    <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
-                    <div class="circle-row" data-habit="water" data-goal="8"></div>
-                </div>
-                <div class="habit-card">
-                    <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
-                    <div class="circle-row" data-habit="veggies" data-goal="5"></div>
-                </div>
-                <div class="habit-card">
-                    <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
-                    <div class="circle-row" data-habit="fruits" data-goal="5"></div>
-                </div>
-                <div class="habit-card">
-                    <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
-                    <div class="circle-row" data-habit="snacks" data-goal="2"></div>
-                </div>
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
+                <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
+                <div class="circle-row" data-habit="veggies" data-goal="5"></div>
             </div>
-            <button class="btn-confirm-add" onclick="closeModal('modal-nutrition')">Done</button>
-        </div>
-    </div>
-
-    <div id="modal-wizard" class="modal-overlay" onclick="closeModal('modal-wizard')" style="align-items:center;">
-        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Log Workout</div><button class="btn-close" onclick="closeModal('modal-wizard')">✕</button></div>
-            
-            <div class="dash-btn" onclick="startManualLog()" style="flex-direction:row; justify-content:flex-start; margin-bottom:15px; width:100%;">
-                <div class="btn-icon" style="font-size:24px; background:#E3F2FD; padding:10px; border-radius:50%;">📝</div>
-                <div style="text-align:left;">
-                    <span class="btn-label">Manual Log</span>
-                    <div style="font-size:12px; color:#888;">Select from list</div>
-                </div>
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
+                <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
+                <div class="circle-row" data-habit="fruits" data-goal="5"></div>
             </div>
-
-            <div class="dash-btn" onclick="startGenerator()" style="flex-direction:row; justify-content:flex-start; width:100%;">
-                <div class="btn-icon" style="font-size:24px; background:#E3F2FD; padding:10px; border-radius:50%;">✨</div>
-                <div style="text-align:left;">
-                    <span class="btn-label">Workout Generator</span>
-                    <div style="font-size:12px; color:#888;">Let us pick for you</div>
-                </div>
+            <div class="habit-card">
+                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
+                <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
+                <div class="circle-row" data-habit="snacks" data-goal="2"></div>
             </div>
         </div>
     </div>
@@ -328,48 +279,6 @@
             <div class="modal-header"><div class="modal-title">New Exercise</div><button class="btn-close" onclick="closeModal('modal-custom')">✕</button></div>
             <input type="text" id="custom-ex-input" placeholder="Exercise Name..." style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #ddd; border-radius:12px;">
             <button class="btn-confirm-add" onclick="saveCustomExercise()">Add to List</button>
-        </div>
-    </div>
-
-    <div id="modal-generator" class="modal-overlay" onclick="closeModal('modal-generator')">
-        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Generator Settings</div><button class="btn-close" onclick="closeModal('modal-generator')">✕</button></div>
-            
-            <div style="margin-bottom:20px;">
-                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">LOCATION</div>
-                <div style="display:flex; gap:8px;">
-                    <button id="gloc-home" class="btn-barcode" style="padding:10px 15px;" onclick="setGenLoc('home')">Home</button>
-                    <button id="gloc-gym" class="btn-barcode" style="padding:10px 15px;" onclick="setGenLoc('gym')">Gym</button>
-                </div>
-            </div>
-
-            <div style="margin-bottom:20px;">
-                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">FOCUS</div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button class="btn-barcode" onclick="toggleFocus('upper', this)" style="padding:10px 15px;">Upper</button>
-                    <button class="btn-barcode" onclick="toggleFocus('lower', this)" style="padding:10px 15px;">Lower</button>
-                    <button class="btn-barcode" onclick="toggleFocus('core', this)" style="padding:10px 15px;">Core</button>
-                    <button class="btn-barcode" onclick="toggleFocus('cardio', this)" style="padding:10px 15px;">Cardio</button>
-                </div>
-            </div>
-
-            <div style="margin-bottom:20px;">
-                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">QUANTITY: <span id="gen-val">4</span></div>
-                <input type="range" id="gen-slider" min="2" max="8" value="4" style="width:100%;" oninput="document.getElementById('gen-val').innerText = this.value">
-            </div>
-
-            <button class="btn-confirm-add" onclick="previewGenerator()">Preview Workout</button>
-        </div>
-    </div>
-
-    <div id="modal-preview" class="modal-overlay" onclick="closeModal('modal-preview')" style="align-items:center;">
-        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Suggested Workout</div><button class="btn-close" onclick="closeModal('modal-preview')">✕</button></div>
-            <div class="preview-card">
-                <div>Here is a plan for you:</div>
-                <div id="preview-list" class="preview-list"></div>
-            </div>
-            <button class="btn-confirm-add" onclick="acceptGenerator()">Start Workout</button>
         </div>
     </div>
 
@@ -417,11 +326,8 @@
     
     // UI VARS
     let selectedBatch = new Set();
-    let genLocation = 'home';
-    let genFocus = new Set();
-    let pendingPreview = []; 
-
-    // EXERCISE DATABASE
+    
+    // DB
     const exerciseDB = [
         { name: "Running", type: "Cardio", loc: ["home", "gym"], img: "images/running.png" },
         { name: "Stationary Bike", type: "Cardio", loc: ["home", "gym"], img: "images/stationary-bike.png" },
@@ -439,28 +345,23 @@
     ];
 
     window.onload = function() {
-        // 1. Initialize DB safely
         try {
             const savedCustom = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
             if(Array.isArray(savedCustom)) savedCustom.forEach(ex => exerciseDB.push(ex));
         } catch(e) { localStorage.removeItem('nogueraFit_custom'); }
         
-        // 2. Set Dates
         document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt); }
         
-        // 3. Robust Loading Sequence
-        try { loadState(); } catch(e) { console.error("Load failed, resetting", e); localStorage.removeItem('nogueraFit_v3'); }
+        try { loadState(); } catch(e) { console.error("Load failed", e); localStorage.removeItem('nogueraFit_classic'); }
         
-        // 4. Render UI
         updateProgressUI();
         initHabits();
-        renderDashboard();
+        renderLogCards(); // IMPORTANT: Renders the cards in the main view
         updateCardState();
         fetchFamilyData(); 
 
-        // 5. Scroll Spy
         const track = document.getElementById('carousel-track');
         track.addEventListener('scroll', () => {
             const index = Math.round(track.scrollLeft / track.offsetWidth);
@@ -468,54 +369,69 @@
         });
     }
 
-    // --- CORE LOGIC: CARD STATES ---
+    // --- CARD STATES (TRAFFIC LIGHT) ---
     function updateCardState() {
         const card = document.getElementById('main-scorecard');
         const pill = document.getElementById('score-status-pill');
-        const btn = document.getElementById('btn-submit');
-        const lockedMsg = document.getElementById('msg-locked');
-        const actionArea = document.getElementById('action-area');
+        const btn = document.getElementById('btn-submit-card');
+        const msg = document.getElementById('msg-completed');
+        const tabs = document.getElementById('main-tabs');
         
-        // DATE STRING for Status
         const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
-        card.classList.remove('state-empty', 'state-active', 'state-submitted');
         
+        // Check activity
         const hasActivity = dailyLog.length > 0 || habitsData.water.c > 0 || habitsData.veggies.c > 0 || habitsData.fruits.c > 0 || habitsData.snacks.c > 0;
 
+        card.classList.remove('state-empty', 'state-active', 'state-submitted');
+
         if (isSubmitted) {
+            // GREEN: COMPLETED
             card.classList.add('state-submitted');
             pill.innerText = `${dateStr} (completed)`;
             btn.style.display = 'none';
-            lockedMsg.style.display = 'block';
-            actionArea.classList.add('hidden');
+            msg.style.display = 'block';
+            tabs.style.display = 'none'; // Lock editing
+            document.getElementById('workout-view').classList.add('hidden-view');
+            document.getElementById('nutrition-view').classList.add('hidden-view');
         } else if (hasActivity) {
+            // BLUE: IN PROGRESS
             card.classList.add('state-active');
             pill.innerText = `${dateStr} (in progress)`;
             btn.style.display = 'block';
-            lockedMsg.style.display = 'none';
-            actionArea.classList.remove('hidden');
+            msg.style.display = 'none';
+            tabs.style.display = 'flex';
+            // Ensure correct tab is shown
+            const activeTab = document.querySelector('.tab-btn.active').id;
+            if (activeTab === 'tab-workout') document.getElementById('workout-view').classList.remove('hidden-view');
+            else document.getElementById('nutrition-view').classList.remove('hidden-view');
         } else {
+            // GRAY: EMPTY
             card.classList.add('state-empty');
             pill.innerText = `${dateStr} (not started)`;
             btn.style.display = 'none';
-            lockedMsg.style.display = 'none';
-            actionArea.classList.remove('hidden');
+            msg.style.display = 'none';
+            tabs.style.display = 'flex';
+            const activeTab = document.querySelector('.tab-btn.active').id;
+            if (activeTab === 'tab-workout') document.getElementById('workout-view').classList.remove('hidden-view');
+            else document.getElementById('nutrition-view').classList.remove('hidden-view');
         }
+        
+        // Update counts on scorecard
+        document.getElementById('score-workout').innerText = dailyLog.length + " Done";
+        if(dailyLog.length > 0) document.getElementById('score-workout').classList.add('done');
     }
 
-    function submitScorecard() {
+    function finishDay() {
         if (!currentUser) { alert("Please select your name first!"); openUserModal(); return; }
-        
-        if(confirm("Ready to finish the day?")) {
+        if(confirm("Submit Scorecard? This will lock your day.")) {
             isSubmitted = true;
             saveState();
             updateCardState();
             
+            // Sync
             const h = habitsData;
             const habitStr = `W:${h.water.c}, V:${h.veggies.c}, F:${h.fruits.c}, S:${h.snacks.c}`;
             const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
-            
             const payload = {
                 date: new Date().toLocaleString(),
                 day: document.getElementById('dayInput').value,
@@ -523,10 +439,8 @@
                 location: 'app',
                 workout: workoutStr + " | " + habitStr
             };
-            
             document.getElementById('success-sound').play().catch(()=>{});
             confetti({ particleCount: 150, spread: 70, origin: { y: 0.5 } });
-
             fetch(API_URL, {
                 method: 'POST', mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
@@ -536,47 +450,15 @@
     }
 
     function unlockDay() {
-        if(confirm("Need to add something? This will unlock your scorecard.")) {
+        if(confirm("Unlock scorecard to make edits?")) {
             isSubmitted = false;
             saveState();
             updateCardState();
         }
     }
 
-    // --- DASHBOARD UI ---
-    function renderDashboard() {
-        const list = document.getElementById('today-log-list');
-        list.innerHTML = '';
-
-        if (dailyLog.length === 0) {
-            list.innerHTML = `<div style="text-align:center; color:#CCC; padding:20px; font-size:14px;">No exercises logged yet.</div>`;
-        } else {
-            dailyLog.forEach((item, idx) => {
-                const div = document.createElement('div');
-                div.className = 'log-item';
-                div.innerHTML = `
-                    <div class="log-left"><span class="log-check">✅</span> <span>${item.name}</span></div>
-                    <button class="btn-delete-log" onclick="removeLogItem(${idx})">✕</button>
-                `;
-                list.appendChild(div);
-            });
-        }
-        
-        document.getElementById('score-workout').innerText = dailyLog.length + " Done";
-        if(dailyLog.length > 0) document.getElementById('score-workout').classList.add('done');
-    }
-
-    function removeLogItem(idx) {
-        if(isSubmitted) return; 
-        dailyLog.splice(idx, 1);
-        saveState();
-        renderDashboard();
-        updateCardState();
-    }
-
-    // --- UNIFIED MANUAL LOG ---
-    function startManualLog() {
-        closeModal('modal-wizard');
+    // --- UNIFIED MANUAL SELECT ---
+    function openManualSelect() {
         document.getElementById('modal-manual').style.display = 'flex';
         selectedBatch.clear();
         renderUnifiedList();
@@ -617,7 +499,7 @@
                 div.onclick = () => {
                     if(selectedBatch.has(ex.name)) selectedBatch.delete(ex.name); else selectedBatch.add(ex.name);
                     renderUnifiedList(); 
-                    document.querySelector('#modal-manual .btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
+                    document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
                 };
                 container.appendChild(div);
             });
@@ -644,65 +526,73 @@
     }
 
     function confirmManualAdd() {
-        selectedBatch.forEach(name => dailyLog.push({ name: name }));
+        selectedBatch.forEach(name => {
+            const ex = exerciseDB.find(e => e.name === name) || { name: name, img: '' };
+            dailyLog.push(ex);
+        });
         saveState();
-        renderDashboard();
+        renderLogCards();
         updateCardState();
         closeModal('modal-manual');
     }
 
-    // --- GENERATOR LOGIC ---
-    function startGenerator() {
-        closeModal('modal-wizard');
-        document.getElementById('modal-generator').style.display = 'flex';
+    function renderLogCards() {
+        const container = document.getElementById('cards-container');
+        const trigger = document.getElementById('add-trigger-area');
+        const addMore = document.getElementById('add-more-btn');
+
+        container.innerHTML = '';
+
+        if (dailyLog.length === 0) {
+            trigger.style.display = 'flex';
+            addMore.style.display = 'none';
+        } else {
+            trigger.style.display = 'none';
+            addMore.style.display = 'block';
+
+            dailyLog.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                const imgSrc = item.img ? item.img : `https://via.placeholder.com/400x200?text=${item.name}`;
+                card.innerHTML = `
+                    <button class="btn-remove-card" onclick="removeLogItem(${idx})">✕</button>
+                    <img src="${imgSrc}" class="exercise-img" alt="${item.name}" onError="this.style.display='none'">
+                    <div class="exercise-details">
+                        <div class="exercise-name">${item.name}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
     }
 
-    function setGenLoc(l) { genLocation = l; document.querySelectorAll('#modal-generator button').forEach(b => { if(b.innerText.toLowerCase()===l) b.style.backgroundColor='#007AFF'; else b.style.backgroundColor='white'; }); }
-    
-    function toggleFocus(f, b) { 
-        if(genFocus.has(f)){ genFocus.delete(f); b.style.backgroundColor='white'; b.style.color='#555'; }
-        else { genFocus.add(f); b.style.backgroundColor='#007AFF'; b.style.color='white'; } 
-    }
-
-    function previewGenerator() {
-        const count = parseInt(document.getElementById('gen-slider').value);
-        if(genFocus.size===0) { alert("Select focus!"); return; }
-        
-        let pool = exerciseDB.filter(ex => {
-            const locMatch = ex.loc.includes(genLocation) || ex.loc.includes('home'); 
-            return locMatch && genFocus.has(ex.type.toLowerCase().split(' ')[0]);
-        });
-
-        if(pool.length === 0) pool = exerciseDB; 
-        pool.sort(() => 0.5 - Math.random());
-        pendingPreview = pool.slice(0, count);
-
-        closeModal('modal-generator');
-        const list = document.getElementById('preview-list');
-        list.innerHTML = '';
-        pendingPreview.forEach(ex => {
-            list.innerHTML += `<div class="preview-item"><span>🔹</span> ${ex.name}</div>`;
-        });
-        document.getElementById('modal-preview').style.display = 'flex';
-    }
-
-    function acceptGenerator() {
-        pendingPreview.forEach(ex => dailyLog.push({name: ex.name}));
+    function removeLogItem(idx) {
+        if(isSubmitted) return;
+        dailyLog.splice(idx, 1);
         saveState();
-        renderDashboard();
+        renderLogCards();
         updateCardState();
-        closeModal('modal-preview');
     }
 
-    // --- HABITS ---
-    function initHabits() {
-        const rows = document.querySelectorAll('.circle-row');
-        if(rows.length === 0) { console.error("No habit rows found!"); return; }
+    // --- TABS & HABITS ---
+    function switchTab(t) {
+        if(isSubmitted) return;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-'+t).classList.add('active');
+        if(t === 'workout') {
+            document.getElementById('workout-view').classList.remove('hidden-view');
+            document.getElementById('nutrition-view').classList.add('hidden-view');
+        } else {
+            document.getElementById('workout-view').classList.add('hidden-view');
+            document.getElementById('nutrition-view').classList.remove('hidden-view');
+        }
+    }
 
-        rows.forEach(row => {
+    function initHabits() {
+        document.querySelectorAll('.circle-row').forEach(row => {
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
-            row.innerHTML = ''; // Reset
+            row.innerHTML = ''; 
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
@@ -729,11 +619,9 @@
             if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
             else { c.classList.remove('active'); c.style.background = 'transparent'; }
         });
+        document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
         
-        // Safety checks for elements
-        const countEl = document.getElementById(`count-${h}`);
-        if(countEl) countEl.innerText = `${val}/${g}`;
-
+        // Update scorecard text
         const scoreEl = document.getElementById(`score-${h}`);
         if(scoreEl) {
             scoreEl.innerText = `${val} / ${g}`;
@@ -741,47 +629,14 @@
         }
     }
 
-    // --- STATE MANAGEMENT ---
-    function saveState() {
-        const data = {
-            date: new Date().toDateString(),
-            day: document.getElementById('dayInput').value,
-            log: dailyLog,
-            habits: habitsData,
-            user: currentUser,
-            submitted: isSubmitted
-        };
-        localStorage.setItem('nogueraFit_v3', JSON.stringify(data));
-    }
-
-    function loadState() {
-        const raw = localStorage.getItem('nogueraFit_v3');
-        if (!raw) return;
-        const saved = JSON.parse(raw);
-        if (saved.date === new Date().toDateString()) {
-            document.getElementById('dayInput').value = saved.day;
-            dailyLog = saved.log || [];
-            habitsData = saved.habits || habitsData;
-            isSubmitted = saved.submitted || false;
-        }
-        if (saved.user) {
-            currentUser = saved.user;
-            const el = document.getElementById('header-username');
-            if(el) el.innerText = "👤 " + saved.user;
-        }
-    }
-
-    // --- LEADERBOARD & UTILS ---
+    // --- LEADERBOARD & STATE ---
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         cont.innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>Loading...</div>";
-        
         try {
             const timeout = new Promise((_, reject) => setTimeout(() => reject("Timeout"), 8000));
             const fetchReq = fetch(API_URL).then(res => res.json());
-            
             const raw = await Promise.race([fetchReq, timeout]);
-            
             cont.innerHTML = '';
             
             const list = FAMILY_NAMES.map(name => {
@@ -816,10 +671,37 @@
         saveState(); 
         fetchFamilyData(); 
     }
-    
+
+    function saveState() {
+        const data = {
+            date: new Date().toDateString(),
+            day: document.getElementById('dayInput').value,
+            log: dailyLog,
+            habits: habitsData,
+            user: currentUser,
+            submitted: isSubmitted
+        };
+        localStorage.setItem('nogueraFit_classic', JSON.stringify(data));
+    }
+
+    function loadState() {
+        const raw = localStorage.getItem('nogueraFit_classic');
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (saved.date === new Date().toDateString()) {
+            document.getElementById('dayInput').value = saved.day;
+            dailyLog = saved.log || [];
+            habitsData = saved.habits || habitsData;
+            isSubmitted = saved.submitted || false;
+        }
+        if (saved.user) {
+            currentUser = saved.user;
+            const el = document.getElementById('header-username');
+            if(el) el.innerText = "👤 " + saved.user;
+        }
+    }
+
     function updateProgressUI() { const d = document.getElementById('dayInput').value; document.getElementById('visual-progress').style.width = d + '%'; document.getElementById('progress-text').innerText = d + '%'; }
-    function openWorkoutWizard() { document.getElementById('modal-wizard').style.display = 'flex'; }
-    function openNutritionModal() { document.getElementById('modal-nutrition').style.display = 'flex'; }
     function openBarcode() { document.getElementById('modal-barcode').style.display = 'flex'; }
     function openUserModal() { document.getElementById('modal-user').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
