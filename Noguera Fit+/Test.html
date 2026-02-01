@@ -864,16 +864,21 @@
                 lastText = daysAgo === 0 ? "Last: Today" : `Last: ${daysAgo}d ago`;
             }
 
+            // CHECK IF THIS IS THE CURRENT USER
+            const isMe = (u.name === currentUser);
+            
+            // STYLE LOGIC: Blue text if me, standard black if not
+            const nameStyle = isMe ? 'color: var(--ios-blue);' : 'color: #1C1C1E;';
+            const nameSuffix = isMe ? ' <span style="font-weight:400; font-size:13px; color:#8E8E93; margin-left:4px;">(You)</span>' : '';
+
             const div = document.createElement('div');
-            // UPDATED: Check if this row belongs to currentUser and apply highlight
-            const highlightClass = (u.name === currentUser) ? 'highlight-user' : '';
-            div.className = `lb-row ${highlightClass}`;
+            div.className = 'lb-row';
             
             div.innerHTML = `
                 <div style="display:flex; align-items:center;">
                     <div class="lb-rank ${rankClass}">${idx+1}</div>
                     <div class="lb-details">
-                        <div class="lb-name">${u.name}</div>
+                        <div class="lb-name" style="${nameStyle}">${u.name}${nameSuffix}</div>
                         <div class="lb-sub">${lastText}</div>
                     </div>
                 </div>
