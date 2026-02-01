@@ -39,13 +39,13 @@
             padding: 15px;
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
             overflow-x: hidden;
         }
 
         /* --- HEADER --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
-        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
+        .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; z-index: 10; }
         .btn-barcode { background: white; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* --- PROGRESS --- */
@@ -56,24 +56,45 @@
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
 
-        /* --- CAROUSEL --- */
-        .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
+        /* --- CAROUSEL (FIXED LAYOUT) --- */
+        .carousel-track { 
+            display: flex; 
+            overflow-x: auto; 
+            scroll-snap-type: x mandatory; 
+            gap: 15px; 
+            padding-bottom: 10px; 
+            margin: 0 -15px; 
+            padding: 0 15px 20px 15px; 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+            align-items: flex-start; /* CRITICAL FIX: Prevents height stretching */
+        }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; transition: transform 0.6s; transform-style: preserve-3d; }
+        
+        .card-slide { 
+            flex: 0 0 92%; 
+            scroll-snap-align: center; 
+            background: white; 
+            border-radius: 24px; 
+            padding: 20px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
+            position: relative; 
+            border: 1px solid rgba(0,0,0,0.02); 
+            overflow: hidden; 
+            min-height: 300px; /* Minimum height for consistency */
+        }
+
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
         /* --- SCORECARD STATES --- */
-        /* Empty State (Gray) */
         .state-empty .scorecard-header::before { background-color: #C7C7CC; } 
         .state-empty .scorecard-date { background: #E5E5EA; color: #8E8E93; }
         
-        /* Active State (Blue) */
         .state-active .scorecard-header::before { background-color: var(--ios-blue); }
         .state-active .scorecard-date { background: rgba(0,122,255,0.1); color: var(--ios-blue); }
 
-        /* Submitted State (Green) */
         .state-submitted .scorecard-header::before { background-color: var(--ios-green); }
         .state-submitted .scorecard-date { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
 
@@ -88,32 +109,24 @@
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
-        /* Submit Button inside Card */
-        .card-footer-btn { 
-            width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 10px; 
-            border: none; cursor: pointer; transition: 0.2s; display: none; /* Hidden by default */
-        }
+        .card-footer-btn { width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 10px; border: none; cursor: pointer; transition: 0.2s; display: none; }
         .btn-submit-day { background: var(--ios-blue); color: white; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
-        .btn-submit-day:active { transform: scale(0.98); }
-        
         .msg-locked { display: none; text-align: center; color: var(--ios-green); font-weight: 700; margin-top: 15px; font-size: 14px; }
         .btn-unlock { display: block; margin: 10px auto 0; background: none; border: none; color: #8E8E93; text-decoration: underline; font-size: 12px; cursor: pointer; }
 
         /* --- DASHBOARD ACTION GRID --- */
         .action-grid { display: flex; gap: 15px; margin-bottom: 25px; transition: opacity 0.3s; }
-        .action-grid.hidden { display: none; } /* Hide when submitted */
+        .action-grid.hidden { display: none; } 
         
         .dash-btn { flex: 1; background: white; border: none; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.2s; }
         .dash-btn:active { transform: scale(0.96); background: #F2F2F7; }
         .btn-icon { font-size: 32px; display: block; }
         .btn-label { font-weight: 700; font-size: 15px; color: #1C1C1E; }
 
-        /* --- TODAY'S LOG --- */
+        /* --- LOG LIST --- */
         .today-section { margin-top: 10px; }
         .section-title { font-size: 14px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
         .log-item { background: white; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-bottom: 10px; }
-        .log-left { display: flex; align-items: center; gap: 10px; }
-        .log-check { color: var(--ios-green); font-size: 18px; }
         .btn-delete-log { color: #FF3B30; background: none; border: none; font-weight: 700; font-size: 18px; padding: 5px 10px; cursor: pointer; }
 
         /* --- MODALS --- */
@@ -127,27 +140,22 @@
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
-        /* --- UNIFIED LIST (No Tabs) --- */
+        /* --- UNIFIED LIST --- */
         .search-bar { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #D1D1D6; font-size: 16px; margin-bottom: 15px; background: white; }
         .unified-list { flex: 1; overflow-y: auto; padding-bottom: 20px; }
-        
         .list-section-header { font-size: 13px; font-weight: 800; color: #8E8E93; text-transform: uppercase; margin: 20px 0 8px 5px; position: sticky; top: -1px; background: #F2F2F7; padding: 5px; z-index: 10; }
         
         .select-item { background: white; padding: 10px 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; min-height: 60px; margin-bottom: 8px; }
-        .select-item:active { transform: scale(0.99); }
-        
         .item-left { display: flex; align-items: center; gap: 15px; }
         .item-img { width: 50px; height: 50px; object-fit: contain; mix-blend-mode: multiply; }
         .item-check-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        
         .select-item.selected .item-check-circle { background: var(--ios-blue); border-color: var(--ios-blue); }
         .select-item.selected .item-check-circle::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
 
         .btn-fab-add { position: absolute; bottom: 90px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--ios-blue); color: white; border: none; font-size: 24px; font-weight: 300; box-shadow: 0 4px 12px rgba(0,122,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
-
         .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: auto; cursor: pointer; font-size: 16px; box-shadow: 0 -10px 20px #F2F2F7; z-index: 60; }
 
-        /* --- PREVIEW CARD (Generator) --- */
+        /* --- PREVIEW CARD --- */
         .preview-card { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
         .preview-list { margin: 15px 0; border-top: 1px solid #EEE; }
         .preview-item { padding: 10px 0; border-bottom: 1px solid #EEE; display: flex; align-items: center; gap: 10px; font-size: 15px; }
@@ -162,8 +170,17 @@
         .habit-circle.active { transform: scale(1.1); border-color: transparent; }
         .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
 
-        /* LEADERBOARD STYLES */
-        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
+        /* --- LEADERBOARD (SCROLL FIX) --- */
+        .leaderboard-bg {
+            display: flex; flex-direction: column; /* Organize header and list */
+        }
+        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; flex-shrink: 0; }
+        /* FIXED HEIGHT SCROLLABLE AREA */
+        .lb-list { 
+            overflow-y: auto; 
+            max-height: 250px; /* Force limit */
+            flex-grow: 1;
+        }
         .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
         .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
         .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
@@ -299,8 +316,7 @@
             
             <input type="text" id="search-input" class="search-bar" placeholder="Search exercises..." onkeyup="renderUnifiedList()">
             
-            <div id="unified-list" class="unified-list">
-                </div>
+            <div id="unified-list" class="unified-list"></div>
 
             <button onclick="openCustomModal()" class="btn-fab-add">+</button>
             <button class="btn-confirm-add" onclick="confirmManualAdd()">Add Selected</button>
@@ -398,13 +414,13 @@
     let currentUser = null; 
     let dailyLog = [];
     let habitsData = { water: {c:0,g:8}, veggies: {c:0,g:5}, fruits: {c:0,g:5}, snacks: {c:0,g:2} };
-    let isSubmitted = false; // "Locked" state
+    let isSubmitted = false;
     
     // UI VARS
     let selectedBatch = new Set();
     let genLocation = 'home';
     let genFocus = new Set();
-    let pendingPreview = []; // For Generator Preview
+    let pendingPreview = []; 
 
     // EXERCISE DATABASE
     const exerciseDB = [
@@ -424,20 +440,33 @@
     ];
 
     window.onload = function() {
-        // Load customs
-        const savedCustom = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
-        savedCustom.forEach(ex => exerciseDB.push(ex));
+        // 1. Initialize DB safely
+        try {
+            const savedCustom = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
+            if(Array.isArray(savedCustom)) savedCustom.forEach(ex => exerciseDB.push(ex));
+        } catch(e) { localStorage.removeItem('nogueraFit_custom'); }
         
+        // 2. Set Dates
         document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt); }
         
-        loadState();
-        fetchFamilyData(); 
+        // 3. Robust Loading Sequence
+        try { loadState(); } catch(e) { console.error("Load failed, resetting", e); localStorage.removeItem('nogueraFit_v3'); }
+        
+        // 4. Render UI
         updateProgressUI();
         initHabits();
         renderDashboard();
-        updateCardState(); // Trigger visual state check
+        updateCardState();
+        fetchFamilyData(); 
+
+        // 5. Scroll Spy
+        const track = document.getElementById('carousel-track');
+        track.addEventListener('scroll', () => {
+            const index = Math.round(track.scrollLeft / track.offsetWidth);
+            document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i === index); });
+        });
     }
 
     // --- CORE LOGIC: CARD STATES ---
@@ -448,28 +477,23 @@
         const lockedMsg = document.getElementById('msg-locked');
         const actionArea = document.getElementById('action-area');
         
-        // Reset classes
         card.classList.remove('state-empty', 'state-active', 'state-submitted');
         
-        // LOGIC
         const hasActivity = dailyLog.length > 0 || habitsData.water.c > 0 || habitsData.veggies.c > 0 || habitsData.fruits.c > 0 || habitsData.snacks.c > 0;
 
         if (isSubmitted) {
-            // STATE: SUBMITTED (LOCKED)
             card.classList.add('state-submitted');
             pill.innerText = "Submitted";
             btn.style.display = 'none';
             lockedMsg.style.display = 'block';
             actionArea.classList.add('hidden');
         } else if (hasActivity) {
-            // STATE: ACTIVE (DRAFT)
             card.classList.add('state-active');
             pill.innerText = "In Progress";
             btn.style.display = 'block';
             lockedMsg.style.display = 'none';
             actionArea.classList.remove('hidden');
         } else {
-            // STATE: EMPTY
             card.classList.add('state-empty');
             pill.innerText = "Empty";
             btn.style.display = 'none';
@@ -486,7 +510,6 @@
             saveState();
             updateCardState();
             
-            // Sync to Cloud
             const h = habitsData;
             const habitStr = `W:${h.water.c}, V:${h.veggies.c}, F:${h.fruits.c}, S:${h.snacks.c}`;
             const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
@@ -542,14 +565,14 @@
     }
 
     function removeLogItem(idx) {
-        if(isSubmitted) return; // double check
+        if(isSubmitted) return; 
         dailyLog.splice(idx, 1);
         saveState();
         renderDashboard();
         updateCardState();
     }
 
-    // --- MANUAL LOG LOGIC (Unified List) ---
+    // --- UNIFIED MANUAL LOG ---
     function startManualLog() {
         closeModal('modal-wizard');
         document.getElementById('modal-manual').style.display = 'flex';
@@ -562,7 +585,6 @@
         container.innerHTML = '';
         const search = document.getElementById('search-input').value.toLowerCase();
         
-        // Group by Type
         const grouped = {};
         exerciseDB.forEach(ex => {
             if(!grouped[ex.type]) grouped[ex.type] = [];
@@ -570,17 +592,14 @@
         });
 
         Object.keys(grouped).forEach(type => {
-            // Filter items in this group
             const filtered = grouped[type].filter(ex => ex.name.toLowerCase().includes(search));
             if(filtered.length === 0) return;
 
-            // Render Header
             const header = document.createElement('div');
             header.className = 'list-section-header';
             header.innerText = type;
             container.appendChild(header);
 
-            // Render Items
             filtered.forEach(ex => {
                 const div = document.createElement('div');
                 div.className = 'select-item';
@@ -595,7 +614,7 @@
                 `;
                 div.onclick = () => {
                     if(selectedBatch.has(ex.name)) selectedBatch.delete(ex.name); else selectedBatch.add(ex.name);
-                    renderUnifiedList(); // Re-render to update checkmarks
+                    renderUnifiedList(); 
                     document.querySelector('#modal-manual .btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
                 };
                 container.appendChild(div);
@@ -611,10 +630,11 @@
         const newEx = { name: val, type: 'Custom', loc: ['home'], img: '' };
         exerciseDB.push(newEx);
         
-        // Persist
-        const saved = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
-        saved.push(newEx);
-        localStorage.setItem('nogueraFit_custom', JSON.stringify(saved));
+        try {
+            const saved = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
+            saved.push(newEx);
+            localStorage.setItem('nogueraFit_custom', JSON.stringify(saved));
+        } catch(e) {}
 
         closeModal('modal-custom');
         selectedBatch.add(val);
@@ -629,7 +649,7 @@
         closeModal('modal-manual');
     }
 
-    // --- GENERATOR LOGIC (Preview Flow) ---
+    // --- GENERATOR LOGIC ---
     function startGenerator() {
         closeModal('modal-wizard');
         document.getElementById('modal-generator').style.display = 'flex';
@@ -647,15 +667,14 @@
         if(genFocus.size===0) { alert("Select focus!"); return; }
         
         let pool = exerciseDB.filter(ex => {
-            const locMatch = ex.loc.includes(genLocation) || ex.loc.includes('home'); // loose match
+            const locMatch = ex.loc.includes(genLocation) || ex.loc.includes('home'); 
             return locMatch && genFocus.has(ex.type.toLowerCase().split(' ')[0]);
         });
 
-        if(pool.length === 0) pool = exerciseDB; // fallback
+        if(pool.length === 0) pool = exerciseDB; 
         pool.sort(() => 0.5 - Math.random());
         pendingPreview = pool.slice(0, count);
 
-        // Show Preview Modal
         closeModal('modal-generator');
         const list = document.getElementById('preview-list');
         list.innerHTML = '';
@@ -675,10 +694,13 @@
 
     // --- HABITS ---
     function initHabits() {
-        document.querySelectorAll('.circle-row').forEach(row => {
+        const rows = document.querySelectorAll('.circle-row');
+        if(rows.length === 0) { console.error("No habit rows found!"); return; }
+
+        rows.forEach(row => {
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
-            row.innerHTML = ''; 
+            row.innerHTML = ''; // Reset
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
@@ -699,16 +721,22 @@
 
     function updateHabitVisuals(h, g, val) {
         const row = document.querySelector(`.circle-row[data-habit="${h}"]`);
+        if(!row) return;
         const colors = { water: '#5AC8FA', veggies: '#34C759', fruits: '#FF3B30', snacks: '#AF52DE' };
         Array.from(row.children).forEach((c, i) => {
             if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
             else { c.classList.remove('active'); c.style.background = 'transparent'; }
         });
-        document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
         
-        const mainEl = document.getElementById(`score-${h}`);
-        mainEl.innerText = `${val} / ${g}`;
-        if(val >= g) mainEl.classList.add('done'); else mainEl.classList.remove('done');
+        // Safety checks for elements
+        const countEl = document.getElementById(`count-${h}`);
+        if(countEl) countEl.innerText = `${val}/${g}`;
+
+        const scoreEl = document.getElementById(`score-${h}`);
+        if(scoreEl) {
+            scoreEl.innerText = `${val} / ${g}`;
+            if(val >= g) scoreEl.classList.add('done'); else scoreEl.classList.remove('done');
+        }
     }
 
     // --- STATE MANAGEMENT ---
@@ -721,11 +749,11 @@
             user: currentUser,
             submitted: isSubmitted
         };
-        localStorage.setItem('nogueraFit_v2', JSON.stringify(data));
+        localStorage.setItem('nogueraFit_v3', JSON.stringify(data));
     }
 
     function loadState() {
-        const raw = localStorage.getItem('nogueraFit_v2');
+        const raw = localStorage.getItem('nogueraFit_v3');
         if (!raw) return;
         const saved = JSON.parse(raw);
         if (saved.date === new Date().toDateString()) {
@@ -736,16 +764,23 @@
         }
         if (saved.user) {
             currentUser = saved.user;
-            document.getElementById('header-username').innerText = "👤 " + saved.user;
+            const el = document.getElementById('header-username');
+            if(el) el.innerText = "👤 " + saved.user;
         }
     }
 
     // --- LEADERBOARD & UTILS ---
     async function fetchFamilyData() {
+        const cont = document.getElementById('lb-container');
+        cont.innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>Loading...</div>";
+        
         try {
-            const res = await fetch(API_URL);
-            const raw = await res.json();
-            const cont = document.getElementById('lb-container');
+            // Timeout promise to prevent infinite hanging
+            const timeout = new Promise((_, reject) => setTimeout(() => reject("Timeout"), 8000));
+            const fetchReq = fetch(API_URL).then(res => res.json());
+            
+            const raw = await Promise.race([fetchReq, timeout]);
+            
             cont.innerHTML = '';
             
             const list = FAMILY_NAMES.map(name => {
@@ -768,14 +803,24 @@
                         <div style="font-weight:700;">${u.streak}</div>
                     </div>`;
             });
-        } catch(e) {}
+        } catch(e) {
+            cont.innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>Offline / Slow Connection<br><button onclick='fetchFamilyData()' style='margin-top:10px; border:1px solid #ddd; background:white; padding:5px 10px; border-radius:10px;'>Retry</button></div>";
+        }
     }
 
-    function selectUser(name) { currentUser = name; document.getElementById('header-username').innerText = "👤 " + name; closeModal('modal-user'); saveState(); fetchFamilyData(); }
+    function selectUser(name) { 
+        currentUser = name; 
+        document.getElementById('header-username').innerText = "👤 " + name; 
+        closeModal('modal-user'); 
+        saveState(); 
+        fetchFamilyData(); 
+    }
+    
     function updateProgressUI() { const d = document.getElementById('dayInput').value; document.getElementById('visual-progress').style.width = d + '%'; document.getElementById('progress-text').innerText = d + '%'; }
     function openWorkoutWizard() { document.getElementById('modal-wizard').style.display = 'flex'; }
     function openNutritionModal() { document.getElementById('modal-nutrition').style.display = 'flex'; }
     function openBarcode() { document.getElementById('modal-barcode').style.display = 'flex'; }
+    function openUserModal() { document.getElementById('modal-user').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
 </script>
