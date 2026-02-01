@@ -19,17 +19,16 @@
         :root {
             --ios-blue: #007AFF;
             --ios-green: #34C759;
-            --ios-gray: #F2F2F7;
-            --ios-gold: #FFD700;
+            --ios-gray: #8E8E93;
+            --ios-bg: #F2F2F7;
             --text-dark: #1C1C1E;
-            --text-light: #8E8E93;
         }
 
         * { box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #F2F2F7;
+            background-color: var(--ios-bg);
             margin: 0;
             padding: 0;
             color: var(--text-dark);
@@ -40,18 +39,18 @@
             padding: 15px;
             max-width: 600px;
             margin: 0 auto;
-            padding-bottom: 140px; /* Space for sticky footer */
+            padding-bottom: 50px;
             overflow-x: hidden;
         }
 
         /* --- HEADER --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
         .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
-        .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .btn-barcode { background: white; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* --- PROGRESS --- */
         .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--ios-gray); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
         .progress-container { width: 100%; background-color: #E5E5EA; border-radius: 6px; height: 10px; overflow: hidden; margin-bottom: 12px; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 6px; }
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
@@ -60,25 +59,50 @@
         /* --- CAROUSEL --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; }
+        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; transition: transform 0.6s; transform-style: preserve-3d; }
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        /* HEADER BARS */
-        .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
-        .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
-        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; }
+        /* --- SCORECARD STATES --- */
+        /* Empty State (Gray) */
+        .state-empty .scorecard-header::before { background-color: #C7C7CC; } 
+        .state-empty .scorecard-date { background: #E5E5EA; color: #8E8E93; }
+        
+        /* Active State (Blue) */
+        .state-active .scorecard-header::before { background-color: var(--ios-blue); }
+        .state-active .scorecard-date { background: rgba(0,122,255,0.1); color: var(--ios-blue); }
+
+        /* Submitted State (Green) */
+        .state-submitted .scorecard-header::before { background-color: var(--ios-green); }
+        .state-submitted .scorecard-date { background: rgba(52, 199, 89, 0.15); color: var(--ios-green); }
+
+        .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; padding-top: 10px; }
+        .scorecard-header::before { content: ""; position: absolute; top: -20px; left: -20px; right: -20px; height: 6px; z-index:1; transition: background 0.3s; }
+        
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
-        .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
+        .scorecard-date { font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 20px; transition: 0.3s; }
+        
         .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
-        .score-row:last-of-type { border-bottom: none; }
         .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
 
+        /* Submit Button inside Card */
+        .card-footer-btn { 
+            width: 100%; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 10px; 
+            border: none; cursor: pointer; transition: 0.2s; display: none; /* Hidden by default */
+        }
+        .btn-submit-day { background: var(--ios-blue); color: white; box-shadow: 0 4px 10px rgba(0,122,255,0.3); }
+        .btn-submit-day:active { transform: scale(0.98); }
+        
+        .msg-locked { display: none; text-align: center; color: var(--ios-green); font-weight: 700; margin-top: 15px; font-size: 14px; }
+        .btn-unlock { display: block; margin: 10px auto 0; background: none; border: none; color: #8E8E93; text-decoration: underline; font-size: 12px; cursor: pointer; }
+
         /* --- DASHBOARD ACTION GRID --- */
-        .action-grid { display: flex; gap: 15px; margin-bottom: 25px; }
+        .action-grid { display: flex; gap: 15px; margin-bottom: 25px; transition: opacity 0.3s; }
+        .action-grid.hidden { display: none; } /* Hide when submitted */
+        
         .dash-btn { flex: 1; background: white; border: none; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; cursor: pointer; transition: 0.2s; }
         .dash-btn:active { transform: scale(0.96); background: #F2F2F7; }
         .btn-icon { font-size: 32px; display: block; }
@@ -87,91 +111,62 @@
         /* --- TODAY'S LOG --- */
         .today-section { margin-top: 10px; }
         .section-title { font-size: 14px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 0.5px; }
-        .log-list { display: flex; flex-direction: column; gap: 10px; }
-        .log-item { background: white; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .log-item { background: white; padding: 15px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-bottom: 10px; }
         .log-left { display: flex; align-items: center; gap: 10px; }
         .log-check { color: var(--ios-green); font-size: 18px; }
         .btn-delete-log { color: #FF3B30; background: none; border: none; font-weight: 700; font-size: 18px; padding: 5px 10px; cursor: pointer; }
 
-        /* --- STICKY FOOTER --- */
-        .sticky-footer { position: fixed; bottom: 0; left: 0; width: 100%; padding: 20px; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-top: 1px solid rgba(0,0,0,0.1); z-index: 1000; display: flex; justify-content: center; }
-        .btn-main-action { width: 100%; max-width: 500px; padding: 18px; background: var(--ios-blue); color: white; font-weight: 800; font-size: 17px; border: none; border-radius: 16px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,122,255,0.3); transition: 0.2s; }
-        .btn-main-action:active { transform: scale(0.98); }
+        /* --- MODALS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
+        .modal-content { background: #F2F2F7; width: 100%; max-width: 600px; border-radius: 24px 24px 0 0; padding: 25px; height: 90vh !important; display: flex; flex-direction: column; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-content--auto { height: auto !important; max-height: 80vh !important; border-radius: 24px; max-width: 340px; margin: auto; animation: scaleIn 0.2s ease-out !important; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
+        .modal-title { font-size: 20px; font-weight: 800; }
+        .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
 
-        /* --- LEADERBOARD --- */
-        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
-        .lb-list { max-height: 250px; overflow-y: auto; }
-        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; transition: 0.2s; }
-        .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
-        .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
-        .lb-details { display: flex; flex-direction: column; }
-        .lb-name { font-weight: 700; font-size: 15px; color: #1C1C1E; }
-        .lb-sub { font-size: 11px; color: #8E8E93; font-weight: 500; }
-        .lb-stat-box { text-align: right; }
-        .lb-val-main { font-weight: 800; font-size: 16px; color: #1C1C1E; }
-        .lb-val-sub { font-size: 11px; color: var(--ios-blue); font-weight: 600; }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        /* --- UNIFIED LIST (No Tabs) --- */
+        .search-bar { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #D1D1D6; font-size: 16px; margin-bottom: 15px; background: white; }
+        .unified-list { flex: 1; overflow-y: auto; padding-bottom: 20px; }
+        
+        .list-section-header { font-size: 13px; font-weight: 800; color: #8E8E93; text-transform: uppercase; margin: 20px 0 8px 5px; position: sticky; top: -1px; background: #F2F2F7; padding: 5px; z-index: 10; }
+        
+        .select-item { background: white; padding: 10px 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; min-height: 60px; margin-bottom: 8px; }
+        .select-item:active { transform: scale(0.99); }
+        
+        .item-left { display: flex; align-items: center; gap: 15px; }
+        .item-img { width: 50px; height: 50px; object-fit: contain; mix-blend-mode: multiply; }
+        .item-check-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        
+        .select-item.selected .item-check-circle { background: var(--ios-blue); border-color: var(--ios-blue); }
+        .select-item.selected .item-check-circle::after { content: "✓"; color: white; font-size: 14px; font-weight: bold; }
+
+        .btn-fab-add { position: absolute; bottom: 90px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--ios-blue); color: white; border: none; font-size: 24px; font-weight: 300; box-shadow: 0 4px 12px rgba(0,122,255,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 50; }
+
+        .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: auto; cursor: pointer; font-size: 16px; box-shadow: 0 -10px 20px #F2F2F7; z-index: 60; }
+
+        /* --- PREVIEW CARD (Generator) --- */
+        .preview-card { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
+        .preview-list { margin: 15px 0; border-top: 1px solid #EEE; }
+        .preview-item { padding: 10px 0; border-bottom: 1px solid #EEE; display: flex; align-items: center; gap: 10px; font-size: 15px; }
 
         /* --- HABITS --- */
         .habit-card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
         .habit-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; }
         .habit-title { font-weight: 700; font-size: 16px; }
         .habit-count { font-size: 14px; font-weight: 600; color: #888; background: #f2f2f7; padding: 3px 8px; border-radius: 6px; }
-        .habit-bar-bg { height: 8px; background: #F2F2F7; border-radius: 4px; overflow: hidden; margin-bottom: 12px; }
-        .habit-bar-fill { height: 100%; width: 0%; border-radius: 4px; transition: 0.3s; }
         .circle-row { display: flex; gap: 8px; }
-        .habit-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
+        .habit-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
         .habit-circle.active { transform: scale(1.1); border-color: transparent; }
         .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
 
-        /* --- MODALS --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
-        
-        .modal-content { 
-            background: #F2F2F7; width: 100%; max-width: 600px; 
-            border-radius: 24px 24px 0 0; padding: 25px; 
-            height: 90vh !important;
-            display: flex; flex-direction: column;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
-            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        
-        /* Auto Height Modal */
-        .modal-content--auto {
-            height: auto !important; max-height: 80vh !important;
-            border-radius: 24px; max-width: 340px; margin: auto;
-            animation: scaleIn 0.2s ease-out !important; 
-        }
-
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-        
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
-        .modal-title { font-size: 20px; font-weight: 800; }
-        .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
-
-        /* Select List & Search */
-        .search-bar { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid #D1D1D6; font-size: 16px; margin-bottom: 15px; background: white; }
-        .select-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
-        .select-item { background: white; padding: 10px 15px; border-radius: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; min-height: 60px; }
-        .select-item.selected { background: #E3F2FD; border: 1px solid var(--ios-blue); }
-        
-        /* Chips */
-        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; flex-shrink: 0; }
-        .loc-chip, .cat-chip, .focus-chip { padding: 8px 14px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 13px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; }
-        .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; }
-
-        /* Generator Slider */
-        .gen-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
-        .slider-container { display: flex; align-items: center; gap: 15px; }
-        input[type=range] { flex: 1; }
-
-        /* Wizard Buttons */
-        .wizard-btn { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; display: flex; align-items: center; gap: 15px; }
-        .wizard-icon { font-size: 28px; background: #E3F2FD; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .wizard-title { font-weight: 800; font-size: 17px; margin-bottom: 4px; display: block; }
-        .wizard-desc { font-size: 13px; color: #8E8E93; display: block; }
-
-        .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: auto; cursor: pointer; font-size: 16px; }
+        /* LEADERBOARD STYLES */
+        .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+        .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
+        .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
 
     </style>
 </head>
@@ -194,16 +189,25 @@
         </div>
 
         <div class="carousel-track" id="carousel-track">
-            <div class="card-slide score-card-bg">
+            
+            <div id="main-scorecard" class="card-slide state-empty">
                 <div class="scorecard-header">
                     <div class="scorecard-title" id="score-title">Scorecard</div>
-                    <div class="scorecard-date" id="today-date">Today</div>
+                    <div class="scorecard-date" id="score-status-pill">Empty</div>
                 </div>
+                
                 <div class="score-row"><span class="score-label">🏋️ Exercise</span><span class="score-val" id="score-workout">0 Done</span></div>
                 <div class="score-row"><span class="score-label">💧 Water</span><span class="score-val" id="score-water">0 / 8</span></div>
                 <div class="score-row"><span class="score-label">🥦 Veggies</span><span class="score-val" id="score-veggies">0 / 5</span></div>
                 <div class="score-row"><span class="score-label">🍎 Fruits</span><span class="score-val" id="score-fruits">0 / 5</span></div>
                 <div class="score-row"><span class="score-label">🥜 Snacks</span><span class="score-val" id="score-snacks">0 / 2</span></div>
+                
+                <button id="btn-submit" class="card-footer-btn btn-submit-day" onclick="submitScorecard()">Submit Scorecard</button>
+                
+                <div id="msg-locked" class="msg-locked">
+                    <div>✅ Day Complete!</div>
+                    <button class="btn-unlock" onclick="unlockDay()">Not done yet? Edit</button>
+                </div>
             </div>
 
             <div class="card-slide leaderboard-bg">
@@ -221,7 +225,7 @@
             <div class="dot" id="dot-1"></div>
         </div>
 
-        <div class="action-grid">
+        <div id="action-area" class="action-grid">
             <button class="dash-btn" onclick="openWorkoutWizard()">
                 <span class="btn-icon">🏋️</span>
                 <span class="btn-label">Log Workout</span>
@@ -234,15 +238,9 @@
 
         <div class="today-section">
             <div class="section-title">Today's Activity</div>
-            <div id="today-log-list" class="log-list">
-                <div style="text-align:center; color:#CCC; padding:20px; font-size:14px;">Nothing logged yet. Let's go!</div>
-            </div>
+            <div id="today-log-list" class="log-list"></div>
         </div>
 
-    </div>
-
-    <div class="sticky-footer">
-        <button class="btn-main-action" onclick="finishAndSync()">✅ Finish & Sync Day</button>
     </div>
 
     <div id="modal-nutrition" class="modal-overlay" onclick="closeModal('modal-nutrition')">
@@ -254,22 +252,18 @@
             <div style="overflow-y:auto;">
                 <div class="habit-card">
                     <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
-                    <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
                     <div class="circle-row" data-habit="water" data-goal="8"></div>
                 </div>
                 <div class="habit-card">
                     <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
-                    <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
                     <div class="circle-row" data-habit="veggies" data-goal="5"></div>
                 </div>
                 <div class="habit-card">
                     <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
-                    <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
                     <div class="circle-row" data-habit="fruits" data-goal="5"></div>
                 </div>
                 <div class="habit-card">
                     <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
-                    <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
                     <div class="circle-row" data-habit="snacks" data-goal="2"></div>
                 </div>
             </div>
@@ -281,94 +275,104 @@
         <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
             <div class="modal-header"><div class="modal-title">Log Workout</div><button class="btn-close" onclick="closeModal('modal-wizard')">✕</button></div>
             
-            <div class="wizard-btn" onclick="startManualLog()">
-                <div class="wizard-icon">📝</div>
-                <div><span class="wizard-title">I Did It Myself</span><span class="wizard-desc">Select exercises you did today</span></div>
+            <div class="dash-btn" onclick="startManualLog()" style="flex-direction:row; justify-content:flex-start; margin-bottom:15px; width:100%;">
+                <div class="btn-icon" style="font-size:24px; background:#E3F2FD; padding:10px; border-radius:50%;">📝</div>
+                <div style="text-align:left;">
+                    <span class="btn-label">Manual Log</span>
+                    <div style="font-size:12px; color:#888;">Select from list</div>
+                </div>
             </div>
 
-            <div class="wizard-btn" onclick="startGenerator()">
-                <div class="wizard-icon">✨</div>
-                <div><span class="wizard-title">Plan for Me</span><span class="wizard-desc">Generate a random workout</span></div>
+            <div class="dash-btn" onclick="startGenerator()" style="flex-direction:row; justify-content:flex-start; width:100%;">
+                <div class="btn-icon" style="font-size:24px; background:#E3F2FD; padding:10px; border-radius:50%;">✨</div>
+                <div style="text-align:left;">
+                    <span class="btn-label">Workout Generator</span>
+                    <div style="font-size:12px; color:#888;">Let us pick for you</div>
+                </div>
             </div>
         </div>
     </div>
 
     <div id="modal-manual" class="modal-overlay" onclick="closeModal('modal-manual')">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Add Exercises</div><button class="btn-close" onclick="closeModal('modal-manual')">✕</button></div>
+            <div class="modal-header"><div class="modal-title">Select Exercises</div><button class="btn-close" onclick="closeModal('modal-manual')">✕</button></div>
             
-            <input type="text" id="search-input" class="search-bar" placeholder="Search (e.g. 'Bike', 'Squat')..." onkeyup="filterExercises()">
+            <input type="text" id="search-input" class="search-bar" placeholder="Search exercises..." onkeyup="renderUnifiedList()">
             
-            <div class="filter-scroll">
-                <button class="cat-chip active" onclick="filterManualCat('all', this)">All</button>
-                <button class="cat-chip" onclick="filterManualCat('cardio', this)">Cardio</button>
-                <button class="cat-chip" onclick="filterManualCat('upper', this)">Upper</button>
-                <button class="cat-chip" onclick="filterManualCat('lower', this)">Lower</button>
-                <button class="cat-chip" onclick="filterManualCat('core', this)">Core</button>
-                <button class="cat-chip" onclick="filterManualCat('recents', this)">🕒 Recent</button>
-            </div>
-
-            <div id="manual-list" class="select-list"></div>
-
-            <div style="margin-top:10px; padding-top:10px; border-top:1px solid #E5E5EA;">
-                <div style="font-size:12px; font-weight:700; color:#8E8E93; margin-bottom:8px;">ADD CUSTOM:</div>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="custom-ex-input" placeholder="Name..." style="flex:1; padding:12px; border-radius:12px; border:1px solid #D1D1D6;">
-                    <button onclick="addCustomExercise()" style="background:#E5E5EA; color:var(--ios-blue); font-weight:700; border:none; padding:0 15px; border-radius:12px;">Add</button>
+            <div id="unified-list" class="unified-list">
                 </div>
-            </div>
 
+            <button onclick="openCustomModal()" class="btn-fab-add">+</button>
             <button class="btn-confirm-add" onclick="confirmManualAdd()">Add Selected</button>
+        </div>
+    </div>
+
+    <div id="modal-custom" class="modal-overlay" onclick="closeModal('modal-custom')" style="align-items:center;">
+        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
+            <div class="modal-header"><div class="modal-title">New Exercise</div><button class="btn-close" onclick="closeModal('modal-custom')">✕</button></div>
+            <input type="text" id="custom-ex-input" placeholder="Exercise Name..." style="width:100%; padding:15px; margin-bottom:15px; border:1px solid #ddd; border-radius:12px;">
+            <button class="btn-confirm-add" onclick="saveCustomExercise()">Add to List</button>
         </div>
     </div>
 
     <div id="modal-generator" class="modal-overlay" onclick="closeModal('modal-generator')">
         <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Generator</div><button class="btn-close" onclick="closeModal('modal-generator')">✕</button></div>
+            <div class="modal-header"><div class="modal-title">Generator Settings</div><button class="btn-close" onclick="closeModal('modal-generator')">✕</button></div>
             
-            <div class="gen-section">
-                <div style="font-size:12px; color:#999; margin-bottom:5px;">LOCATION</div>
-                <div class="filter-scroll">
-                    <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
-                    <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym</button>
+            <div style="margin-bottom:20px;">
+                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">LOCATION</div>
+                <div style="display:flex; gap:8px;">
+                    <button id="gloc-home" class="btn-barcode" style="padding:10px 15px;" onclick="setGenLoc('home')">Home</button>
+                    <button id="gloc-gym" class="btn-barcode" style="padding:10px 15px;" onclick="setGenLoc('gym')">Gym</button>
                 </div>
             </div>
 
-            <div class="gen-section">
-                <div style="font-size:12px; color:#999; margin-bottom:5px;">FOCUS</div>
-                <div style="display:flex; gap:5px; flex-wrap:wrap;">
-                    <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper</button>
-                    <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower</button>
-                    <button class="focus-chip" onclick="toggleFocus('core', this)">Core</button>
-                    <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
+            <div style="margin-bottom:20px;">
+                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">FOCUS</div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn-barcode" onclick="toggleFocus('upper', this)" style="padding:10px 15px;">Upper</button>
+                    <button class="btn-barcode" onclick="toggleFocus('lower', this)" style="padding:10px 15px;">Lower</button>
+                    <button class="btn-barcode" onclick="toggleFocus('core', this)" style="padding:10px 15px;">Core</button>
+                    <button class="btn-barcode" onclick="toggleFocus('cardio', this)" style="padding:10px 15px;">Cardio</button>
                 </div>
             </div>
 
-            <div class="gen-section">
-                <div style="font-size:12px; color:#999; margin-bottom:5px;">COUNT: <span id="gen-val">4</span></div>
+            <div style="margin-bottom:20px;">
+                <div style="font-size:12px; color:#999; margin-bottom:5px; font-weight:700;">QUANTITY: <span id="gen-val">4</span></div>
                 <input type="range" id="gen-slider" min="2" max="8" value="4" style="width:100%;" oninput="document.getElementById('gen-val').innerText = this.value">
             </div>
 
-            <button class="btn-confirm-add" onclick="runGenerator()">✨ Generate</button>
+            <button class="btn-confirm-add" onclick="previewGenerator()">Preview Workout</button>
+        </div>
+    </div>
+
+    <div id="modal-preview" class="modal-overlay" onclick="closeModal('modal-preview')" style="align-items:center;">
+        <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
+            <div class="modal-header"><div class="modal-title">Suggested Workout</div><button class="btn-close" onclick="closeModal('modal-preview')">✕</button></div>
+            <div class="preview-card">
+                <div>Here is a plan for you:</div>
+                <div id="preview-list" class="preview-list"></div>
+            </div>
+            <button class="btn-confirm-add" onclick="acceptGenerator()">Start Workout</button>
         </div>
     </div>
 
     <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')" style="align-items: center;">
         <div class="modal-content modal-content--auto" onclick="event.stopPropagation()">
             <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
-            <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
-                <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
-                <button class="cat-chip" onclick="selectUser('Papi')">Papi</button>
-                <button class="cat-chip" onclick="selectUser('Santi')">Santi</button>
-                <button class="cat-chip" onclick="selectUser('Fran')">Fran</button>
-                <button class="cat-chip" onclick="selectUser('Dana')">Dana</button>
-                <button class="cat-chip" onclick="selectUser('Matu')">Matu</button>
-                <button class="cat-chip" onclick="selectUser('Caro')">Caro</button>
-                <button class="cat-chip" onclick="selectUser('Sofi')">Sofi</button>
-                <button class="cat-chip" onclick="selectUser('Andi')">Andi</button>
-                <button class="cat-chip" onclick="selectUser('Meredith')">Meredith</button>
-                <button class="cat-chip" onclick="selectUser('Ceci')">Ceci</button>
-                <button class="cat-chip" onclick="document.getElementById('other-input').style.display='block'">+ Other</button>
+            <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
+                <button class="btn-barcode" onclick="selectUser('Mami')" style="justify-content:center; padding:12px;">Mami</button>
+                <button class="btn-barcode" onclick="selectUser('Papi')" style="justify-content:center; padding:12px;">Papi</button>
+                <button class="btn-barcode" onclick="selectUser('Santi')" style="justify-content:center; padding:12px;">Santi</button>
+                <button class="btn-barcode" onclick="selectUser('Fran')" style="justify-content:center; padding:12px;">Fran</button>
+                <button class="btn-barcode" onclick="selectUser('Dana')" style="justify-content:center; padding:12px;">Dana</button>
+                <button class="btn-barcode" onclick="selectUser('Matu')" style="justify-content:center; padding:12px;">Matu</button>
+                <button class="btn-barcode" onclick="selectUser('Caro')" style="justify-content:center; padding:12px;">Caro</button>
+                <button class="btn-barcode" onclick="selectUser('Sofi')" style="justify-content:center; padding:12px;">Sofi</button>
+                <button class="btn-barcode" onclick="selectUser('Andi')" style="justify-content:center; padding:12px;">Andi</button>
+                <button class="btn-barcode" onclick="selectUser('Meredith')" style="justify-content:center; padding:12px;">Meredith</button>
+                <button class="btn-barcode" onclick="selectUser('Ceci')" style="justify-content:center; padding:12px;">Ceci</button>
+                <button class="btn-barcode" onclick="document.getElementById('other-input').style.display='block'" style="justify-content:center; padding:12px;">Other</button>
             </div>
             <input type="text" id="other-input" placeholder="Guest Name..." style="display:none; width:100%; padding:15px; margin-top:15px; border:1px solid #ddd; border-radius:12px;">
         </div>
@@ -380,8 +384,7 @@
                 <div style="font-weight:700; font-size:16px;">Gym Pass</div>
                 <button class="btn-close" style="width:30px; height:30px; font-size:16px;" onclick="closeModal('modal-barcode')">✕</button>
             </div>
-            <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
-            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; max-height: 300px; object-fit:contain; border-radius:6px; display:block;">
+            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; max-height: 300px; object-fit:contain; border-radius:6px;">
         </div>
     </div>
 
@@ -391,44 +394,40 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbx5yiTqUVvrzSQo8nNre09ksQKtn5U3DzDn_JXZkqyrIc_RFzniyaENNHTXgnodjCky/exec"; 
     const FAMILY_NAMES = ["Mami", "Papi", "Santi", "Fran", "Dana", "Matu", "Caro", "Sofi", "Andi", "Meredith", "Ceci"];
 
-    // STATE
+    // GLOBAL APP STATE
     let currentUser = null; 
-    let dailyLog = []; // Stores the "Done" exercises
+    let dailyLog = [];
     let habitsData = { water: {c:0,g:8}, veggies: {c:0,g:5}, fruits: {c:0,g:5}, snacks: {c:0,g:2} };
-    let familyData = []; 
+    let isSubmitted = false; // "Locked" state
     
-    // UI STATE
-    let selectedBatch = new Set(); // For Manual Selection
-    let manualFilter = 'all'; 
+    // UI VARS
+    let selectedBatch = new Set();
     let genLocation = 'home';
     let genFocus = new Set();
+    let pendingPreview = []; // For Generator Preview
 
-    // DB
+    // EXERCISE DATABASE
     const exerciseDB = [
-        { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png" },
-        { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png" },
-        { name: "Cable Tricep Pushdown", type: "upper", loc: ["gym"], img: "images/cable-tricep-pushdown.png" },
-        { name: "Lat Pulldown", type: "upper", loc: ["gym"], img: "images/lat-pulldown.png" },
-        { name: "Seated Cable Row", type: "upper", loc: ["gym"], img: "images/seated-cable-row.png" },
-        { name: "Dumbbell Row", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-row.png" },
-        { name: "Bicep Curls", type: "upper", loc: ["home", "gym"], img: "images/bicep-curls.png" },
-        { name: "Push Ups", type: "upper", loc: ["home", "gym", "bodyweight"], img: "images/push-ups.png" },
-        { name: "Goblet Squat", type: "lower", loc: ["home", "gym"], img: "images/goblet-squat.png" },
-        { name: "Leg Press", type: "lower", loc: ["gym"], img: "images/leg-press.png" },
-        { name: "Leg Extension", type: "lower", loc: ["gym"], img: "images/leg-extension.png" },
-        { name: "Leg Curl", type: "lower", loc: ["gym"], img: "images/leg-curl.png" },
-        { name: "Bulgarian Split Squat", type: "lower", loc: ["home", "gym"], img: "images/bulgarian-split-squat.png" },
-        { name: "Air Squats", type: "lower", loc: ["home", "gym", "bodyweight"], img: "images/air-squat.png" },
-        { name: "Plank", type: "core", loc: ["home", "gym", "bodyweight"], img: "images/plank.png" },
-        { name: "Crunches", type: "core", loc: ["home", "gym", "bodyweight"], img: "images/crunches.png" },
-        { name: "Running", type: "cardio", loc: ["home", "gym", "bodyweight"], img: "images/running.png" },
-        { name: "Stationary Bike", type: "cardio", loc: ["home", "gym"], img: "images/stationary-bike.png" },
-        { name: "Swimming", type: "cardio", loc: ["gym"], img: "images/swimming.png" },
-        { name: "Hot Yoga", type: "cardio", loc: ["gym"], img: "images/yoga.png" },
-        { name: "Pilates", type: "core", loc: ["home", "gym"], img: "images/pilates.png" }
+        { name: "Running", type: "Cardio", loc: ["home", "gym"], img: "images/running.png" },
+        { name: "Stationary Bike", type: "Cardio", loc: ["home", "gym"], img: "images/stationary-bike.png" },
+        { name: "Push Ups", type: "Upper Body", loc: ["home", "gym"], img: "images/push-ups.png" },
+        { name: "Bicep Curls", type: "Upper Body", loc: ["home", "gym"], img: "images/bicep-curls.png" },
+        { name: "Shoulder Press", type: "Upper Body", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png" },
+        { name: "Lat Pulldown", type: "Upper Body", loc: ["gym"], img: "images/lat-pulldown.png" },
+        { name: "Air Squats", type: "Lower Body", loc: ["home", "gym"], img: "images/air-squat.png" },
+        { name: "Goblet Squat", type: "Lower Body", loc: ["home", "gym"], img: "images/goblet-squat.png" },
+        { name: "Leg Press", type: "Lower Body", loc: ["gym"], img: "images/leg-press.png" },
+        { name: "Plank", type: "Core", loc: ["home", "gym"], img: "images/plank.png" },
+        { name: "Crunches", type: "Core", loc: ["home", "gym"], img: "images/crunches.png" },
+        { name: "Hot Yoga", type: "Studio", loc: ["gym"], img: "images/yoga.png" },
+        { name: "Pilates", type: "Studio", loc: ["home", "gym"], img: "images/pilates.png" }
     ];
 
     window.onload = function() {
+        // Load customs
+        const savedCustom = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
+        savedCustom.forEach(ex => exerciseDB.push(ex));
+        
         document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         const select = document.getElementById('dayInput');
         for (let i = 1; i <= 100; i++) { let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt); }
@@ -438,13 +437,85 @@
         updateProgressUI();
         initHabits();
         renderDashboard();
+        updateCardState(); // Trigger visual state check
+    }
+
+    // --- CORE LOGIC: CARD STATES ---
+    function updateCardState() {
+        const card = document.getElementById('main-scorecard');
+        const pill = document.getElementById('score-status-pill');
+        const btn = document.getElementById('btn-submit');
+        const lockedMsg = document.getElementById('msg-locked');
+        const actionArea = document.getElementById('action-area');
         
-        // Carousel Scroll Spy
-        const track = document.getElementById('carousel-track');
-        track.addEventListener('scroll', () => {
-            const index = Math.round(track.scrollLeft / track.offsetWidth);
-            document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i === index); });
-        });
+        // Reset classes
+        card.classList.remove('state-empty', 'state-active', 'state-submitted');
+        
+        // LOGIC
+        const hasActivity = dailyLog.length > 0 || habitsData.water.c > 0 || habitsData.veggies.c > 0 || habitsData.fruits.c > 0 || habitsData.snacks.c > 0;
+
+        if (isSubmitted) {
+            // STATE: SUBMITTED (LOCKED)
+            card.classList.add('state-submitted');
+            pill.innerText = "Submitted";
+            btn.style.display = 'none';
+            lockedMsg.style.display = 'block';
+            actionArea.classList.add('hidden');
+        } else if (hasActivity) {
+            // STATE: ACTIVE (DRAFT)
+            card.classList.add('state-active');
+            pill.innerText = "In Progress";
+            btn.style.display = 'block';
+            lockedMsg.style.display = 'none';
+            actionArea.classList.remove('hidden');
+        } else {
+            // STATE: EMPTY
+            card.classList.add('state-empty');
+            pill.innerText = "Empty";
+            btn.style.display = 'none';
+            lockedMsg.style.display = 'none';
+            actionArea.classList.remove('hidden');
+        }
+    }
+
+    function submitScorecard() {
+        if (!currentUser) { alert("Please select your name first!"); openUserModal(); return; }
+        
+        if(confirm("Ready to finish the day?")) {
+            isSubmitted = true;
+            saveState();
+            updateCardState();
+            
+            // Sync to Cloud
+            const h = habitsData;
+            const habitStr = `W:${h.water.c}, V:${h.veggies.c}, F:${h.fruits.c}, S:${h.snacks.c}`;
+            const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
+            
+            const payload = {
+                date: new Date().toLocaleString(),
+                day: document.getElementById('dayInput').value,
+                name: currentUser,
+                location: 'app',
+                workout: workoutStr + " | " + habitStr
+            };
+            
+            document.getElementById('success-sound').play().catch(()=>{});
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.5 } });
+
+            fetch(API_URL, {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => console.log(err));
+        }
+    }
+
+    function unlockDay() {
+        if(confirm("Need to add something? This will unlock your scorecard.")) {
+            isSubmitted = false;
+            saveState();
+            updateCardState();
+        }
     }
 
     // --- DASHBOARD UI ---
@@ -466,178 +537,159 @@
             });
         }
         
-        // Update Scorecard Text
         document.getElementById('score-workout').innerText = dailyLog.length + " Done";
         if(dailyLog.length > 0) document.getElementById('score-workout').classList.add('done');
     }
 
     function removeLogItem(idx) {
+        if(isSubmitted) return; // double check
         dailyLog.splice(idx, 1);
         saveState();
         renderDashboard();
+        updateCardState();
     }
 
-    // --- FINISH & SYNC ---
-    function finishAndSync() {
-        const finalName = currentUser || document.getElementById('other-input').value;
-        if (!finalName) { alert("⚠️ Please select your name (Top Left) first!"); openUserModal(); return; }
-        
-        const h = habitsData;
-        const habitStr = `W:${h.water.c}, V:${h.veggies.c}, F:${h.fruits.c}, S:${h.snacks.c}`;
-        const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
-        
-        const payload = {
-            date: new Date().toLocaleString(),
-            day: document.getElementById('dayInput').value,
-            name: finalName,
-            location: 'app',
-            workout: workoutStr + " | " + habitStr
-        };
-
-        // UI Feedback
-        document.getElementById('success-sound').play().catch(()=>{});
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 } });
-        
-        fetch(API_URL, {
-            method: 'POST', mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        }).catch(err => console.log(err));
-
-        alert("✅ Synced successfully to Leaderboard!");
-    }
-
-    // --- WIZARD & MODALS ---
-    function openWorkoutWizard() { document.getElementById('modal-wizard').style.display = 'flex'; }
-    
+    // --- MANUAL LOG LOGIC (Unified List) ---
     function startManualLog() {
         closeModal('modal-wizard');
         document.getElementById('modal-manual').style.display = 'flex';
         selectedBatch.clear();
-        manualFilter = 'all';
-        renderManualList();
+        renderUnifiedList();
     }
 
+    function renderUnifiedList() {
+        const container = document.getElementById('unified-list');
+        container.innerHTML = '';
+        const search = document.getElementById('search-input').value.toLowerCase();
+        
+        // Group by Type
+        const grouped = {};
+        exerciseDB.forEach(ex => {
+            if(!grouped[ex.type]) grouped[ex.type] = [];
+            grouped[ex.type].push(ex);
+        });
+
+        Object.keys(grouped).forEach(type => {
+            // Filter items in this group
+            const filtered = grouped[type].filter(ex => ex.name.toLowerCase().includes(search));
+            if(filtered.length === 0) return;
+
+            // Render Header
+            const header = document.createElement('div');
+            header.className = 'list-section-header';
+            header.innerText = type;
+            container.appendChild(header);
+
+            // Render Items
+            filtered.forEach(ex => {
+                const div = document.createElement('div');
+                div.className = 'select-item';
+                if(selectedBatch.has(ex.name)) div.classList.add('selected');
+                
+                div.innerHTML = `
+                    <div class="item-left">
+                        <img src="${ex.img || 'images/icon.png'}" class="item-img" onError="this.style.display='none'">
+                        <span style="font-weight:600;">${ex.name}</span>
+                    </div>
+                    <div class="item-check-circle"></div>
+                `;
+                div.onclick = () => {
+                    if(selectedBatch.has(ex.name)) selectedBatch.delete(ex.name); else selectedBatch.add(ex.name);
+                    renderUnifiedList(); // Re-render to update checkmarks
+                    document.querySelector('#modal-manual .btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
+                };
+                container.appendChild(div);
+            });
+        });
+    }
+
+    function openCustomModal() { document.getElementById('modal-custom').style.display = 'flex'; }
+    
+    function saveCustomExercise() {
+        const val = document.getElementById('custom-ex-input').value.trim();
+        if(!val) return;
+        const newEx = { name: val, type: 'Custom', loc: ['home'], img: '' };
+        exerciseDB.push(newEx);
+        
+        // Persist
+        const saved = JSON.parse(localStorage.getItem('nogueraFit_custom') || '[]');
+        saved.push(newEx);
+        localStorage.setItem('nogueraFit_custom', JSON.stringify(saved));
+
+        closeModal('modal-custom');
+        selectedBatch.add(val);
+        renderUnifiedList();
+    }
+
+    function confirmManualAdd() {
+        selectedBatch.forEach(name => dailyLog.push({ name: name }));
+        saveState();
+        renderDashboard();
+        updateCardState();
+        closeModal('modal-manual');
+    }
+
+    // --- GENERATOR LOGIC (Preview Flow) ---
     function startGenerator() {
         closeModal('modal-wizard');
         document.getElementById('modal-generator').style.display = 'flex';
     }
 
-    function openNutritionModal() { document.getElementById('modal-nutrition').style.display = 'flex'; }
-
-    // --- MANUAL SELECTION ---
-    function filterManualCat(cat, btn) {
-        manualFilter = cat;
-        document.querySelectorAll('.cat-chip').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        renderManualList();
+    function setGenLoc(l) { genLocation = l; document.querySelectorAll('#modal-generator button').forEach(b => { if(b.innerText.toLowerCase()===l) b.style.backgroundColor='#007AFF'; else b.style.backgroundColor='white'; }); }
+    
+    function toggleFocus(f, b) { 
+        if(genFocus.has(f)){ genFocus.delete(f); b.style.backgroundColor='white'; b.style.color='#555'; }
+        else { genFocus.add(f); b.style.backgroundColor='#007AFF'; b.style.color='white'; } 
     }
 
-    function filterExercises() { renderManualList(); }
-
-    function renderManualList() {
-        const container = document.getElementById('manual-list');
-        container.innerHTML = '';
-        const search = document.getElementById('search-input').value.toLowerCase();
-
-        let pool = exerciseDB;
-        
-        // Recents Logic
-        if (manualFilter === 'recents') {
-            const recentNames = JSON.parse(localStorage.getItem('nogueraFit_recents') || '[]');
-            pool = exerciseDB.filter(e => recentNames.includes(e.name));
-        } else if (manualFilter !== 'all') {
-            pool = exerciseDB.filter(e => e.type === manualFilter);
-        }
-
-        pool.forEach(ex => {
-            if (!ex.name.toLowerCase().includes(search)) return;
-
-            const div = document.createElement('div');
-            div.className = 'select-item';
-            if(selectedBatch.has(ex.name)) div.classList.add('selected');
-            
-            div.innerHTML = `<span style="font-weight:600;">${ex.name}</span> ${selectedBatch.has(ex.name) ? '🔵' : '⚪️'}`;
-            div.onclick = () => {
-                if(selectedBatch.has(ex.name)) selectedBatch.delete(ex.name); else selectedBatch.add(ex.name);
-                renderManualList();
-                document.querySelector('#modal-manual .btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
-            };
-            container.appendChild(div);
-        });
-    }
-
-    function addCustomExercise() {
-        const val = document.getElementById('custom-ex-input').value.trim();
-        if(!val) return;
-        const newEx = { name: val, type: 'custom', loc: ['home'], img: '' };
-        exerciseDB.push(newEx);
-        selectedBatch.add(val);
-        document.getElementById('custom-ex-input').value = '';
-        renderManualList();
-    }
-
-    function confirmManualAdd() {
-        const addedNames = [];
-        selectedBatch.forEach(name => {
-            dailyLog.push({ name: name });
-            addedNames.push(name);
-        });
-        
-        // Save to Recents
-        let recents = JSON.parse(localStorage.getItem('nogueraFit_recents') || '[]');
-        addedNames.forEach(n => {
-            recents = recents.filter(r => r !== n); // remove dupes
-            recents.unshift(n); // add to top
-        });
-        localStorage.setItem('nogueraFit_recents', JSON.stringify(recents.slice(0,5))); // Keep top 5
-
-        saveState();
-        renderDashboard();
-        closeModal('modal-manual');
-    }
-
-    // --- GENERATOR LOGIC ---
-    function setGenLoc(l) { 
-        genLocation = l; 
-        document.querySelectorAll('.loc-chip').forEach(c => c.classList.remove('active'));
-        document.getElementById('gloc-'+l).classList.add('active');
-    }
-    function toggleFocus(f, b) { if(genFocus.has(f)){genFocus.delete(f); b.classList.remove('active');} else {genFocus.add(f); b.classList.add('active');} }
-
-    function runGenerator() {
+    function previewGenerator() {
         const count = parseInt(document.getElementById('gen-slider').value);
         if(genFocus.size===0) { alert("Select focus!"); return; }
         
         let pool = exerciseDB.filter(ex => {
-            const locMatch = ex.loc.includes(genLocation) || ex.loc.includes('bodyweight');
-            return locMatch && genFocus.has(ex.type);
+            const locMatch = ex.loc.includes(genLocation) || ex.loc.includes('home'); // loose match
+            return locMatch && genFocus.has(ex.type.toLowerCase().split(' ')[0]);
         });
 
-        if(pool.length === 0) { alert("No exercises found."); return; }
+        if(pool.length === 0) pool = exerciseDB; // fallback
         pool.sort(() => 0.5 - Math.random());
-        
-        pool.slice(0,count).forEach(ex => dailyLog.push({name: ex.name}));
-        saveState();
-        renderDashboard();
+        pendingPreview = pool.slice(0, count);
+
+        // Show Preview Modal
         closeModal('modal-generator');
+        const list = document.getElementById('preview-list');
+        list.innerHTML = '';
+        pendingPreview.forEach(ex => {
+            list.innerHTML += `<div class="preview-item"><span>🔹</span> ${ex.name}</div>`;
+        });
+        document.getElementById('modal-preview').style.display = 'flex';
     }
 
-    // --- HABITS & STATE ---
+    function acceptGenerator() {
+        pendingPreview.forEach(ex => dailyLog.push({name: ex.name}));
+        saveState();
+        renderDashboard();
+        updateCardState();
+        closeModal('modal-preview');
+    }
+
+    // --- HABITS ---
     function initHabits() {
         document.querySelectorAll('.circle-row').forEach(row => {
-            if(row.innerHTML !== '') return;
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
+            row.innerHTML = ''; 
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
                 d.onclick = () => {
+                    if(isSubmitted) return;
                     const cVal = habitsData[h].c;
                     const nVal = (cVal === i+1 && i===0) ? 0 : i+1;
                     habitsData[h].c = nVal;
                     updateHabitVisuals(h, g, nVal);
                     saveState();
+                    updateCardState();
                 };
                 row.appendChild(d);
             }
@@ -653,96 +705,79 @@
             else { c.classList.remove('active'); c.style.background = 'transparent'; }
         });
         document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
-        document.getElementById(`bar-${h}`).style.width = `${(val/g)*100}%`;
         
-        // Update Main Scorecard
         const mainEl = document.getElementById(`score-${h}`);
         mainEl.innerText = `${val} / ${g}`;
         if(val >= g) mainEl.classList.add('done'); else mainEl.classList.remove('done');
     }
 
-    // --- LEADERBOARD & USER ---
-    async function fetchFamilyData() {
-        try {
-            const res = await fetch(API_URL);
-            const raw = await res.json();
-            familyData = FAMILY_NAMES.map(name => {
-                const found = raw.find(r => r.name === name);
-                return found || { name: name, streak: 0, lastDate: 0 };
-            });
-            renderLeaderboardCard();
-        } catch(e) { console.log(e); }
-    }
-
-    function renderLeaderboardCard() {
-        const cont = document.getElementById('lb-container');
-        cont.innerHTML = '';
-        familyData.sort((a,b) => b.streak - a.streak);
-        
-        familyData.forEach((u, idx) => {
-            const isMe = (u.name === currentUser);
-            const nameStyle = isMe ? 'color: var(--ios-blue);' : 'color: #1C1C1E;';
-            const nameSuffix = isMe ? ' <span style="font-weight:400; font-size:13px; color:#8E8E93;">(You)</span>' : '';
-            
-            let rankClass = 'rank-low';
-            if(idx===0) rankClass='rank-1'; if(idx===1) rankClass='rank-2'; if(idx===2) rankClass='rank-3';
-
-            const div = document.createElement('div');
-            div.className = 'lb-row';
-            div.innerHTML = `
-                <div style="display:flex; align-items:center;">
-                    <div class="lb-rank ${rankClass}">${idx+1}</div>
-                    <div class="lb-details">
-                        <div class="lb-name" style="${nameStyle}">${u.name}${nameSuffix}</div>
-                    </div>
-                </div>
-                <div class="lb-stat-box"><div class="lb-val-main">${u.streak}</div></div>
-            `;
-            cont.appendChild(div);
-        });
-    }
-
-    function selectUser(name) {
-        currentUser = name;
-        document.getElementById('header-username').innerText = "👤 " + name;
-        document.getElementById('score-title').innerText = name + "'s Scorecard";
-        closeModal('modal-user');
-        renderLeaderboardCard();
-        saveState();
-    }
-
+    // --- STATE MANAGEMENT ---
     function saveState() {
         const data = {
             date: new Date().toDateString(),
             day: document.getElementById('dayInput').value,
             log: dailyLog,
             habits: habitsData,
-            user: currentUser
+            user: currentUser,
+            submitted: isSubmitted
         };
-        localStorage.setItem('nogueraFit_data', JSON.stringify(data));
+        localStorage.setItem('nogueraFit_v2', JSON.stringify(data));
     }
 
     function loadState() {
-        const raw = localStorage.getItem('nogueraFit_data');
+        const raw = localStorage.getItem('nogueraFit_v2');
         if (!raw) return;
         const saved = JSON.parse(raw);
         if (saved.date === new Date().toDateString()) {
             document.getElementById('dayInput').value = saved.day;
             dailyLog = saved.log || [];
             habitsData = saved.habits || habitsData;
+            isSubmitted = saved.submitted || false;
         }
-        if (saved.user) selectUser(saved.user);
-    }
-    
-    function updateProgressUI() {
-        const d = document.getElementById('dayInput').value;
-        document.getElementById('visual-progress').style.width = d + '%';
-        document.getElementById('progress-text').innerText = d + '%';
+        if (saved.user) {
+            currentUser = saved.user;
+            document.getElementById('header-username').innerText = "👤 " + saved.user;
+        }
     }
 
+    // --- LEADERBOARD & UTILS ---
+    async function fetchFamilyData() {
+        try {
+            const res = await fetch(API_URL);
+            const raw = await res.json();
+            const cont = document.getElementById('lb-container');
+            cont.innerHTML = '';
+            
+            const list = FAMILY_NAMES.map(name => {
+                const found = raw.find(r => r.name === name);
+                return found || { name: name, streak: 0 };
+            }).sort((a,b) => b.streak - a.streak);
+            
+            list.forEach((u, idx) => {
+                const isMe = (u.name === currentUser);
+                const nameStyle = isMe ? 'color: var(--ios-blue);' : 'color: #1C1C1E;';
+                const suffix = isMe ? ' <span style="font-size:12px; color:#999;">(You)</span>' : '';
+                let rC = 'rank-low'; if(idx===0) rC='rank-1'; if(idx===1) rC='rank-2'; if(idx===2) rC='rank-3';
+                
+                cont.innerHTML += `
+                    <div class="lb-row">
+                        <div style="display:flex; align-items:center;">
+                            <div class="lb-rank ${rC}">${idx+1}</div>
+                            <div style="font-weight:700; font-size:15px; ${nameStyle}">${u.name}${suffix}</div>
+                        </div>
+                        <div style="font-weight:700;">${u.streak}</div>
+                    </div>`;
+            });
+        } catch(e) {}
+    }
+
+    function selectUser(name) { currentUser = name; document.getElementById('header-username').innerText = "👤 " + name; closeModal('modal-user'); saveState(); fetchFamilyData(); }
+    function updateProgressUI() { const d = document.getElementById('dayInput').value; document.getElementById('visual-progress').style.width = d + '%'; document.getElementById('progress-text').innerText = d + '%'; }
+    function openWorkoutWizard() { document.getElementById('modal-wizard').style.display = 'flex'; }
+    function openNutritionModal() { document.getElementById('modal-nutrition').style.display = 'flex'; }
     function openBarcode() { document.getElementById('modal-barcode').style.display = 'flex'; }
-    function openUserModal() { document.getElementById('modal-user').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
 </script>
 </body>
 </html>
