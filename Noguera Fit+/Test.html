@@ -83,7 +83,18 @@
         /* --- LEADERBOARD --- */
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
         .lb-list { max-height: 250px; overflow-y: auto; }
-        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; transition: 0.2s; }
+        
+        /* NEW HIGHLIGHT STYLE FOR USER */
+        .highlight-user { 
+            background-color: rgba(0,122,255,0.1); 
+            border: 1px solid rgba(0,122,255,0.2); 
+            border-radius: 12px; 
+            padding-left: 10px !important; 
+            padding-right: 10px !important;
+            margin: 0 -5px; 
+        }
+
         .lb-rank { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: 800; border-radius: 50%; font-size: 13px; margin-right: 8px; }
         .rank-1 { background: #FFD700; color: #B48902; } .rank-2 { background: #C0C0C0; color: #555; } .rank-3 { background: #CD7F32; color: #6A3906; } .rank-low { background: #F2F2F7; color: #8E8E93; font-size: 11px; }
         .lb-details { display: flex; flex-direction: column; }
@@ -146,7 +157,7 @@
             animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
         }
         
-        /* NEW: Modifier for simple, auto-height popups (like Barcode & User Select) */
+        /* Modifier for simple, auto-height popups (like Barcode & User Select) */
         .modal-content--auto {
             height: auto !important; /* Override the fixed 80vh height */
             max-height: 80vh !important; /* Ensure it doesn't overflow on small screens */
@@ -355,6 +366,15 @@
                 </div>
 
                 <div id="batch-list" class="select-list"></div>
+                
+                <div style="margin-top:10px; padding-top:10px; border-top:1px solid #E5E5EA;">
+                    <div style="font-size:12px; font-weight:700; color:#8E8E93; margin-bottom:8px; text-transform:uppercase;">Can't find it? Add your own:</div>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="custom-ex-input" placeholder="e.g. Jump Rope" style="flex:1; padding:12px; border-radius:12px; border:1px solid #D1D1D6; font-size:16px;">
+                        <button onclick="addCustomExercise()" style="background:#E5E5EA; color:var(--ios-blue); font-weight:700; border:none; padding:0 15px; border-radius:12px;">Add</button>
+                    </div>
+                </div>
+
                 <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
             </div>
 
@@ -424,7 +444,7 @@
             <img src="images/barcode.jpg" alt="Barcode" style="width:100%; max-height: 300px; object-fit:contain; border-radius:6px; display:block;">
         </div>
     </div>
-    
+
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
@@ -468,6 +488,7 @@
         { name: "Plank", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/plank.png", guide: "3 sets • 60 sec" },
         { name: "Crunches", type: "core", loc: ["home", "gym", "bodyweight", "studio"], img: "images/crunches.png", guide: "2 sets • 50 reps" },
         { name: "Running", type: "cardio", loc: ["home", "gym", "bodyweight"], img: "images/running.png", guide: "20-30 mins" },
+        { name: "Stationary Bike", type: "cardio", loc: ["home", "gym"], img: "images/stationary-bike.png", guide: "20-30 mins" },
         { name: "Swimming", type: "cardio", loc: ["gym"], img: "images/swimming.png", guide: "20-30 mins" },
         { name: "Hot Yoga", type: "studio", loc: ["studio", "gym"], img: "images/yoga.png", guide: "Class" },
         { name: "Reformer Pilates", type: "studio", loc: ["studio", "gym"], img: "images/pilates.png", guide: "Class" },
@@ -635,6 +656,28 @@
             };
             container.appendChild(div);
         });
+    }
+
+    // NEW: Function to handle custom exercise addition
+    function addCustomExercise() {
+        const input = document.getElementById('custom-ex-input');
+        const name = input.value.trim();
+        if (!name) return;
+
+        // Create temp object
+        const newEx = {
+            name: name,
+            type: currentCategory, 
+            loc: [modalLocation, 'home', 'gym', 'bodyweight', 'studio'], 
+            img: 'images/icon.png',
+            guide: 'Custom'
+        };
+
+        exerciseDB.push(newEx);
+        selectedBatch.add(name); // Auto-select it
+        refreshExerciseList(); // Re-render list
+        input.value = ''; 
+        document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
     }
 
     function confirmBatchAdd() {
@@ -822,7 +865,10 @@
             }
 
             const div = document.createElement('div');
-            div.className = 'lb-row';
+            // UPDATED: Check if this row belongs to currentUser and apply highlight
+            const highlightClass = (u.name === currentUser) ? 'highlight-user' : '';
+            div.className = `lb-row ${highlightClass}`;
+            
             div.innerHTML = `
                 <div style="display:flex; align-items:center;">
                     <div class="lb-rank ${rankClass}">${idx+1}</div>
@@ -857,6 +903,7 @@
         if(familyData.length > 0) autoSetDay(name);
         else fetchFamilyData().then(() => autoSetDay(name));
         saveState();
+        renderLeaderboardCard(); // Re-render to apply highlight
     }
 
     function saveState() {
