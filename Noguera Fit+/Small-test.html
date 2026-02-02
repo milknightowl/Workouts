@@ -341,71 +341,32 @@
         </div>
     </div>
   
-  <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        
-        <div class="modal-header">
-            <div class="modal-title">Add Workout</div>
-            <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
-        </div>
-
-        <div class="loc-header">Where are you working out?</div>
-
-        <div class="loc-grid">
-            <div id="sq-home" class="loc-sq-btn active" onclick="setModalLoc('home')">
-                <span class="loc-icon">🏡</span>
-                <span class="loc-label">At Home</span>
+      <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            
+            <div class="modal-header">
+                <div class="modal-title">Add Workout</div>
+                <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
             </div>
-            <div id="sq-gym" class="loc-sq-btn" onclick="setModalLoc('gym')">
-                <span class="loc-icon">🏋️‍♂️</span>
-                <span class="loc-label">Gym</span>
-            </div>
-        </div>
-
-        <input type="search" id="ex-search" class="search-bar" placeholder="🔍 Search exercises..." onkeyup="refreshExerciseList()">
-
-        <div id="batch-list" class="select-list"></div>
-        
-        <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
-    </div>
-</div>
-
-
-                <div id="batch-list" class="select-list"></div>
-                <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
-            </div>
-
-            <div id="view-magic" style="display:none; flex-direction:column; height:100%; overflow-y:auto;">
-                <div class="gen-section">
-                    <div class="gen-label">1. Where are you?</div>
-                    <div class="filter-scroll">
-                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
-                        <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym/Studio</button>
-                        <button id="gloc-bodyweight" class="loc-chip" onclick="setGenLoc('bodyweight')">Bodyweight</button>
-                    </div>
+    
+            <div class="loc-header">Where are you working out?</div>
+    
+            <div class="loc-grid">
+                <div id="sq-home" class="loc-sq-btn active" onclick="setModalLoc('home')">
+                    <span class="loc-icon">🏡</span>
+                    <span class="loc-label">At Home</span>
                 </div>
-
-                <div class="gen-section">
-                    <div class="gen-label">2. Focus (Select Multiple)</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                        <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper</button>
-                        <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower</button>
-                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core</button>
-                        <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
-                    </div>
+                <div id="sq-gym" class="loc-sq-btn" onclick="setModalLoc('gym')">
+                    <span class="loc-icon">🏋️‍♂️</span>
+                    <span class="loc-label">Gym</span>
                 </div>
-
-                <div class="gen-section">
-                    <div class="gen-label">3. Number of Exercises</div>
-                    <div class="slider-container">
-                        <input type="range" id="gen-slider" min="2" max="8" value="4" oninput="document.getElementById('gen-val').innerText = this.value">
-                        <div class="slider-val" id="gen-val">4</div>
-                    </div>
-                </div>
-
-                <button class="btn-confirm-add" style="margin-top:auto;" onclick="runGenerator()">✨ Create Workout</button>
             </div>
-
+    
+            <input type="search" id="ex-search" class="search-bar" placeholder="🔍 Search exercises..." onkeyup="refreshExerciseList()">
+    
+            <div id="batch-list" class="select-list"></div>
+            
+            <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
         </div>
     </div>
 
