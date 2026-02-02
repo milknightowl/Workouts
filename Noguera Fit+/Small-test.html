@@ -223,185 +223,184 @@
 <body>
 
     <div class="app-content">
-        <div class="top-nav">
-            <button class="user-select-btn" onclick="openUserModal()">
-                <span id="header-username">👥 Select Team</span> <span>▼</span>
-            </button>
-            <button class="btn-barcode" onclick="openBarcode()">Gym Pass</button>
+    <div class="top-nav">
+        <button class="user-select-btn" onclick="openUserModal()">
+            <span id="header-username">👥 Select Team</span> <span>▼</span>
+        </button>
+        <button class="btn-barcode" onclick="openBarcode()">Gym Pass</button>
+    </div>
+
+    <div class="progress-wrapper">
+        <div class="progress-header"><span>Challenge Progress</span><span id="progress-text">0%</span></div>
+        <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
+        <div class="day-controls">
+            Day <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select> of 100
         </div>
+    </div>
 
-        <div class="progress-wrapper">
-            <div class="progress-header"><span>Challenge Progress</span><span id="progress-text">0%</span></div>
-            <div class="progress-container"><div id="visual-progress" class="progress-fill"></div></div>
-            <div class="day-controls">
-                Day <select id="dayInput" class="day-select" onchange="updateProgressUI()"></select> of 100
-            </div>
-        </div>
-
-        <div class="carousel-track" id="carousel-track">
-            
-            <div class="card-slide score-card-bg">
-                <div class="scorecard-header">
-                    <div class="scorecard-title" id="score-title">Scorecard</div>
-                    <div class="scorecard-date" id="today-date">Today</div>
-                </div>
-                <div class="score-row">
-                    <span class="score-label">🏋️ Exercise</span>
-                    <span class="score-val" id="score-workout">0 Done</span>
-                </div>
-                <div class="score-row">
-                    <span class="score-label">💧 Water</span>
-                    <span class="score-val" id="score-water">0 / 8</span>
-                </div>
-                <div class="score-row">
-                    <span class="score-label">🥦 Veggies</span>
-                    <span class="score-val" id="score-veggies">0 / 5</span>
-                </div>
-                <div class="score-row">
-                    <span class="score-label">🍎 Fruits</span>
-                    <span class="score-val" id="score-fruits">0 / 5</span>
-                </div>
-                <div class="score-row">
-                    <span class="score-label">🥜 Snacks</span>
-                    <span class="score-val" id="score-snacks">0 / 2</span>
-                </div>
-                
-                <button id="main-action-btn" class="btn-sync" onclick="shareScorecard()">
-                    📤 Share Scorecard
-                </button>
-            </div>
-
-            <div class="card-slide leaderboard-bg">
-                <div class="scorecard-header">
-                    <div class="scorecard-title">Family Rankings</div>
-                    <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
-                </div>
-                <div class="lb-headers">
-                    <span>Rank / Name</span>
-                    <span>Total Days Logged</span>
-                </div>
-                <div id="lb-container" class="lb-list">
-                    <div style="text-align:center; padding:20px; color:#aaa;">Loading...</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="carousel-dots">
-            <div class="dot active" id="dot-0"></div>
-            <div class="dot" id="dot-1"></div>
-        </div>
-
-        <div class="tab-bar">
-            <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
-            <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
-        </div>
-
-        <div id="workout-view">
-            <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
-                <span class="big-icon">➕</span>
-                <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
-                <span style="font-size:13px;">Tap to select exercises</span>
-            </div>
-
-            <div id="cards-container"></div>
-
-            <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
-            
-            <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
-                Add to Scorecard
-            </button>
-
-            <div id="history-section" class="history-container" style="display:none;">
-                <div class="history-title">Logged Today</div>
-                <div id="history-list"></div>
-            </div>
-        </div>
+    <div class="carousel-track" id="carousel-track">
         
-        <div id="nutrition-view" class="hidden-view">
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
-                <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
-                <div class="circle-row" data-habit="water" data-goal="8"></div>
+        <div class="card-slide score-card-bg">
+            <div class="scorecard-header">
+                <div class="scorecard-title" id="score-title">Scorecard</div>
+                <div class="scorecard-date" id="today-date">Today</div>
             </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
-                <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
-                <div class="circle-row" data-habit="veggies" data-goal="5"></div>
+            <div class="score-row">
+                <span class="score-label">🏋️ Exercise</span>
+                <span class="score-val" id="score-workout">0 Done</span>
             </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
-                <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
-                <div class="circle-row" data-habit="fruits" data-goal="5"></div>
+            <div class="score-row">
+                <span class="score-label">💧 Water</span>
+                <span class="score-val" id="score-water">0 / 8</span>
             </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
-                <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
-                <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+            <div class="score-row">
+                <span class="score-label">🥦 Veggies</span>
+                <span class="score-val" id="score-veggies">0 / 5</span>
             </div>
+            <div class="score-row">
+                <span class="score-label">🍎 Fruits</span>
+                <span class="score-val" id="score-fruits">0 / 5</span>
+            </div>
+            <div class="score-row">
+                <span class="score-label">🥜 Snacks</span>
+                <span class="score-val" id="score-snacks">0 / 2</span>
+            </div>
+            
+            <button id="main-action-btn" class="btn-sync" onclick="shareScorecard()">
+                📤 Share Scorecard
+            </button>
         </div>
-    </div>
-  
-      <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            
-            <div class="modal-header">
-                <div class="modal-title">Add Workout</div>
-                <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
+
+        <div class="card-slide leaderboard-bg">
+            <div class="scorecard-header">
+                <div class="scorecard-title">Family Rankings</div>
+                <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
             </div>
-    
-            <div class="loc-header">Where are you working out?</div>
-    
-            <div class="loc-grid">
-                <div id="sq-home" class="loc-sq-btn active" onclick="setModalLoc('home')">
-                    <span class="loc-icon">🏡</span>
-                    <span class="loc-label">At Home</span>
-                </div>
-                <div id="sq-gym" class="loc-sq-btn" onclick="setModalLoc('gym')">
-                    <span class="loc-icon">🏋️‍♂️</span>
-                    <span class="loc-label">Gym</span>
-                </div>
+            <div class="lb-headers">
+                <span>Rank / Name</span>
+                <span>Total Days Logged</span>
             </div>
-    
-            <input type="search" id="ex-search" class="search-bar" placeholder="🔍 Search exercises..." onkeyup="refreshExerciseList()">
-    
-            <div id="batch-list" class="select-list"></div>
-            
-            <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
+            <div id="lb-container" class="lb-list">
+                <div style="text-align:center; padding:20px; color:#aaa;">Loading...</div>
+            </div>
         </div>
     </div>
 
-    <div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
-        <div class="modal-content" style="height:auto;" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
-            <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
-                <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
-                <button class="cat-chip" onclick="selectUser('Papi')">Papi</button>
-                <button class="cat-chip" onclick="selectUser('Santi')">Santi</button>
-                <button class="cat-chip" onclick="selectUser('Fran')">Fran</button>
-                <button class="cat-chip" onclick="selectUser('Dana')">Dana</button>
-                <button class="cat-chip" onclick="selectUser('Matu')">Matu</button>
-                <button class="cat-chip" onclick="selectUser('Caro')">Caro</button>
-                <button class="cat-chip" onclick="selectUser('Sofi')">Sofi</button>
-                <button class="cat-chip" onclick="selectUser('Andi')">Andi</button>
-                <button class="cat-chip" onclick="selectUser('Meredith')">Meredith</button>
-                <button class="cat-chip" onclick="selectUser('Ceci')">Ceci</button>
-                <button class="cat-chip" id="other-toggle" onclick="document.getElementById('other-input').style.display='block'">+ Other</button>
-            </div>
-            <input type="text" id="other-input" placeholder="Guest Name..." style="display:none; width:100%; padding:15px; margin-top:15px; border:1px solid #ddd; border-radius:12px;">
-            <button class="btn-confirm-add" style="margin-top:20px;" onclick="closeModal('modal-user')">Done</button>
-        </div>
+    <div class="carousel-dots">
+        <div class="dot active" id="dot-0"></div>
+        <div class="dot" id="dot-1"></div>
     </div>
 
-    <div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: flex-start; padding-top: 50px;">
-        <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px; height:auto;" onclick="event.stopPropagation()">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <div style="font-weight:700; font-size:16px;">Gym Pass</div>
-                <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
-            </div>
-            <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
-            <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:6px; display:block;">
+    <div class="tab-bar">
+        <div id="tab-workout" class="tab-btn active" onclick="switchTab('workout')">EXERCISE</div>
+        <div id="tab-nutrition" class="tab-btn" onclick="switchTab('nutrition')">NUTRITION</div>
+    </div>
+
+    <div id="workout-view">
+        <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
+            <span class="big-icon">➕</span>
+            <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
+            <span style="font-size:13px;">Tap to select exercises</span>
+        </div>
+
+        <div id="cards-container"></div>
+
+        <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
+        
+        <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
+            Add to Scorecard
+        </button>
+
+        <div id="history-section" class="history-container" style="display:none;">
+            <div class="history-title">Logged Today</div>
+            <div id="history-list"></div>
         </div>
     </div>
+    
+    <div id="nutrition-view" class="hidden-view">
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
+            <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
+            <div class="circle-row" data-habit="water" data-goal="8"></div>
+        </div>
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
+            <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
+            <div class="circle-row" data-habit="veggies" data-goal="5"></div>
+        </div>
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
+            <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
+            <div class="circle-row" data-habit="fruits" data-goal="5"></div>
+        </div>
+        <div class="habit-card">
+            <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
+            <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
+            <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        
+        <div class="modal-header">
+            <div class="modal-title">Add Workout</div>
+            <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
+        </div>
+
+        <div class="loc-header">Where are you working out?</div>
+
+        <div class="loc-grid">
+            <div id="sq-home" class="loc-sq-btn active" onclick="setModalLoc('home')">
+                <span class="loc-icon">🏡</span>
+                <span class="loc-label">At Home</span>
+            </div>
+            <div id="sq-gym" class="loc-sq-btn" onclick="setModalLoc('gym')">
+                <span class="loc-icon">🏋️‍♂️</span>
+                <span class="loc-label">Gym</span>
+            </div>
+        </div>
+
+        <input type="search" id="ex-search" class="search-bar" placeholder="🔍 Search exercises..." onkeyup="refreshExerciseList()">
+
+        <div id="batch-list" class="select-list"></div>
+        
+        <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
+    </div>
+</div>
+<div id="modal-user" class="modal-overlay" onclick="closeModal('modal-user')">
+    <div class="modal-content" style="height:auto;" onclick="event.stopPropagation()">
+        <div class="modal-header"><div class="modal-title">Select Team</div><button class="btn-close" onclick="closeModal('modal-user')">✕</button></div>
+        <div class="family-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:10px;">
+            <button class="cat-chip" onclick="selectUser('Mami')">Mami</button>
+            <button class="cat-chip" onclick="selectUser('Papi')">Papi</button>
+            <button class="cat-chip" onclick="selectUser('Santi')">Santi</button>
+            <button class="cat-chip" onclick="selectUser('Fran')">Fran</button>
+            <button class="cat-chip" onclick="selectUser('Dana')">Dana</button>
+            <button class="cat-chip" onclick="selectUser('Matu')">Matu</button>
+            <button class="cat-chip" onclick="selectUser('Caro')">Caro</button>
+            <button class="cat-chip" onclick="selectUser('Sofi')">Sofi</button>
+            <button class="cat-chip" onclick="selectUser('Andi')">Andi</button>
+            <button class="cat-chip" onclick="selectUser('Meredith')">Meredith</button>
+            <button class="cat-chip" onclick="selectUser('Ceci')">Ceci</button>
+            <button class="cat-chip" id="other-toggle" onclick="document.getElementById('other-input').style.display='block'">+ Other</button>
+        </div>
+        <input type="text" id="other-input" placeholder="Guest Name..." style="display:none; width:100%; padding:15px; margin-top:15px; border:1px solid #ddd; border-radius:12px;">
+        <button class="btn-confirm-add" style="margin-top:20px;" onclick="closeModal('modal-user')">Done</button>
+    </div>
+</div>
+
+<div id="modal-barcode" class="modal-overlay" onclick="closeModal('modal-barcode')" style="align-items: flex-start; padding-top: 50px;">
+    <div class="modal-content" style="text-align:center; width: 80%; max-width: 300px; padding: 20px; border-radius: 20px; height:auto;" onclick="event.stopPropagation()">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-weight:700; font-size:16px;">Gym Pass</div>
+            <button class="btn-close" style="width:24px; height:24px; font-size:14px;" onclick="closeModal('modal-barcode')">✕</button>
+        </div>
+        <h4 style="margin:0 0 10px 0; color:#555;">Bretton Woods</h4>
+        <img src="images/barcode.jpg" alt="Barcode" style="width:100%; border-radius:6px; display:block;">
+    </div>
+</div>
 
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
