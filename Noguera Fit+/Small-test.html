@@ -24,9 +24,9 @@
             --text-dark: #1C1C1E;
             --text-light: #8E8E93;
         }
-
+    
         * { box-sizing: border-box; }
-
+    
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #F2F2F7;
@@ -35,7 +35,7 @@
             color: var(--text-dark);
             -webkit-tap-highlight-color: transparent;
         }
-
+    
         .app-content {
             padding: 15px;
             max-width: 600px;
@@ -43,12 +43,12 @@
             padding-bottom: 120px;
             overflow-x: hidden;
         }
-
+    
         /* --- HEADER --- */
         .top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
         .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
         .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-
+    
         /* --- PROGRESS --- */
         .progress-wrapper { background: white; padding: 15px; border-radius: 18px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
         .progress-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-light); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -56,7 +56,7 @@
         .progress-fill { height: 100%; background: linear-gradient(90deg, var(--ios-blue), #5AC8FA); width: 1%; transition: width 0.5s ease; border-radius: 6px; }
         .day-controls { display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; }
         .day-select { font-size: 16px; font-weight: 800; color: var(--text-dark); border: none; background: #F2F2F7; padding: 4px 10px; border-radius: 8px; margin: 0 8px; text-align: center; }
-
+    
         /* --- CAROUSEL CARDS --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
@@ -64,7 +64,7 @@
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
-
+    
         /* HEADER BARS */
         .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
         .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
@@ -79,7 +79,7 @@
         .btn-sync { width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; margin-top: 15px; transition: 0.2s; background-color: #E5E5EA; color: var(--ios-blue); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-sync:active { background-color: #D1D1D6; }
         .btn-sync.synced { background-color: var(--ios-green); color: white; }
-
+    
         /* --- LEADERBOARD --- */
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
         .lb-list { max-height: 250px; overflow-y: auto; }
@@ -92,34 +92,34 @@
         .lb-stat-box { text-align: right; }
         .lb-val-main { font-weight: 800; font-size: 16px; color: #1C1C1E; }
         .lb-val-sub { font-size: 11px; color: var(--ios-blue); font-weight: 600; }
-
+    
         /* --- TABS --- */
         .tab-bar { display: flex; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 5px; gap: 5px; position: sticky; top: 10px; z-index: 90; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .tab-btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--text-light); transition: all 0.2s; }
         .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
-
+    
         /* --- WORKOUT UI --- */
         .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
         .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
         .big-icon { font-size: 32px; display: block; margin-bottom: 5px; }
-
+    
         .exercise-card { background: white; border-radius: 18px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); animation: slideIn 0.3s ease-out; position: relative; }
         .exercise-img { width: 100%; height: 200px; object-fit: contain; background-color: white; padding: 10px; border-bottom: 1px solid #F2F2F7; }
         .exercise-details { padding: 18px; }
         .exercise-name { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #1C1C1E; }
         .exercise-instruction { background-color: #F0F8FF; color: var(--ios-blue); padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 600; display: inline-block; }
         .btn-remove-card { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.05); border: none; width: 32px; height: 32px; border-radius: 50%; color: #FF3B30; font-weight: bold; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
-
+    
         .btn-add-more { background: white; color: var(--ios-blue); border: 1px solid var(--ios-blue); width: 100%; padding: 14px; border-radius: 14px; font-weight: 700; margin-bottom: 10px; cursor: pointer; font-size: 15px; }
-
+    
         /* --- HISTORY LIST --- */
         .history-container { margin-top: 30px; border-top: 1px solid #E5E5EA; padding-top: 20px; }
         .history-title { font-size: 14px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; }
         .history-item { background: white; padding: 12px 16px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
         .btn-undo { color: #FF3B30; font-weight: 700; border: none; background: none; cursor: pointer; padding: 5px; font-size: 16px; }
-
+    
         /* --- HABITS --- */
         .hidden-view { display: none !important; }
         .habit-card { background: white; border-radius: 18px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
@@ -132,14 +132,14 @@
         .habit-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #E5E5EA; cursor: pointer; transition: 0.2s; }
         .habit-circle.active { transform: scale(1.1); border-color: transparent; }
         .bg-water { background: #5AC8FA; } .bg-veggie { background: #34C759; } .bg-fruit { background: #FF3B30; } .bg-snack { background: #AF52DE; }
-
+    
         /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
         
         .modal-content { 
             background: #F2F2F7; width: 100%; max-width: 600px; 
             border-radius: 24px 24px 0 0; padding: 25px; 
-            height: 80vh !important; /* FIXED HEIGHT 90% */
+            height: 80vh !important; /* FIXED HEIGHT */
             max-height: none !important;
             display: flex; flex-direction: column;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
@@ -149,75 +149,106 @@
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
         .modal-title { font-size: 20px; font-weight: 800; }
         .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
-
+    
         .modal-tabs { display: flex; background: #E5E5EA; border-radius: 10px; padding: 3px; margin-bottom: 15px; flex-shrink: 0; }
         .modal-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 8px; cursor: pointer; }
         .modal-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
-        .filter-section-title { font-size: 12px; font-weight: 700; color: #8E8E93; margin: 15px 0 8px 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; -webkit-overflow-scrolling: touch; }
-        .loc-chip, .cat-chip, .focus-chip { padding: 10px 16px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; transition: 0.1s; }
-        .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
-
+    
+        /* --- UPDATED LIST STYLES --- */
         .select-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
         
         .select-item { 
-            background: white; padding: 10px 20px; border-radius: 16px; 
+            background: white; 
+            padding: 15px 20px; /* INCREASED PADDING */
+            border-radius: 20px; 
             display: flex; justify-content: space-between; align-items: center; 
-            cursor: pointer; transition: 0.1s; min-height: 80px; 
+            cursor: pointer; transition: 0.1s; 
+            min-height: 120px; /* INCREASED HEIGHT 50% */
+            position: relative; /* For Checkmark */
         }
-        .select-item.selected { background: #E3F2FD; border: 1px solid var(--ios-blue); }
-        .select-left { display: flex; align-items: center; gap: 15px; flex: 1; }
-        .select-check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; color: transparent; flex-shrink: 0; }
-        .select-item.selected .select-check { background: var(--ios-blue); border-color: var(--ios-blue); color: white; font-size: 16px; }
-        .select-name { font-weight: 700; font-size: 16px; line-height: 1.3; }
-        .no-equip-tag { font-size: 11px; background: #E5E5EA; color: #555; padding: 3px 6px; border-radius: 6px; margin-left: 6px; font-weight: 600; white-space: nowrap; }
+    
+        .select-item.selected { 
+            background: #E3F2FD; 
+            border: 3px solid var(--ios-blue); /* THICKER BORDER */
+        }
+    
+        .select-left { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 6px; flex: 1; }
         
-        .select-img { width: 80px; height: 60px; object-fit: contain; margin-left: 10px; mix-blend-mode: multiply; }
-
+        .select-name { 
+            font-weight: 800; /* BOLDER */
+            font-size: 19px;  /* LARGER */
+            line-height: 1.2; 
+            color: #1C1C1E;
+        }
+    
+        .no-equip-tag { 
+            font-size: 12px; 
+            background: #E8F5E9; /* LIGHT GREEN BG */
+            color: #2E7D32;      /* DARK GREEN TEXT */
+            padding: 5px 8px; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            white-space: nowrap; 
+            display: inline-block;
+        }
+        
+        .select-img { 
+            width: 100px; /* BIGGER IMAGE */
+            height: 90px; /* BIGGER IMAGE */
+            object-fit: contain; 
+            margin-left: 15px; 
+            mix-blend-mode: multiply; 
+            /* Removed 'order: -1' so image stays on the right */
+        }
+    
+        .select-check { position: absolute; top: 10px; right: 10px; opacity: 0; }
+    
+        .list-group-header {
+            font-size: 13px; font-weight: 800; color: #8E8E93;
+            background: #F2F2F7; padding: 10px 14px;
+            border-radius: 10px; margin-top: 20px; margin-bottom: 8px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+    
         .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
-
-        /* Generator UI */
+    
+        /* Generator UI (Obsolete but kept for safety if you switch back) */
         .gen-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
         .gen-label { font-size: 13px; font-weight: 700; color: #8E8E93; margin-bottom: 10px; text-transform: uppercase; }
         .slider-container { display: flex; align-items: center; gap: 15px; }
         input[type=range] { flex: 1; }
         .slider-val { font-weight: 800; font-size: 20px; width: 30px; text-align: center; }
-
+    
         @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-      /* --- NEW MODAL STYLES --- */
-      .loc-header { text-align: center; font-weight: 700; color: #8E8E93; margin-bottom: 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-      
-      .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; flex-shrink: 0; }
-      
-      .loc-sq-btn { 
-        background: white; border: 2px solid transparent; border-radius: 16px; 
-        padding: 15px; text-align: center; cursor: pointer; transition: 0.2s;
-        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-      }
-      
-      .loc-sq-btn.active { border-color: var(--ios-blue); background: #F0F8FF; color: var(--ios-blue); box-shadow: 0 4px 12px rgba(0,122,255,0.15); }
-      .loc-icon { font-size: 24px; margin-bottom: 2px; }
-      .loc-label { font-weight: 800; font-size: 15px; }
-      
-      .search-bar {
-        width: 100%; padding: 14px; border-radius: 12px; border: none;
-        background: #E5E5EA; font-size: 16px; margin-bottom: 15px;
-        color: #1C1C1E; flex-shrink: 0;
-      }
-      
-      .search-bar:focus { outline: 2px solid var(--ios-blue); background: white; }
-      
-      /* Adjust select-item to handle icon layout better if needed */
-      .select-img { width: 50px; height: 50px; object-fit: contain; border-radius: 8px; background: #f9f9f9; padding: 4px; margin-left: 10px; order: -1; margin-right: 12px; margin-left: 0; }
-      .select-left { gap: 0; }
-      .select-check { margin-left: auto; } /* Moves checkmark to the far right */
-
-      
+    
+        /* --- NEW LOCATION UI --- */
+        .loc-header { text-align: center; font-weight: 700; color: #8E8E93; margin-bottom: 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; flex-shrink: 0; }
+        
+        .loc-sq-btn { 
+            background: white; border: 2px solid transparent; border-radius: 16px; 
+            padding: 15px; text-align: center; cursor: pointer; transition: 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        
+        .loc-sq-btn.active { border-color: var(--ios-blue); background: #F0F8FF; color: var(--ios-blue); box-shadow: 0 4px 12px rgba(0,122,255,0.15); }
+        .loc-icon { font-size: 24px; margin-bottom: 2px; }
+        .loc-label { font-weight: 800; font-size: 15px; }
+        
+        .search-bar {
+            width: 100%; padding: 14px; border-radius: 12px; border: none;
+            background: #E5E5EA; font-size: 16px; margin-bottom: 15px;
+            color: #1C1C1E; flex-shrink: 0;
+        }
+        
+        .search-bar:focus { outline: 2px solid var(--ios-blue); background: white; }
+        
+        /* Chips (Old Styles, kept for safety) */
+        .loc-chip, .cat-chip, .focus-chip { padding: 10px 16px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; transition: 0.1s; }
+        .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
     </style>
 </head>
 <body>
@@ -568,52 +599,93 @@
     }
 
     function refreshExerciseList() {
-      const container = document.getElementById('batch-list');
-      const searchVal = document.getElementById('ex-search').value.toLowerCase(); // Get search text
-      container.innerHTML = '';
-      
-      const list = exerciseDB.filter(ex => {
-        // 1. Filter by Search Text
-        const matchesSearch = ex.name.toLowerCase().includes(searchVal);
-
-        // 2. Filter by Location
-        let isLoc = false;
-        if (modalLocation === 'home') isLoc = ex.loc.includes('home') || ex.loc.includes('bodyweight');
-        else if (modalLocation === 'gym') isLoc = ex.loc.includes('gym') || ex.loc.includes('studio');
-        
-        return matchesSearch && isLoc;
-    });
+    const container = document.getElementById('batch-list');
+    const searchVal = document.getElementById('ex-search').value.toLowerCase();
+    container.innerHTML = '';
     
-      if (list.length === 0) {
-            container.innerHTML = `<div style="padding:30px; text-align:center; color:#999;">No exercises found.</div>`;
-            return;
-      }
+    // Define the order of sections you want to appear
+    const sections = {
+        'upper': 'Upper Body',
+        'lower': 'Lower Body',
+        'core': 'Core & Abs',
+        'cardio': 'Cardio',
+        'studio': 'Studio & Yoga'
+    };
 
-    list.forEach(ex => {
-        const div = document.createElement('div');
-        div.className = 'select-item';
-        if(selectedBatch.has(ex.name)) div.classList.add('selected');
+    let hasResults = false;
+
+    // Loop through each section type
+    for (const [typeKey, label] of Object.entries(sections)) {
         
-        const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
-        
-        div.innerHTML = `
-            <img src="${imgSrc}" class="select-img">
+        // Filter: Match Search + Match Location + Match Current Section Type
+        const groupItems = exerciseDB.filter(ex => {
+            const matchesSearch = ex.name.toLowerCase().includes(searchVal);
+            const matchesType = ex.type === typeKey;
+
+            let isLoc = false;
+            if (modalLocation === 'home') isLoc = ex.loc.includes('home') || ex.loc.includes('bodyweight');
+            else if (modalLocation === 'gym') isLoc = ex.loc.includes('gym') || ex.loc.includes('studio');
             
-            <div class="select-left" style="flex:1;">
-                <div class="select-name">${ex.name}</div>
-                ${ex.loc.includes('bodyweight') ? '<span class="no-equip-tag">No Equip</span>' : ''}
-            </div>
+            return matchesSearch && matchesType && isLoc;
+        });
 
-            <div class="select-check">✓</div>
-        `;
-        
-        div.onclick = () => {
-            if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
-            else { selectedBatch.add(ex.name); div.classList.add('selected'); }
-            document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
-        };
-        container.appendChild(div);
-    });
+        // If this section has exercises, print the Header then the Items
+        if (groupItems.length > 0) {
+            hasResults = true;
+
+            // 1. Create Header
+            const header = document.createElement('div');
+            header.className = 'list-group-header';
+            header.innerText = label;
+            container.appendChild(header);
+
+            // 2. Create Items
+            groupItems.forEach(ex => {
+                const div = document.createElement('div');
+                div.className = 'select-item';
+                if(selectedBatch.has(ex.name)) div.classList.add('selected');
+                
+                const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
+                
+                div.innerHTML = `
+                    <div class="select-left" style="flex:1;">
+                        <div class="select-name">${ex.name}</div>
+                        ${ex.loc.includes('bodyweight') ? '<span class="no-equip-tag">No Equip</span>' : ''}
+                    </div>
+
+                    <img src="${imgSrc}" class="select-img">
+                    
+                    <div class="select-check" style="position:absolute; top:10px; right:10px; opacity:0;">✓</div>
+                `;
+                
+                // Add "Visible" checkmark styling dynamically
+                if(selectedBatch.has(ex.name)) {
+                     div.style.border = "3px solid #007AFF";
+                     div.style.background = "#F0F8FF";
+                }
+
+                div.onclick = () => {
+                    if (selectedBatch.has(ex.name)) { 
+                        selectedBatch.delete(ex.name); 
+                        div.classList.remove('selected'); 
+                        div.style.border = "none";
+                        div.style.background = "white";
+                    } else { 
+                        selectedBatch.add(ex.name); 
+                        div.classList.add('selected'); 
+                        div.style.border = "3px solid #007AFF";
+                        div.style.background = "#F0F8FF";
+                    }
+                    document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
+                };
+                container.appendChild(div);
+            });
+        }
+    }
+
+    if (!hasResults) {
+        container.innerHTML = `<div style="padding:40px; text-align:center; color:#999; font-weight:600;">No exercises found for this location.</div>`;
+    }
 }
 
 
