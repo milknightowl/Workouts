@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NogueraFit</title>
+    <title>NogueraFit Pro</title>
     
     <link rel="apple-touch-icon" href="images/icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/icon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/icon.png">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F2F2F7">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -60,17 +57,37 @@
         /* --- CAROUSEL --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; }
+        
+        .card-slide { 
+            flex: 0 0 92%; scroll-snap-align: center; 
+            background: white; border-radius: 24px; padding: 20px; 
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); 
+            position: relative; border: 1px solid rgba(0,0,0,0.02); 
+            overflow: hidden; 
+            min-height: 280px; /* Ensure uniform height */
+        }
+        
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
 
-        /* HEADER BARS */
+        /* CARD THEMES */
         .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
         .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
+        
+        /* NEW STATS CARD THEME */
+        .stats-card-bg {
+            background-color: var(--ios-green);
+            color: white;
+            border: none;
+        }
+        .stats-card-bg .scorecard-title { color: white; }
+        .stats-card-bg .scorecard-date { background: rgba(255,255,255,0.2); color: white; }
+
         .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; }
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
         .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
+        
         .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
         .score-row:last-of-type { border-bottom: none; }
         .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
@@ -78,7 +95,25 @@
         .score-val.done { color: var(--ios-green); }
         .btn-sync { width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; margin-top: 15px; transition: 0.2s; background-color: #E5E5EA; color: var(--ios-blue); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-sync:active { background-color: #D1D1D6; }
-        .btn-sync.synced { background-color: var(--ios-green); color: white; }
+
+        /* --- STATS CARD ELEMENTS --- */
+        .stat-grid-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .stat-box-main { flex: 1; }
+        .stat-big-num { font-size: 48px; font-weight: 800; line-height: 1; }
+        .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; opacity: 0.8; margin-top: 4px; }
+        
+        .stat-box-side { text-align: right; display: flex; flex-direction: column; justify-content: center; }
+        .stat-streak-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 12px; font-weight: 700; font-size: 14px; display: inline-block; margin-bottom: 5px; }
+
+        .consistency-grid { display: flex; justify-content: space-between; margin-top: 20px; background: rgba(0,0,0,0.05); padding: 10px; border-radius: 12px; }
+        .c-dot-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .c-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; opacity: 0.3; }
+        .c-dot.filled { background: white; opacity: 1; }
+        .c-day { font-size: 10px; font-weight: 700; opacity: 0.8; }
+
+        .sig-move { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .sig-label { font-size: 11px; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
+        .sig-val { font-size: 16px; font-weight: 700; }
 
         /* --- LEADERBOARD --- */
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
@@ -247,6 +282,33 @@
                 </button>
             </div>
 
+            <div class="card-slide stats-card-bg">
+                <div class="scorecard-header">
+                    <div class="scorecard-title">My Progress</div>
+                    <div class="scorecard-date" style="background:rgba(255,255,255,0.2); color:white">2026</div>
+                </div>
+                
+                <div class="stat-grid-row">
+                    <div class="stat-box-main">
+                        <div class="stat-big-num" id="slide-stat-total">--</div>
+                        <div class="stat-label">Total Workouts</div>
+                    </div>
+                    <div class="stat-box-side">
+                        <div class="stat-streak-badge">🔥 <span id="slide-stat-streak">0</span></div>
+                        <div class="stat-label" style="text-align:right">Streak</div>
+                    </div>
+                </div>
+
+                <div class="consistency-grid" id="consistency-grid">
+                    <div style="font-size:12px; opacity:0.8;">Loading...</div>
+                </div>
+
+                <div class="sig-move">
+                    <div class="sig-label">Signature Move</div>
+                    <div class="sig-val" id="slide-sig-move">--</div>
+                </div>
+            </div>
+
             <div class="card-slide leaderboard-bg">
                 <div class="scorecard-header">
                     <div class="scorecard-title">Family Rankings</div>
@@ -265,6 +327,7 @@
         <div class="carousel-dots">
             <div class="dot active" id="dot-0"></div>
             <div class="dot" id="dot-1"></div>
+            <div class="dot" id="dot-2"></div>
         </div>
 
         <div class="tab-bar">
@@ -453,8 +516,7 @@
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
-    // ⬇️ UPDATE THIS URL ⬇️
-    const API_URL = "https://script.google.com/macros/s/AKfycbxNDJIorFnnLa0VSuXQH6mrpx_O2IQpJpvR4h-3qxbgRQoPtygFdcHvW9Z2fsRdLjhS/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbxNDJIorFnnLa0VSuXQH6mrpx_O2IQpJpvR4h-3qxbgRQoPtygFdcHvW9Z2fsRdLjhS/exec";
     
     const FAMILY_NAMES = ["Mami", "Papi", "Santi", "Fran", "Dana", "Matu", "Caro", "Sofi", "Andi", "Meredith", "Ceci"];
 
@@ -821,11 +883,9 @@
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         try {
-            // FIX: Added query param to use the new view
             const res = await fetch(API_URL + "?view=leaderboard");
             const rawData = await res.json();
             
-            // Backend returns Name (capital N)
             familyData = FAMILY_NAMES.map(name => {
                 const found = rawData.find(r => r.Name === name);
                 if (found) return { name: name, streak: found['Days Active'], lastDate: found['Last Date'], status: 'active' };
@@ -863,7 +923,6 @@
 
             const div = document.createElement('div');
             div.className = 'lb-row';
-            // NEW: CLICK TO OPEN STATS
             div.onclick = () => openStatsModal(u.name); 
             if(isMe) div.classList.add('highlight-user');
 
@@ -884,12 +943,64 @@
         });
     }
 
-    // --- NEW STATS LOGIC ---
+    // --- MY STATS CARD LOGIC (NEW) ---
+    async function updateStatsSlide(user) {
+        try {
+            const res = await fetch(API_URL + "?view=profile&user=" + user);
+            const data = await res.json();
+            
+            // 1. Total & Streak
+            const dates = data.history.map(d => new Date(d).setHours(0,0,0,0)).sort((a,b)=>b-a);
+            const unique = [...new Set(dates)];
+            document.getElementById('slide-stat-total').innerText = unique.length;
+            
+            let streak = 0;
+            const today = new Date().setHours(0,0,0,0);
+            if(unique.length > 0 && (unique[0] === today || unique[0] === today - 86400000)) {
+                streak = 1;
+                for(let i=0; i<unique.length-1; i++){
+                    if((unique[i] - unique[i+1]) === 86400000) streak++; else break;
+                }
+            }
+            document.getElementById('slide-stat-streak').innerText = streak;
+
+            // 2. Consistency Grid (Last 7 Days)
+            const grid = document.getElementById('consistency-grid');
+            grid.innerHTML = '';
+            
+            const days = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+            // Create last 7 days array (Newest at right)
+            for(let i=6; i>=0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const dTime = d.setHours(0,0,0,0);
+                const isDone = unique.includes(dTime);
+                const dayName = days[d.getDay()];
+                
+                const dotHtml = `
+                <div class="c-dot-wrap">
+                    <div class="c-dot ${isDone ? 'filled' : ''}"></div>
+                    <div class="c-day">${dayName}</div>
+                </div>`;
+                grid.innerHTML += dotHtml;
+            }
+
+            // 3. Signature Move
+            if(data.topExercises.length > 0) {
+                document.getElementById('slide-sig-move').innerText = `${data.topExercises[0].name} (${data.topExercises[0].count})`;
+            } else {
+                document.getElementById('slide-sig-move').innerText = "No Data";
+            }
+
+        } catch(e) { console.log("Stats error", e); }
+    }
+
+
+    // --- MODAL STATS LOGIC (Leaderboard Popups) ---
     function openStatsModal(username) {
         document.getElementById('modal-stats').style.display = 'flex';
         document.getElementById('stats-username').innerText = username + "'s Stats";
         
-        // Reset UI
         document.getElementById('stat-current').innerText = "-";
         document.getElementById('stat-total').innerText = "-";
         document.getElementById('stats-top-list').innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>Loading...</div>";
@@ -902,14 +1013,12 @@
             const res = await fetch(API_URL + "?view=profile&user=" + username);
             const data = await res.json();
             
-            // 1. Render Exercises
             const listCont = document.getElementById('stats-top-list');
             listCont.innerHTML = '';
             
             if(data.topExercises.length === 0) {
                 listCont.innerHTML = "<div style='text-align:center; padding:20px; color:#aaa;'>No exercises logged yet.</div>";
             } else {
-                // Show top 10
                 data.topExercises.slice(0, 10).forEach((ex, i) => {
                     const row = document.createElement('div');
                     row.className = 'select-item'; 
@@ -924,18 +1033,13 @@
                 });
             }
 
-            // 2. Render Streaks (Basic calculation)
-            // data.history contains dates of all workouts
             const uniqueDates = [...new Set(data.history.map(d => new Date(d).toDateString()))];
             document.getElementById('stat-total').innerText = uniqueDates.length;
             
-            // Calc Streak
             const dates = data.history.map(d => new Date(d).setHours(0,0,0,0)).sort((a,b) => b-a);
             const unique = [...new Set(dates)];
-            
             let streak = 0;
             const today = new Date().setHours(0,0,0,0);
-            
             if(unique.length > 0 && (unique[0] === today || unique[0] === today - 86400000)) {
                 streak = 1;
                 for(let i=0; i<unique.length-1; i++){
@@ -961,10 +1065,14 @@
         document.getElementById('header-username').innerText = "👤 " + name;
         document.getElementById('score-title').innerText = name + "'s Scorecard";
         closeModal('modal-user');
+        
+        // Update data
         if(familyData.length > 0) autoSetDay(name);
         else fetchFamilyData().then(() => autoSetDay(name));
+        
         saveState();
         renderLeaderboardCard(); 
+        updateStatsSlide(name); // Trigger the green card update
     }
 
     function saveState() {
@@ -997,6 +1105,7 @@
             currentUser = saved.user;
             document.getElementById('header-username').innerText = "👤 " + saved.user;
             document.getElementById('score-title').innerText = saved.user + "'s Scorecard";
+            updateStatsSlide(saved.user); // Load stats on startup
         }
         updateScorecardStatus();
         renderHistory();
