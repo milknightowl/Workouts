@@ -67,8 +67,8 @@
             gap: 12px;
             padding: 0 20px;
             scroll-behavior: smooth;
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         .calendar-strip::-webkit-scrollbar { display: none; }
         
@@ -107,31 +107,11 @@
         .cal-day.has-data .cal-dot { display: block; }
         .cal-day.active .cal-dot { background: white; }
 
-        /* --- STATS CARD --- */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .stat-box {
-            background: #F9F9F9; padding: 15px; border-radius: 16px;
-            text-align: center; display: flex; flex-direction: column; justify-content: center;
-        }
-        .stat-val { font-size: 26px; font-weight: 800; color: var(--ios-blue); line-height: 1.1; }
-        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 5px; font-weight: 500; text-transform: uppercase; }
-
-        .top-workouts-container { background: #F9F9F9; border-radius: 18px; padding: 20px; }
-        .top-header { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark); text-transform: uppercase; opacity: 0.6; }
-        .top-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
-        .top-item:last-child { border-bottom: none; }
-        .top-name { font-size: 15px; color: var(--text-dark); font-weight: 600; }
-        .top-count { background: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--text-light); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
         /* --- CAROUSEL CARDS --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
         .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; min-height: 380px; }
-        .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
-        .dot.active { background: var(--ios-blue); transform: scale(1.2); }
-
-        /* HEADER BARS */
+        
         .score-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: #007AFF; z-index:1; }
         .stats-card-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-green); z-index:1; }
         .leaderboard-bg::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px; background-color: var(--ios-gold); z-index:1; }
@@ -140,7 +120,6 @@
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
         .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
         
-        /* Past View Banner */
         .past-banner { 
             background: #FF9500; color: white; text-align: center; 
             font-size: 12px; font-weight: 700; padding: 6px; 
@@ -159,7 +138,19 @@
 
         .btn-edit-past { width: 100%; padding: 14px; background: white; border: 2px solid #FF9500; color: #FF9500; font-weight: 700; border-radius: 14px; margin-top: 10px; cursor: pointer; display: none; }
 
-        /* --- FAMILY LEADERBOARD --- */
+        /* --- STATS & LEADERBOARD --- */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .stat-box { background: #F9F9F9; padding: 15px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .stat-val { font-size: 26px; font-weight: 800; color: var(--ios-blue); line-height: 1.1; }
+        .stat-label { font-size: 11px; color: var(--text-light); margin-top: 5px; font-weight: 500; text-transform: uppercase; }
+
+        .top-workouts-container { background: #F9F9F9; border-radius: 18px; padding: 20px; }
+        .top-header { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark); text-transform: uppercase; opacity: 0.6; }
+        .top-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
+        .top-item:last-child { border-bottom: none; }
+        .top-name { font-size: 15px; color: var(--text-dark); font-weight: 600; }
+        .top-count { background: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--text-light); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
         .lb-list { max-height: 250px; overflow-y: auto; }
         .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F2F2F7; }
@@ -172,15 +163,13 @@
         .lb-val-main { font-weight: 800; font-size: 16px; color: #1C1C1E; }
         .lb-val-sub { font-size: 11px; color: var(--ios-blue); font-weight: 600; }
 
-        /* --- TABS --- */
+        /* --- TABS & WORKOUT UI --- */
         .tab-bar { display: flex; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 5px; gap: 5px; position: sticky; top: 10px; z-index: 90; margin-bottom: 20px; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
         .tab-btn { flex: 1; padding: 10px; border-radius: 10px; text-align: center; font-weight: 700; font-size: 13px; cursor: pointer; color: var(--text-light); transition: all 0.2s; }
         .tab-btn.active { background: white; color: var(--text-dark); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         #tab-workout.active { color: var(--ios-blue); }
         #tab-nutrition.active { color: var(--ios-green); }
 
-        /* --- WORKOUT UI --- */
-        /* Read Only Mask */
         .read-only-mask { opacity: 0.5; pointer-events: none; filter: grayscale(100%); }
 
         .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
@@ -217,50 +206,27 @@
 
         /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; align-items: flex-end; justify-content: center; }
-        
-        .modal-content { 
-            background: #F2F2F7; width: 100%; max-width: 600px; 
-            border-radius: 24px 24px 0 0; padding: 25px; 
-            height: 80vh !important;
-            max-height: none !important;
-            display: flex; flex-direction: column;
-            box-shadow: 0 -10px 40px rgba(0,0,0,0.2); 
-            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        
+        .modal-content { background: #F2F2F7; width: 100%; max-width: 600px; border-radius: 24px 24px 0 0; padding: 25px; height: 80vh !important; max-height: none !important; display: flex; flex-direction: column; box-shadow: 0 -10px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
         .modal-title { font-size: 20px; font-weight: 800; }
         .btn-close { background: #E5E5EA; border: none; width: 30px; height: 30px; border-radius: 50%; color: #555; font-weight: bold; cursor: pointer; }
-
         .modal-tabs { display: flex; background: #E5E5EA; border-radius: 10px; padding: 3px; margin-bottom: 15px; flex-shrink: 0; }
         .modal-tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 700; color: #8E8E93; border-radius: 8px; cursor: pointer; }
         .modal-tab.active { background: white; color: black; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-
         .filter-section-title { font-size: 12px; font-weight: 700; color: #8E8E93; margin: 15px 0 8px 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-
         .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; flex-shrink: 0; -webkit-overflow-scrolling: touch; }
         .loc-chip, .cat-chip, .focus-chip { padding: 10px 16px; border: none; background: white; border-radius: 20px; font-weight: 600; font-size: 14px; white-space: nowrap; color: #8E8E93; cursor: pointer; border: 1px solid transparent; transition: 0.1s; }
         .loc-chip.active, .cat-chip.active, .focus-chip.active { background: var(--ios-blue); color: white; box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
-
         .select-list { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
-        
-        .select-item { 
-            background: white; padding: 10px 20px; border-radius: 16px; 
-            display: flex; justify-content: space-between; align-items: center; 
-            cursor: pointer; transition: 0.1s; min-height: 80px; 
-        }
+        .select-item { background: white; padding: 10px 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.1s; min-height: 80px; }
         .select-item.selected { background: #E3F2FD; border: 1px solid var(--ios-blue); }
         .select-left { display: flex; align-items: center; gap: 15px; flex: 1; }
         .select-check { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #D1D1D6; display: flex; align-items: center; justify-content: center; color: transparent; flex-shrink: 0; }
         .select-item.selected .select-check { background: var(--ios-blue); border-color: var(--ios-blue); color: white; font-size: 16px; }
         .select-name { font-weight: 700; font-size: 16px; line-height: 1.3; }
         .no-equip-tag { font-size: 11px; background: #E5E5EA; color: #555; padding: 3px 6px; border-radius: 6px; margin-left: 6px; font-weight: 600; white-space: nowrap; }
-        
         .select-img { width: 80px; height: 60px; object-fit: contain; margin-left: 10px; mix-blend-mode: multiply; }
-
         .btn-confirm-add { width: 100%; padding: 18px; background: var(--ios-blue); color: white; font-weight: 700; border-radius: 16px; border: none; margin-top: 15px; cursor: pointer; font-size: 16px; flex-shrink: 0; }
-
-        /* Generator UI */
         .gen-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; }
         .gen-label { font-size: 13px; font-weight: 700; color: #8E8E93; margin-bottom: 10px; text-transform: uppercase; }
         .slider-container { display: flex; align-items: center; gap: 15px; }
@@ -269,7 +235,9 @@
 
         @keyframes slideIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
+        .dots-indicator { display:flex; justify-content:center; gap:8px; margin-bottom:25px; margin-top:-10px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
+        .dot.active { background: var(--ios-blue); transform: scale(1.2); }
     </style>
 </head>
 <body>
@@ -286,8 +254,7 @@
             <div style="text-align: center; margin-bottom: 12px;">
                 <span id="header-month-title" style="font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.5px;">February 2026</span>
             </div>
-            <div class="calendar-strip" id="calendar-strip">
-                </div>
+            <div class="calendar-strip" id="calendar-strip"></div>
         </div>
 
         <div class="carousel-track" id="carousel-track">
@@ -356,7 +323,7 @@
             <div class="card-slide leaderboard-bg">
                 <div class="scorecard-header">
                     <div class="scorecard-title">Family Rankings</div>
-                    <div class="scorecard-date" onclick="fetchFamilyData()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
+                    <div class="scorecard-date" onclick="fetchCloudHistory()" style="cursor:pointer; background:#FFF8E1; color:#FF9500;">↻</div>
                 </div>
                 <div class="lb-headers">
                     <span>Rank / Name</span>
@@ -368,7 +335,7 @@
             </div>
         </div>
 
-        <div class="dots-indicator" style="display:flex; justify-content:center; gap:8px; margin-bottom:25px; margin-top:-10px;">
+        <div class="dots-indicator">
             <div class="dot active"></div>
             <div class="dot"></div>
             <div class="dot"></div>
@@ -436,10 +403,7 @@
 
     <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">Add Workout</div>
-                <button class="btn-close" onclick="closeModal('modal-batch')">✕</button>
-            </div>
+            <div class="modal-header"><div class="modal-title">Add Workout</div><button class="btn-close" onclick="closeModal('modal-batch')">✕</button></div>
             <div class="modal-tabs">
                 <div id="tab-browse" class="modal-tab active" onclick="switchModalTab('browse')">Browse List</div>
                 <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Workout Generator</div>
@@ -527,7 +491,8 @@
 <audio id="success-sound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3" preload="auto"></audio>
 
 <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx5yiTqUVvrzSQo8nNre09ksQKtn5U3DzDn_JXZkqyrIc_RFzniyaENNHTXgnodjCky/exec"; 
+    // UPDATE THIS URL TO YOUR NEW DEPLOYMENT URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbz5UJBCJdKWGRabcdBFKeh36QMQrZHIqsWX36IDSsm1NmfHPOR-zi5XwmsdO7fWtV7F/exec"; 
     
     const FAMILY_NAMES = ["Mami", "Papi", "Santi", "Fran", "Dana", "Matu", "Caro", "Sofi", "Andi", "Meredith", "Ceci"];
 
@@ -545,6 +510,9 @@
     let viewingDateStr = new Date().toISOString().split('T')[0]; // "2026-02-02"
     let isPastMode = false;
     let isEditingPast = false;
+    
+    // In-memory cache of cloud history for the selected user
+    let cloudHistoryCache = {}; 
 
     let habitsData = {
         water: { current: 0, goal: 8 },
@@ -581,11 +549,22 @@
     ];
 
     window.onload = function() {
-        // Init logic
-        fetchFamilyData(); 
+        // Init UI
         initHabits();
         
-        // Start by loading Today
+        // Try to load last user from local storage
+        const savedData = JSON.parse(localStorage.getItem('nogueraFit_data') || '{}');
+        if (savedData.user) {
+            currentUser = savedData.user;
+            document.getElementById('header-username').innerText = "👤 " + currentUser;
+            document.getElementById('score-title').innerText = currentUser + "'s Scorecard";
+        }
+
+        // Fetch Cloud Data (This will also render the calendar once done)
+        fetchCloudHistory();
+        fetchFamilyData(); // Separate call for leaderboard
+        
+        // Start by rendering Today (empty or local while waiting for cloud)
         selectDate(new Date());
 
         const track = document.getElementById('carousel-track');
@@ -598,21 +577,98 @@
         });
     }
 
+    /* --- CLOUD SYNC & DATA LOADING --- */
+    async function fetchCloudHistory() {
+        try {
+            // Fetch raw rows with ?action=history
+            const res = await fetch(API_URL + "?action=history");
+            const rawRows = await res.json();
+            
+            // Process rows into a dictionary indexed by date: "2026-02-02"
+            // We only care about rows for the CURRENT USER (if selected)
+            // If no user selected yet, we wait.
+            if (!currentUser) return; 
+
+            cloudHistoryCache = {};
+
+            // Sort by timestamp (oldest to newest) so we replay history
+            rawRows.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+            rawRows.forEach(row => {
+                if (row.name !== currentUser) return;
+                
+                // Format: row.date comes from backend as M/D/YYYY. Convert to YYYY-MM-DD
+                const parts = row.date.split('/');
+                if (parts.length < 3) return; 
+                const isoDate = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`;
+
+                // Parse workout string: "Curls, Squats | W:8, V:5..."
+                const pieces = row.workout.split(' | ');
+                const exercisesStr = pieces[0];
+                const habitsStr = pieces[1] || "";
+
+                // Reconstruct Logs
+                let logs = [];
+                if (exercisesStr && exercisesStr !== "Rest Day") {
+                     logs = exercisesStr.split(', ').map(exName => {
+                        // Find details in DB or create dummy
+                        const dbItem = exerciseDB.find(e => e.name === exName) || { name: exName, guide: 'Logged' };
+                        return dbItem;
+                     });
+                }
+
+                // Reconstruct Habits
+                let hData = {
+                    water: { current: 0, goal: 8 },
+                    veggies: { current: 0, goal: 5 }, 
+                    fruits: { current: 0, goal: 5 },
+                    snacks: { current: 0, goal: 2 }
+                };
+                
+                if (habitsStr) {
+                    // "W:8, V:5, F:5, S:2"
+                    const pairs = habitsStr.split(', ');
+                    pairs.forEach(p => {
+                        const [k, v] = p.split(':');
+                        if(k==='W') hData.water.current = parseInt(v);
+                        if(k==='V') hData.veggies.current = parseInt(v);
+                        if(k==='F') hData.fruits.current = parseInt(v);
+                        if(k==='S') hData.snacks.current = parseInt(v);
+                    });
+                }
+
+                // Save to Cache (Overwriting older entries for same date = "Edit")
+                cloudHistoryCache[isoDate] = {
+                    log: logs,
+                    habits: hData,
+                    timestamp: row.timestamp
+                };
+            });
+
+            console.log("Cloud History Processed:", cloudHistoryCache);
+            
+            // Re-render Calendar to show dots
+            renderCalendar(new Date(viewingDateStr));
+            
+            // Re-load current view in case we just fetched data for it
+            loadDataForDate(viewingDateStr);
+
+        } catch (e) {
+            console.error("Failed to fetch cloud history", e);
+        }
+    }
+
     /* --- DATE LOGIC --- */
     function renderCalendar(centerDate) {
         const strip = document.getElementById('calendar-strip');
         const monthTitle = document.getElementById('header-month-title');
-        
-        // Don't wipe strip, just update or ensure centered if first load?
-        // Actually simplest is rebuild centered around selected date
         strip.innerHTML = '';
         
         const options = { month: 'long', year: 'numeric' };
         monthTitle.innerText = centerDate.toLocaleDateString('en-US', options);
 
-        // Generate 2 weeks back + 1 week forward
         for (let i = -14; i <= 7; i++) {
-            const d = new Date(); // anchor to today so calendar doesn't drift infinitely
+            const d = new Date(); 
             d.setDate(d.getDate() + i);
             
             const isToday = new Date().toDateString() === d.toDateString();
@@ -620,9 +676,9 @@
             const isSelected = dateStr === viewingDateStr;
             const isFuture = d > new Date();
             
-            // Check full history for dots
-            const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
-            const hasData = historyDB[dateStr] && (historyDB[dateStr].log.length > 0 || historyDB[dateStr].habits.water.current > 0);
+            // Check Cloud Cache for Dots
+            const hasData = cloudHistoryCache[dateStr] && 
+                           (cloudHistoryCache[dateStr].log.length > 0 || cloudHistoryCache[dateStr].habits.water.current > 0);
 
             const el = document.createElement('div');
             el.className = `cal-day ${isSelected ? 'active' : ''} ${isFuture ? 'future' : ''} ${hasData ? 'has-data' : ''}`;
@@ -637,7 +693,6 @@
             strip.appendChild(el);
         }
         
-        // Scroll to active day
         setTimeout(() => {
             const activeEl = document.querySelector('.cal-day.active');
             if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -649,11 +704,54 @@
         const todayStr = new Date().toISOString().split('T')[0];
         
         isPastMode = viewingDateStr !== todayStr;
-        isEditingPast = false; // Reset edit mode when switching days
+        isEditingPast = false; 
 
         renderCalendar(date);
         loadDataForDate(viewingDateStr);
         updateUIForTimeTravel(date);
+    }
+
+    function loadDataForDate(dateStr) {
+        // 1. Try Cloud Cache
+        let dayData = cloudHistoryCache[dateStr];
+
+        // 2. Fallback: If viewing TODAY, verify against local session so we don't lose unsynced data
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (dateStr === todayStr) {
+            const localRaw = localStorage.getItem('nogueraFit_data');
+            if (localRaw) {
+                const local = JSON.parse(localRaw);
+                const localDate = new Date(local.date).toISOString().split('T')[0];
+                if (localDate === todayStr) {
+                    dayData = local; // Prefer local draft for today
+                }
+            }
+        }
+
+        // 3. Apply Data
+        if (dayData) {
+            dailyLog = dayData.log || [];
+            habitsData = dayData.habits || {
+                water: { current: 0, goal: 8 },
+                veggies: { current: 0, goal: 5 }, 
+                fruits: { current: 0, goal: 5 },
+                snacks: { current: 0, goal: 2 }
+            };
+        } else {
+            // Empty State
+            dailyLog = [];
+            habitsData = {
+                water: { current: 0, goal: 8 },
+                veggies: { current: 0, goal: 5 }, 
+                fruits: { current: 0, goal: 5 },
+                snacks: { current: 0, goal: 2 }
+            };
+        }
+
+        updateScorecardStatus();
+        renderLog();
+        renderHistory();
+        initHabits(); 
     }
 
     function updateUIForTimeTravel(date) {
@@ -673,14 +771,12 @@
             banner.style.display = 'block';
             banner.innerText = `📅 Viewing Record: ${date.toLocaleDateString()}`;
             
-            mainBtn.style.display = 'none'; // Hide share button on past days
-            editBtn.style.display = 'block'; // Show edit button
+            mainBtn.style.display = 'none'; 
+            editBtn.style.display = 'block';
 
-            // Lock UI until Edit clicked
             workContent.classList.add('read-only-mask');
             nutContent.classList.add('read-only-mask');
             
-            // Show empty state if no logs
             if (dailyLog.length === 0) {
                 workContent.style.display = 'none';
                 emptyState.style.display = 'block';
@@ -690,21 +786,17 @@
             }
 
         } else {
-            // TODAY MODE
             dateBadge.innerText = "Today";
             dateBadge.style.background = 'rgba(0,122,255,0.1)';
             dateBadge.style.color = 'var(--ios-blue)';
-            
             banner.style.display = 'none';
             mainBtn.style.display = 'flex';
             editBtn.style.display = 'none';
-
             workContent.classList.remove('read-only-mask');
             nutContent.classList.remove('read-only-mask');
             workContent.style.display = 'block';
             emptyState.style.display = 'none';
         }
-        
         updateStatsView();
     }
 
@@ -713,87 +805,16 @@
         isEditingPast = true;
         document.getElementById('workout-content-area').classList.remove('read-only-mask');
         document.getElementById('nutrition-content-area').classList.remove('read-only-mask');
-        
         document.getElementById('empty-past-state').style.display = 'none';
         document.getElementById('workout-content-area').style.display = 'block';
-        document.getElementById('edit-past-btn').style.display = 'none'; // Hide button once clicked
-    }
-
-    /* --- DATA STORAGE & SAVING --- */
-    function loadDataForDate(dateStr) {
-        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
-        const dayData = historyDB[dateStr];
-
-        if (dayData) {
-            dailyLog = dayData.log || [];
-            habitsData = dayData.habits || {
-                water: { current: 0, goal: 8 },
-                veggies: { current: 0, goal: 5 }, 
-                fruits: { current: 0, goal: 5 },
-                snacks: { current: 0, goal: 2 }
-            };
-            if(dayData.user) currentUser = dayData.user;
-        } else {
-            // No data for this day
-            dailyLog = [];
-            habitsData = {
-                water: { current: 0, goal: 8 },
-                veggies: { current: 0, goal: 5 }, 
-                fruits: { current: 0, goal: 5 },
-                snacks: { current: 0, goal: 2 }
-            };
-            // Keep current user if set
-        }
-
-        // Standard UI Refresh
-        if (currentUser) {
-            document.getElementById('header-username').innerText = "👤 " + currentUser;
-            document.getElementById('score-title').innerText = currentUser + "'s Scorecard";
-        }
-        updateScorecardStatus();
-        renderLog();
-        renderHistory();
-        initHabits(); // Re-bind clicks
-    }
-
-    function saveState() {
-        // 1. Update the Master History DB
-        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
-        
-        historyDB[viewingDateStr] = {
-            log: dailyLog,
-            habits: habitsData,
-            user: currentUser
-        };
-        
-        localStorage.setItem('nogueraFit_history', JSON.stringify(historyDB));
-
-        // 2. Also update Legacy "Today" storage if we are editing Today
-        const todayStr = new Date().toISOString().split('T')[0];
-        if (viewingDateStr === todayStr) {
-            const data = {
-                date: new Date().toDateString(),
-                day: getChallengeDayCount(),
-                log: dailyLog,
-                habits: habitsData,
-                user: currentUser
-            };
-            localStorage.setItem('nogueraFit_data', JSON.stringify(data));
-        }
-
-        updateScorecardStatus();
-        renderCalendar(new Date(viewingDateStr)); // Refresh dots
+        document.getElementById('edit-past-btn').style.display = 'none';
     }
 
     function getChallengeDayCount() {
-        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
-        // Count keys in historyDB that have logs
-        let count = 0;
-        Object.keys(historyDB).forEach(k => {
-            if(historyDB[k].log && historyDB[k].log.length > 0) count++;
-        });
-        // Add 1 if today has logs but isn't saved in historyDB yet (edge case)
-        return Math.max(count, 1);
+        // Count unique dates in cloud history cache + today if applicable
+        const dates = new Set(Object.keys(cloudHistoryCache));
+        if (dailyLog.length > 0) dates.add(viewingDateStr);
+        return dates.size || 1; 
     }
 
     /* --- STATS LOGIC --- */
@@ -808,17 +829,13 @@
         const leftTo100 = Math.max(0, 100 - count);
         document.getElementById('stat-workouts-left').innerText = leftTo100;
 
-        // Top 5 Calculation
-        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
+        // Top 5 Calculation using Cloud Cache
         const exerciseCounts = {};
-        
-        Object.values(historyDB).forEach(day => {
-            if(day.log) {
-                day.log.forEach(item => {
-                    const n = item.name;
-                    exerciseCounts[n] = (exerciseCounts[n] || 0) + 1;
-                });
-            }
+        Object.values(cloudHistoryCache).forEach(day => {
+            day.log.forEach(item => {
+                const n = item.name;
+                exerciseCounts[n] = (exerciseCounts[n] || 0) + 1;
+            });
         });
         
         const sorted = Object.entries(exerciseCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
@@ -837,7 +854,7 @@
         }
     }
 
-    // --- MODAL UI LOGIC ----
+    // --- MODAL UI LOGIC (UNCHANGED) ----
     function switchModalTab(tab) {
         document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
         document.getElementById('tab-'+tab).classList.add('active');
@@ -877,10 +894,8 @@
         }
     }
 
-    // --- WORKOUT GENERATOR ---
     function runGenerator() {
         if (genFocus.size === 0) { alert("Select at least one focus!"); return; }
-        
         const count = parseInt(document.getElementById('gen-slider').value);
         let pool = exerciseDB.filter(ex => {
             let locMatch = false;
@@ -889,21 +904,15 @@
             if (genLocation === 'bodyweight') locMatch = ex.loc.includes('bodyweight');
             return locMatch && genFocus.has(ex.type);
         });
-
         if(pool.length === 0) { alert("No exercises found for this combo."); return; }
-
         pool.sort(() => 0.5 - Math.random());
         const selected = pool.slice(0, count);
-        
         selected.forEach(ex => currentStaging.push(ex));
-        
-        // Staging only saves to temp, does not commit to history yet
         renderLog();
         closeModal('modal-batch');
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
     }
 
-    // --- BROWSE LOGIC ---
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
@@ -925,7 +934,6 @@
     function refreshExerciseList() {
         const container = document.getElementById('batch-list');
         container.innerHTML = '';
-        
         const list = exerciseDB.filter(ex => {
             const isCat = ex.type === currentCategory;
             let isLoc = false;
@@ -934,17 +942,12 @@
             else if (modalLocation === 'bodyweight') isLoc = ex.loc.includes('bodyweight');
             return isCat && isLoc;
         });
-        
-        if (list.length === 0) {
-             container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found.</div>`;
-             return;
-        }
+        if (list.length === 0) { container.innerHTML = `<div style="padding:20px; text-align:center; color:#999;">No exercises found.</div>`; return; }
 
         list.forEach(ex => {
             const div = document.createElement('div');
             div.className = 'select-item';
             if(selectedBatch.has(ex.name)) div.classList.add('selected');
-            
             const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
             let nameHTML = ex.name;
             if(ex.loc.includes('bodyweight')) nameHTML += ' <span class="no-equip-tag">No Equip</span>';
@@ -956,7 +959,6 @@
                 </div>
                 <img src="${imgSrc}" class="select-img">
             `;
-            
             div.onclick = () => {
                 if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
                 else { selectedBatch.add(ex.name); div.classList.add('selected'); }
@@ -982,12 +984,10 @@
             openUserModal();
             return;
         }
-        
-        // Move staging to dailyLog
         dailyLog = dailyLog.concat(currentStaging);
         currentStaging = []; 
         
-        saveState(); // Writes to History DB for viewingDateStr
+        saveState(); 
         renderLog(); 
         renderHistory();
         document.getElementById('success-sound').play().catch(()=>{});
@@ -1000,7 +1000,6 @@
         const trigger = document.getElementById('add-trigger-area');
         const addMore = document.getElementById('add-more-btn');
         const listSaveBtn = document.getElementById('list-save-btn');
-
         container.innerHTML = '';
 
         if (currentStaging.length === 0) {
@@ -1032,14 +1031,13 @@
 
     function removeStagingItem(idx) {
         currentStaging.splice(idx, 1);
-        renderLog(); // Staging is temporary, no save needed yet
+        renderLog(); 
     }
 
     function renderHistory() {
         const historySec = document.getElementById('history-section');
         const historyList = document.getElementById('history-list');
         const scoreVal = document.getElementById('score-workout');
-
         if (dailyLog.length === 0) {
             historySec.style.display = 'none';
             scoreVal.innerText = "0 Done";
@@ -1049,7 +1047,6 @@
             historyList.innerHTML = '';
             scoreVal.innerText = `${dailyLog.length} Done`;
             scoreVal.classList.add('done');
-
             dailyLog.forEach((item, idx) => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
@@ -1060,9 +1057,7 @@
     }
 
     function undoLogItem(idx) {
-        // If in read only mode, prevent undo unless unlocked
         if(isPastMode && !isEditingPast) return; 
-
         if(confirm("Remove this log entry?")) {
             dailyLog.splice(idx, 1);
             saveState();
@@ -1076,16 +1071,18 @@
         const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
         const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
         
-        // Determine date to send
-        const submitDate = viewingDateStr; // Uses the date currently being viewed/edited
+        // This Date is the "Target Date" for Column F
+        // Format nicely like "2/2/2026" so Sheets parses it easily
+        const d = new Date(viewingDateStr);
+        // Correct time zone offset issues by using UTC methods for the string parts
+        const dateStringForSheet = (d.getUTCMonth()+1) + '/' + d.getUTCDate() + '/' + d.getUTCFullYear();
 
         const payload = {
-            date: new Date(submitDate).toLocaleString(),
             day: getChallengeDayCount(),
             name: finalName,
             location: modalLocation, 
             workout: workoutStr + " | " + habitStr,
-            isEdit: isPastMode // Flag for backend if needed
+            targetDate: dateStringForSheet // New field!
         };
 
         fetch(API_URL, {
@@ -1093,6 +1090,15 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         }).catch(err => console.log(err));
+
+        // Update local cache immediately so UI feels instant
+        cloudHistoryCache[viewingDateStr] = {
+            log: dailyLog,
+            habits: habitsData,
+            timestamp: new Date().toISOString()
+        };
+        renderCalendar(d);
+        updateStatsView();
     }
 
     function shareScorecard() {
@@ -1109,12 +1115,10 @@
         text += `🥦 Veggies: ${habitsData.veggies.current}/5\n`;
         text += `🍎 Fruits: ${habitsData.fruits.current}/5\n`;
         text += `🥜 Snacks: ${habitsData.snacks.current}/2`;
-
         if (navigator.share) navigator.share({ title: 'NogueraFit', text: text });
         else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
     }
 
-    // --- LEADERBOARD ---
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         try {
@@ -1174,7 +1178,26 @@
         document.getElementById('header-username').innerText = "👤 " + name;
         document.getElementById('score-title').innerText = name + "'s Scorecard";
         closeModal('modal-user');
+        
+        // When user changes, re-fetch cloud history to show THEIR dots
+        fetchCloudHistory();
+        
+        // Save user preference
         saveState();
+    }
+
+    function saveState() {
+        // Save locally just for persistence across refresh for the CURRENT day
+        if (viewingDateStr === new Date().toISOString().split('T')[0]) {
+            const data = {
+                date: new Date().toDateString(),
+                log: dailyLog,
+                habits: habitsData,
+                user: currentUser
+            };
+            localStorage.setItem('nogueraFit_data', JSON.stringify(data));
+        }
+        updateScorecardStatus();
     }
 
     function updateScorecardStatus() {
@@ -1188,19 +1211,15 @@
     }
 
     function initHabits() {
-        // Clear previous event listeners by rebuilding
         document.querySelectorAll('.circle-row').forEach(row => {
-            row.innerHTML = ''; // Wipe clean
+            row.innerHTML = ''; 
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
-            
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
                 d.onclick = () => {
-                    // Prevent editing if in read-only mode
                     if (isPastMode && !isEditingPast) return;
-
                     const cVal = habitsData[h].current;
                     const nVal = (cVal === i+1 && i===0) ? 0 : i+1;
                     updateHabitVisuals(h, g, nVal);
@@ -1217,9 +1236,7 @@
         habitsData[h].current = val;
         const row = document.querySelector(`.circle-row[data-habit="${h}"]`);
         const colors = { water: '#5AC8FA', veggies: '#34C759', fruits: '#FF3B30', snacks: '#AF52DE' };
-        
         if(!row) return;
-
         Array.from(row.children).forEach((c, i) => {
             if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
             else { c.classList.remove('active'); c.style.background = 'transparent'; }
