@@ -371,8 +371,9 @@
         </div>
 
         <div class="carousel-dots">
-            <div class="dot active" id="dot-0"></div>
-            <div class="dot" id="dot-1"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"><div>
         </div>
 
         <div class="tab-bar">
@@ -683,23 +684,19 @@
     ];
 
     window.onload = function() {
-        document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
-        const select = document.getElementById('dayInput');
-        for (let i = 1; i <= 100; i++) {
-            let opt = document.createElement('option'); opt.value = i; opt.innerHTML = i; select.appendChild(opt);
-        }
-
+        // --- 1. Load Data ---
         fetchFamilyData(); 
-        loadState();
-        updateProgressUI();
+        // We keep loadState but we must ensure it doesn't look for 'dayInput' anymore (see note below)
+        loadState(); 
         initHabits();
         renderLog();
         renderHistory();
-        // Add these inside your window.onload or init function
+    
+        // --- 2. Initialize New Features ---
         renderCalendar(new Date()); 
         updateStatsView();
-
+    
+        // --- 3. Carousel Scroll Logic ---
         const track = document.getElementById('carousel-track');
         track.addEventListener('scroll', () => {
             const index = Math.round(track.scrollLeft / track.offsetWidth);
@@ -709,7 +706,6 @@
             });
         });
     }
-
     // --- MODAL UI LOGIC ----
     function switchModalTab(tab) {
         document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
@@ -1088,11 +1084,11 @@
         const raw = localStorage.getItem('nogueraFit_data');
         if (!raw) return;
         const saved = JSON.parse(raw);
+        // If the saved draft is from a previous date, clear it and start fresh
         if (saved.date !== new Date().toDateString()) {
             localStorage.removeItem('nogueraFit_data');
             return; 
-        }
-        document.getElementById('dayInput').value = saved.day;
+        }        
         currentStaging = saved.staging || [];
         dailyLog = saved.log || [];
         habitsData = saved.habits || habitsData;
@@ -1146,12 +1142,6 @@
         document.getElementById(`count-${h}`).innerText = `${val}/${g}`;
         document.getElementById(`bar-${h}`).style.width = `${(val/g)*100}%`;
         updateScorecardStatus();
-    }
-
-    function updateProgressUI() {
-        const d = document.getElementById('dayInput').value;
-        document.getElementById('visual-progress').style.width = d + '%';
-        document.getElementById('progress-text').innerText = d + '%';
     }
 
     function switchTab(t) {
