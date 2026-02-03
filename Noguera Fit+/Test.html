@@ -49,56 +49,65 @@
         .user-select-btn { background: none; border: none; font-size: 18px; font-weight: 700; color: var(--ios-blue); display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0; }
         .btn-barcode { background: #E5E5EA; border: none; padding: 6px 12px; border-radius: 14px; font-size: 13px; font-weight: 700; color: #555; cursor: pointer; display: flex; align-items: center; gap: 4px; }
 
-        /* --- NEW CALENDAR HEADER --- */
+        /* --- SWIPEABLE CALENDAR --- */
         .calendar-header {
             background: #fff;
-            padding: 10px 0 15px 0;
+            padding: 15px 0 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            border-radius: 0 0 20px 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 0 0 24px 24px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
         }
         .calendar-strip {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
+            overflow-x: auto;
+            gap: 12px;
+            padding: 0 20px;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
+        .calendar-strip::-webkit-scrollbar { display: none; }
+        
         .cal-day {
+            flex: 0 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 60px;
-            border-radius: 22px;
-            transition: all 0.2s ease;
+            width: 50px;
+            height: 70px;
+            border-radius: 25px;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
             position: relative;
+            background: #F9F9F9;
+            border: 1px solid transparent;
         }
         .cal-day.active {
             background: var(--ios-blue);
             color: white;
-            box-shadow: 0 4px 10px rgba(0,122,255,0.3);
+            box-shadow: 0 8px 20px rgba(0,122,255,0.25);
+            transform: translateY(-2px);
         }
-        .cal-day.future { opacity: 0.3; pointer-events: none; }
-        .cal-day .day-name { font-size: 10px; text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
-        .cal-day .day-num { font-size: 18px; font-weight: 700; }
+        .cal-day.future { opacity: 0.3; pointer-events: none; background: none; }
+        .cal-day .day-name { font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; opacity: 0.7; }
+        .cal-day .day-num { font-size: 20px; font-weight: 800; }
         
         .cal-dot {
-            width: 5px; height: 5px; 
+            width: 6px; height: 6px; 
             background: var(--ios-green); 
             border-radius: 50%; 
-            position: absolute; bottom: 6px;
+            position: absolute; bottom: 8px;
             display: none; 
         }
         .cal-day.has-data .cal-dot { display: block; }
         .cal-day.active .cal-dot { background: white; }
 
-        /* --- NEW STATS CARD --- */
+        /* --- STATS CARD --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-box {
             background: #F9F9F9; padding: 15px; border-radius: 16px;
@@ -117,7 +126,7 @@
         /* --- CAROUSEL CARDS --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
         .carousel-track::-webkit-scrollbar { display: none; }
-        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; }
+        .card-slide { flex: 0 0 92%; scroll-snap-align: center; background: white; border-radius: 24px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.06); position: relative; border: 1px solid rgba(0,0,0,0.02); overflow: hidden; min-height: 380px; }
         .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 25px; margin-top: -10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
@@ -130,14 +139,25 @@
         .scorecard-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; position: relative; z-index: 2; margin-top: 5px; }
         .scorecard-title { font-size: 22px; font-weight: 800; color: #1C1C1E; }
         .scorecard-date { font-size: 12px; color: var(--ios-blue); font-weight: 700; text-transform: uppercase; background: rgba(0,122,255,0.1); padding: 4px 10px; border-radius: 20px; }
+        
+        /* Past View Banner */
+        .past-banner { 
+            background: #FF9500; color: white; text-align: center; 
+            font-size: 12px; font-weight: 700; padding: 6px; 
+            border-radius: 8px; margin-bottom: 15px; display: none; 
+        }
+
         .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 6px 0; border-bottom: 1px dashed #F2F2F7; font-size: 15px; }
         .score-row:last-of-type { border-bottom: none; }
         .score-label { font-weight: 600; color: #666; display: flex; align-items: center; gap: 6px; }
         .score-val { font-weight: 700; color: #1C1C1E; }
         .score-val.done { color: var(--ios-green); }
+        
         .btn-sync { width: 100%; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; margin-top: 15px; transition: 0.2s; background-color: #E5E5EA; color: var(--ios-blue); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-sync:active { background-color: #D1D1D6; }
         .btn-sync.synced { background-color: var(--ios-green); color: white; }
+
+        .btn-edit-past { width: 100%; padding: 14px; background: white; border: 2px solid #FF9500; color: #FF9500; font-weight: 700; border-radius: 14px; margin-top: 10px; cursor: pointer; display: none; }
 
         /* --- FAMILY LEADERBOARD --- */
         .lb-headers { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #F2F2F7; padding-bottom: 5px; margin-top: 20px; }
@@ -160,6 +180,9 @@
         #tab-nutrition.active { color: var(--ios-green); }
 
         /* --- WORKOUT UI --- */
+        /* Read Only Mask */
+        .read-only-mask { opacity: 0.5; pointer-events: none; filter: grayscale(100%); }
+
         .big-add-btn { background: white; border: 2px dashed #D1D1D6; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 10px; color: #8E8E93; width: 100%; margin-bottom: 20px; }
         .big-add-btn:active { background: #F2F2F7; border-color: var(--ios-blue); color: var(--ios-blue); }
         .big-icon { font-size: 32px; display: block; margin-bottom: 5px; }
@@ -260,8 +283,8 @@
         </div>
 
         <div class="calendar-header">
-            <div style="text-align: center; margin-bottom: 10px;">
-                <span id="header-month-title" style="font-size: 16px; font-weight: 700; color: var(--text-dark);">February 2026</span>
+            <div style="text-align: center; margin-bottom: 12px;">
+                <span id="header-month-title" style="font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.5px;">February 2026</span>
             </div>
             <div class="calendar-strip" id="calendar-strip">
                 </div>
@@ -272,8 +295,11 @@
             <div class="card-slide score-card-bg">
                 <div class="scorecard-header">
                     <div class="scorecard-title" id="score-title">Scorecard</div>
-                    <div class="scorecard-date" id="today-date">Today</div>
+                    <div class="scorecard-date" id="score-card-date-badge">Today</div>
                 </div>
+                
+                <div id="past-view-banner" class="past-banner">📅 Viewing Past Record</div>
+
                 <div class="score-row">
                     <span class="score-label">🏋️ Exercise</span>
                     <span class="score-val" id="score-workout">0 Done</span>
@@ -297,6 +323,9 @@
                 
                 <button id="main-action-btn" class="btn-sync" onclick="shareScorecard()">
                     📤 Share Scorecard
+                </button>
+                <button id="edit-past-btn" class="btn-edit-past" onclick="enablePastEdit()">
+                    ✏️ Edit Past Record
                 </button>
             </div>
 
@@ -351,46 +380,56 @@
         </div>
 
         <div id="workout-view">
-            <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
-                <span class="big-icon">➕</span>
-                <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
-                <span style="font-size:13px;">Tap to select exercises</span>
+            <div id="workout-content-area">
+                <div id="add-trigger-area" class="big-add-btn" onclick="openBatchSelect()">
+                    <span class="big-icon">➕</span>
+                    <span style="font-weight:700; font-size:16px; color:#333;">Add Workout</span>
+                    <span style="font-size:13px;">Tap to select exercises</span>
+                </div>
+
+                <div id="cards-container"></div>
+
+                <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
+                
+                <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
+                    Add to Scorecard
+                </button>
+
+                <div id="history-section" class="history-container" style="display:none;">
+                    <div class="history-title">Logged on this day</div>
+                    <div id="history-list"></div>
+                </div>
             </div>
-
-            <div id="cards-container"></div>
-
-            <button id="add-more-btn" class="btn-add-more" style="display:none;" onclick="openBatchSelect()">+ Add More Exercises</button>
             
-            <button id="list-save-btn" class="btn-sync" style="display:none; background:#007AFF; color:white;" onclick="handleLogAction()">
-                Add to Scorecard
-            </button>
-
-            <div id="history-section" class="history-container" style="display:none;">
-                <div class="history-title">Logged Today</div>
-                <div id="history-list"></div>
+            <div id="empty-past-state" style="display:none; text-align:center; padding:40px; color:#aaa;">
+                <div style="font-size:40px; margin-bottom:10px;">💤</div>
+                <div style="font-weight:600;">Rest Day</div>
+                <div style="font-size:12px;">No workout recorded.</div>
             </div>
         </div>
         
         <div id="nutrition-view" class="hidden-view">
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
-                <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
-                <div class="circle-row" data-habit="water" data-goal="8"></div>
-            </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
-                <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
-                <div class="circle-row" data-habit="veggies" data-goal="5"></div>
-            </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
-                <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
-                <div class="circle-row" data-habit="fruits" data-goal="5"></div>
-            </div>
-            <div class="habit-card">
-                <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
-                <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
-                <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+            <div id="nutrition-content-area">
+                <div class="habit-card">
+                    <div class="habit-header"><span class="habit-title">💧 Water Intake</span><span class="habit-count" id="count-water">0/8</span></div>
+                    <div class="habit-bar-bg"><div id="bar-water" class="habit-bar-fill bg-water"></div></div>
+                    <div class="circle-row" data-habit="water" data-goal="8"></div>
+                </div>
+                <div class="habit-card">
+                    <div class="habit-header"><span class="habit-title">🥦 Veggies</span><span class="habit-count" id="count-veggies">0/5</span></div>
+                    <div class="habit-bar-bg"><div id="bar-veggies" class="habit-bar-fill bg-veggie"></div></div>
+                    <div class="circle-row" data-habit="veggies" data-goal="5"></div>
+                </div>
+                <div class="habit-card">
+                    <div class="habit-header"><span class="habit-title">🍎 Fruits</span><span class="habit-count" id="count-fruits">0/5</span></div>
+                    <div class="habit-bar-bg"><div id="bar-fruits" class="habit-bar-fill bg-fruit"></div></div>
+                    <div class="circle-row" data-habit="fruits" data-goal="5"></div>
+                </div>
+                <div class="habit-card">
+                    <div class="habit-header"><span class="habit-title">🥜 Healthy Snacks</span><span class="habit-count" id="count-snacks">0/2</span></div>
+                    <div class="habit-bar-bg"><div id="bar-snacks" class="habit-bar-fill bg-snack"></div></div>
+                    <div class="circle-row" data-habit="snacks" data-goal="2"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -497,11 +536,15 @@
     let dailyLog = [];       
     let selectedBatch = new Set();
     let familyData = []; 
-    let modalLocation = 'home'; // Default for modal
-    let genLocation = 'home'; // Default for generator
+    let modalLocation = 'home';
+    let genLocation = 'home';
     let currentCategory = 'upper'; 
     let genFocus = new Set();
-    let currentViewDate = new Date(); // Tracks which date is currently selected in calendar
+    
+    // --- TIME TRAVEL & HISTORY ---
+    let viewingDateStr = new Date().toISOString().split('T')[0]; // "2026-02-02"
+    let isPastMode = false;
+    let isEditingPast = false;
 
     let habitsData = {
         water: { current: 0, goal: 8 },
@@ -510,7 +553,6 @@
         snacks: { current: 0, goal: 2 }
     };
 
-    // DB with updated location tags
     const exerciseDB = [
         { name: "Dumbbell Shoulder Press", type: "upper", loc: ["home", "gym"], img: "images/dumbbell-shoulder-press.png", guide: "3 sets • 10-12 reps" },
         { name: "Incline Dumbbell Press", type: "upper", loc: ["gym"], img: "images/incline-dumbbell-press.png", guide: "3 sets • 12 reps" },
@@ -539,17 +581,12 @@
     ];
 
     window.onload = function() {
-        document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        
+        // Init logic
         fetchFamilyData(); 
-        loadState();
         initHabits();
-        renderLog();
-        renderHistory();
-
-        // New Calendar & Stats Logic
-        renderCalendar(new Date()); 
-        updateStatsView();
+        
+        // Start by loading Today
+        selectDate(new Date());
 
         const track = document.getElementById('carousel-track');
         track.addEventListener('scroll', () => {
@@ -561,28 +598,35 @@
         });
     }
 
-    /* --- CALENDAR LOGIC --- */
+    /* --- DATE LOGIC --- */
     function renderCalendar(centerDate) {
         const strip = document.getElementById('calendar-strip');
         const monthTitle = document.getElementById('header-month-title');
+        
+        // Don't wipe strip, just update or ensure centered if first load?
+        // Actually simplest is rebuild centered around selected date
         strip.innerHTML = '';
         
         const options = { month: 'long', year: 'numeric' };
         monthTitle.innerText = centerDate.toLocaleDateString('en-US', options);
 
-        for (let i = -2; i <= 2; i++) {
-            const d = new Date(centerDate);
-            d.setDate(centerDate.getDate() + i);
+        // Generate 2 weeks back + 1 week forward
+        for (let i = -14; i <= 7; i++) {
+            const d = new Date(); // anchor to today so calendar doesn't drift infinitely
+            d.setDate(d.getDate() + i);
             
-            const isFuture = d > new Date();
+            const isToday = new Date().toDateString() === d.toDateString();
             const dateStr = d.toISOString().split('T')[0];
+            const isSelected = dateStr === viewingDateStr;
+            const isFuture = d > new Date();
             
-            // Check history for dots
-            const history = JSON.parse(localStorage.getItem('workoutLog') || '[]');
-            const hasData = history.some(entry => entry.date === dateStr);
+            // Check full history for dots
+            const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
+            const hasData = historyDB[dateStr] && (historyDB[dateStr].log.length > 0 || historyDB[dateStr].habits.water.current > 0);
 
             const el = document.createElement('div');
-            el.className = `cal-day ${i === 0 ? 'active' : ''} ${isFuture ? 'future' : ''} ${hasData ? 'has-data' : ''}`;
+            el.className = `cal-day ${isSelected ? 'active' : ''} ${isFuture ? 'future' : ''} ${hasData ? 'has-data' : ''}`;
+            el.id = `day-${dateStr}`;
             el.onclick = () => { if(!isFuture) selectDate(d); };
             
             el.innerHTML = `
@@ -592,59 +636,191 @@
             `;
             strip.appendChild(el);
         }
+        
+        // Scroll to active day
+        setTimeout(() => {
+            const activeEl = document.querySelector('.cal-day.active');
+            if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }, 100);
     }
 
     function selectDate(date) {
-        currentViewDate = date;
+        viewingDateStr = date.toISOString().split('T')[0];
+        const todayStr = new Date().toISOString().split('T')[0];
+        
+        isPastMode = viewingDateStr !== todayStr;
+        isEditingPast = false; // Reset edit mode when switching days
+
         renderCalendar(date);
-        
-        const dateStr = date.toISOString().split('T')[0];
-        const history = JSON.parse(localStorage.getItem('workoutLog') || '[]');
-        const pastEntry = history.find(entry => entry.date === dateStr);
-        
-        if (pastEntry) {
-            alert(`Viewing past entry for ${dateStr}. (Editing not yet implemented)`);
+        loadDataForDate(viewingDateStr);
+        updateUIForTimeTravel(date);
+    }
+
+    function updateUIForTimeTravel(date) {
+        const dateBadge = document.getElementById('score-card-date-badge');
+        const banner = document.getElementById('past-view-banner');
+        const mainBtn = document.getElementById('main-action-btn');
+        const editBtn = document.getElementById('edit-past-btn');
+        const workContent = document.getElementById('workout-content-area');
+        const emptyState = document.getElementById('empty-past-state');
+        const nutContent = document.getElementById('nutrition-content-area');
+
+        if (isPastMode) {
+            dateBadge.innerText = date.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+            dateBadge.style.background = '#FF9500'; 
+            dateBadge.style.color = 'white';
+            
+            banner.style.display = 'block';
+            banner.innerText = `📅 Viewing Record: ${date.toLocaleDateString()}`;
+            
+            mainBtn.style.display = 'none'; // Hide share button on past days
+            editBtn.style.display = 'block'; // Show edit button
+
+            // Lock UI until Edit clicked
+            workContent.classList.add('read-only-mask');
+            nutContent.classList.add('read-only-mask');
+            
+            // Show empty state if no logs
+            if (dailyLog.length === 0) {
+                workContent.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                workContent.style.display = 'block';
+                emptyState.style.display = 'none';
+            }
+
+        } else {
+            // TODAY MODE
+            dateBadge.innerText = "Today";
+            dateBadge.style.background = 'rgba(0,122,255,0.1)';
+            dateBadge.style.color = 'var(--ios-blue)';
+            
+            banner.style.display = 'none';
+            mainBtn.style.display = 'flex';
+            editBtn.style.display = 'none';
+
+            workContent.classList.remove('read-only-mask');
+            nutContent.classList.remove('read-only-mask');
+            workContent.style.display = 'block';
+            emptyState.style.display = 'none';
         }
+        
+        updateStatsView();
+    }
+
+    function enablePastEdit() {
+        if(!confirm(`Edit record for ${viewingDateStr}?`)) return;
+        isEditingPast = true;
+        document.getElementById('workout-content-area').classList.remove('read-only-mask');
+        document.getElementById('nutrition-content-area').classList.remove('read-only-mask');
+        
+        document.getElementById('empty-past-state').style.display = 'none';
+        document.getElementById('workout-content-area').style.display = 'block';
+        document.getElementById('edit-past-btn').style.display = 'none'; // Hide button once clicked
+    }
+
+    /* --- DATA STORAGE & SAVING --- */
+    function loadDataForDate(dateStr) {
+        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
+        const dayData = historyDB[dateStr];
+
+        if (dayData) {
+            dailyLog = dayData.log || [];
+            habitsData = dayData.habits || {
+                water: { current: 0, goal: 8 },
+                veggies: { current: 0, goal: 5 }, 
+                fruits: { current: 0, goal: 5 },
+                snacks: { current: 0, goal: 2 }
+            };
+            if(dayData.user) currentUser = dayData.user;
+        } else {
+            // No data for this day
+            dailyLog = [];
+            habitsData = {
+                water: { current: 0, goal: 8 },
+                veggies: { current: 0, goal: 5 }, 
+                fruits: { current: 0, goal: 5 },
+                snacks: { current: 0, goal: 2 }
+            };
+            // Keep current user if set
+        }
+
+        // Standard UI Refresh
+        if (currentUser) {
+            document.getElementById('header-username').innerText = "👤 " + currentUser;
+            document.getElementById('score-title').innerText = currentUser + "'s Scorecard";
+        }
+        updateScorecardStatus();
+        renderLog();
+        renderHistory();
+        initHabits(); // Re-bind clicks
+    }
+
+    function saveState() {
+        // 1. Update the Master History DB
+        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
+        
+        historyDB[viewingDateStr] = {
+            log: dailyLog,
+            habits: habitsData,
+            user: currentUser
+        };
+        
+        localStorage.setItem('nogueraFit_history', JSON.stringify(historyDB));
+
+        // 2. Also update Legacy "Today" storage if we are editing Today
+        const todayStr = new Date().toISOString().split('T')[0];
+        if (viewingDateStr === todayStr) {
+            const data = {
+                date: new Date().toDateString(),
+                day: getChallengeDayCount(),
+                log: dailyLog,
+                habits: habitsData,
+                user: currentUser
+            };
+            localStorage.setItem('nogueraFit_data', JSON.stringify(data));
+        }
+
+        updateScorecardStatus();
+        renderCalendar(new Date(viewingDateStr)); // Refresh dots
     }
 
     function getChallengeDayCount() {
-        const history = JSON.parse(localStorage.getItem('workoutLog') || '[]');
-        const uniqueDays = new Set(history.map(entry => entry.date));
-        // Current session counts if we have items logged today
-        if (dailyLog.length > 0) {
-            uniqueDays.add(new Date().toISOString().split('T')[0]);
-        }
-        return uniqueDays.size || 1; 
+        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
+        // Count keys in historyDB that have logs
+        let count = 0;
+        Object.keys(historyDB).forEach(k => {
+            if(historyDB[k].log && historyDB[k].log.length > 0) count++;
+        });
+        // Add 1 if today has logs but isn't saved in historyDB yet (edge case)
+        return Math.max(count, 1);
     }
 
     /* --- STATS LOGIC --- */
     function updateStatsView() {
-        // 1. Countdown to June 13
         const today = new Date();
         const endGoal = new Date('2026-06-13');
         const diffTime = Math.abs(endGoal - today);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
         document.getElementById('stat-days-left').innerText = diffDays;
 
-        // 2. Challenge Progress
         const count = getChallengeDayCount();
         const leftTo100 = Math.max(0, 100 - count);
         document.getElementById('stat-workouts-left').innerText = leftTo100;
 
-        // 3. Top 5 Workouts
-        const history = JSON.parse(localStorage.getItem('workoutLog') || '[]');
+        // Top 5 Calculation
+        const historyDB = JSON.parse(localStorage.getItem('nogueraFit_history') || '{}');
         const exerciseCounts = {};
         
-        // Count from history
-        history.forEach(log => {
-            if(log.exercise) {
-                log.exercise.split(', ').forEach(ex => {
-                    exerciseCounts[ex] = (exerciseCounts[ex] || 0) + 1;
+        Object.values(historyDB).forEach(day => {
+            if(day.log) {
+                day.log.forEach(item => {
+                    const n = item.name;
+                    exerciseCounts[n] = (exerciseCounts[n] || 0) + 1;
                 });
             }
         });
         
-        // Sort and Slice
         const sorted = Object.entries(exerciseCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
         const listContainer = document.getElementById('top-workouts-list');
         
@@ -665,7 +841,6 @@
     function switchModalTab(tab) {
         document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
         document.getElementById('tab-'+tab).classList.add('active');
-        
         if (tab === 'browse') {
             document.getElementById('view-browse').style.display = 'flex';
             document.getElementById('view-magic').style.display = 'none';
@@ -722,7 +897,7 @@
         
         selected.forEach(ex => currentStaging.push(ex));
         
-        saveState();
+        // Staging only saves to temp, does not commit to history yet
         renderLog();
         closeModal('modal-batch');
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
@@ -771,11 +946,8 @@
             if(selectedBatch.has(ex.name)) div.classList.add('selected');
             
             const imgSrc = ex.img ? ex.img : 'https://via.placeholder.com/80';
-            
             let nameHTML = ex.name;
-            if(ex.loc.includes('bodyweight')) {
-                nameHTML += ' <span class="no-equip-tag">No Equip</span>';
-            }
+            if(ex.loc.includes('bodyweight')) nameHTML += ' <span class="no-equip-tag">No Equip</span>';
 
             div.innerHTML = `
                 <div class="select-left">
@@ -799,7 +971,6 @@
             const details = exerciseDB.find(e => e.name === name) || { name: name, img: '', guide: 'Custom' };
             currentStaging.push(details);
         });
-        saveState();
         renderLog();
         closeModal('modal-batch');
     }
@@ -811,9 +982,12 @@
             openUserModal();
             return;
         }
+        
+        // Move staging to dailyLog
         dailyLog = dailyLog.concat(currentStaging);
         currentStaging = []; 
-        saveState();
+        
+        saveState(); // Writes to History DB for viewingDateStr
         renderLog(); 
         renderHistory();
         document.getElementById('success-sound').play().catch(()=>{});
@@ -858,8 +1032,7 @@
 
     function removeStagingItem(idx) {
         currentStaging.splice(idx, 1);
-        saveState();
-        renderLog();
+        renderLog(); // Staging is temporary, no save needed yet
     }
 
     function renderHistory() {
@@ -887,6 +1060,9 @@
     }
 
     function undoLogItem(idx) {
+        // If in read only mode, prevent undo unless unlocked
+        if(isPastMode && !isEditingPast) return; 
+
         if(confirm("Remove this log entry?")) {
             dailyLog.splice(idx, 1);
             saveState();
@@ -900,28 +1076,16 @@
         const habitStr = `W:${habitsData.water.current}, V:${habitsData.veggies.current}, F:${habitsData.fruits.current}, S:${habitsData.snacks.current}`;
         const workoutStr = dailyLog.length > 0 ? dailyLog.map(i => i.name).join(", ") : "Rest Day";
         
-        // 1. Save to Local History for Calendar
-        const history = JSON.parse(localStorage.getItem('workoutLog') || '[]');
-        const todayStr = new Date().toISOString().split('T')[0];
-        
-        // Remove existing entry for today if any, and replace with new
-        const filtered = history.filter(e => e.date !== todayStr);
-        if (dailyLog.length > 0) {
-            filtered.push({ date: todayStr, exercise: workoutStr });
-        }
-        localStorage.setItem('workoutLog', JSON.stringify(filtered));
-        
-        // Refresh UI
-        renderCalendar(currentViewDate);
-        updateStatsView();
+        // Determine date to send
+        const submitDate = viewingDateStr; // Uses the date currently being viewed/edited
 
-        // 2. Send to Google Sheets
         const payload = {
-            date: new Date().toLocaleString(),
+            date: new Date(submitDate).toLocaleString(),
             day: getChallengeDayCount(),
             name: finalName,
             location: modalLocation, 
-            workout: workoutStr + " | " + habitStr
+            workout: workoutStr + " | " + habitStr,
+            isEdit: isPastMode // Flag for backend if needed
         };
 
         fetch(API_URL, {
@@ -937,9 +1101,6 @@
         if (dailyLog.length > 0) {
             text += `✅ WORKOUT:\n`;
             dailyLog.forEach(i => text += `• ${i.name}\n`);
-        } else if (currentStaging.length > 0) {
-            text += `⚠️ In Progress:\n`;
-            currentStaging.forEach(i => text += `• ${i.name}\n`);
         } else {
             text += `💤 Rest Day\n`;
         }
@@ -953,7 +1114,7 @@
         else { navigator.clipboard.writeText(text); alert("Copied to clipboard!"); }
     }
 
-    // --- LEADERBOARD & STATE ---
+    // --- LEADERBOARD ---
     async function fetchFamilyData() {
         const cont = document.getElementById('lb-container');
         try {
@@ -965,7 +1126,6 @@
                 if (found) return found;
                 return { name: name, streak: 0, lastDate: 0, status: 'pending' };
             });
-
             renderLeaderboardCard();
         } catch(e) { 
             console.log(e); 
@@ -1017,43 +1177,6 @@
         saveState();
     }
 
-    function saveState() {
-        const data = {
-            date: new Date().toDateString(),
-            day: getChallengeDayCount(),
-            staging: currentStaging,
-            log: dailyLog,
-            habits: habitsData,
-            user: currentUser,
-            loc: modalLocation
-        };
-        localStorage.setItem('nogueraFit_data', JSON.stringify(data));
-        updateScorecardStatus();
-    }
-
-    function loadState() {
-        const raw = localStorage.getItem('nogueraFit_data');
-        if (!raw) return;
-        const saved = JSON.parse(raw);
-        if (saved.date !== new Date().toDateString()) {
-            localStorage.removeItem('nogueraFit_data');
-            return; 
-        }
-        
-        currentStaging = saved.staging || [];
-        dailyLog = saved.log || [];
-        habitsData = saved.habits || habitsData;
-        
-        if (saved.user) {
-            currentUser = saved.user;
-            document.getElementById('header-username').innerText = "👤 " + saved.user;
-            document.getElementById('score-title').innerText = saved.user + "'s Scorecard";
-        }
-        
-        updateScorecardStatus();
-        renderHistory();
-    }
-
     function updateScorecardStatus() {
         ['water','veggies','fruits','snacks'].forEach(h => {
             const cur = habitsData[h].current;
@@ -1065,18 +1188,24 @@
     }
 
     function initHabits() {
+        // Clear previous event listeners by rebuilding
         document.querySelectorAll('.circle-row').forEach(row => {
-            if(row.innerHTML !== '') return;
+            row.innerHTML = ''; // Wipe clean
             const h = row.getAttribute('data-habit');
             const g = parseInt(row.getAttribute('data-goal'));
+            
             for(let i=0; i<g; i++) {
                 const d = document.createElement('div');
                 d.className = 'habit-circle';
                 d.onclick = () => {
+                    // Prevent editing if in read-only mode
+                    if (isPastMode && !isEditingPast) return;
+
                     const cVal = habitsData[h].current;
                     const nVal = (cVal === i+1 && i===0) ? 0 : i+1;
                     updateHabitVisuals(h, g, nVal);
                     saveState();
+                    syncToCloud();
                 };
                 row.appendChild(d);
             }
@@ -1088,6 +1217,9 @@
         habitsData[h].current = val;
         const row = document.querySelector(`.circle-row[data-habit="${h}"]`);
         const colors = { water: '#5AC8FA', veggies: '#34C759', fruits: '#FF3B30', snacks: '#AF52DE' };
+        
+        if(!row) return;
+
         Array.from(row.children).forEach((c, i) => {
             if (i < val) { c.classList.add('active'); c.style.background = colors[h]; } 
             else { c.classList.remove('active'); c.style.background = 'transparent'; }
