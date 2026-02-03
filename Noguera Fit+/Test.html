@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Test</title>
+    <title>NogueraFit</title>
     
     <link rel="apple-touch-icon" href="images/icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/icon.png">
@@ -106,6 +106,39 @@
         }
         .cal-day.has-data .cal-dot { display: block; }
         .cal-day.active .cal-dot { background: white; }
+
+        /* --- SKELETON LOADING ANIMATION --- */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes pulse { 
+            from { opacity: 0.5; transform: scale(0.8); } 
+            to { opacity: 1; transform: scale(1); } 
+        }
+
+        /* Generic Skeleton Bar */
+        .skeleton-text {
+            background: linear-gradient(90deg, #F2F2F7 25%, #E5E5EA 50%, #F2F2F7 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite linear;
+            border-radius: 6px;
+            color: transparent !important;
+            display: inline-block;
+            height: 14px;
+            width: 100%;
+        }
+
+        /* The Ghost Dot (Loading state for calendar) */
+        .cal-skeleton-dot {
+            width: 6px; height: 6px;
+            background: #E5E5EA; /* Light gray */
+            border-radius: 50%;
+            position: absolute; bottom: 8px;
+            display: block;
+            animation: pulse 0.8s infinite alternate;
+        }
 
         /* --- CAROUSEL CARDS --- */
         .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding-bottom: 10px; margin: 0 -15px; padding: 0 15px 20px 15px; -ms-overflow-style: none; scrollbar-width: none; }
@@ -315,7 +348,9 @@
                 <div class="top-workouts-container">
                     <div class="top-header">Your Top 5 Exercises</div>
                     <div id="top-workouts-list">
-                        <div style="text-align:center; color: #ccc; font-size: 13px; padding: 10px;">Start logging to see stats!</div>
+                        <div class="top-item"><span class="skeleton-text" style="width:60%"></span><span class="skeleton-text" style="width:20px"></span></div>
+                        <div class="top-item"><span class="skeleton-text" style="width:40%"></span><span class="skeleton-text" style="width:20px"></span></div>
+                        <div class="top-item"><span class="skeleton-text" style="width:50%"></span><span class="skeleton-text" style="width:20px"></span></div>
                     </div>
                 </div>
             </div>
@@ -330,7 +365,24 @@
                     <span>Total Days Logged</span>
                 </div>
                 <div id="lb-container" class="lb-list">
-                    <div style="text-align:center; padding:20px; color:#aaa;">Loading...</div>
+                    <div class="lb-row">
+                        <div style="display:flex; align-items:center; width:100%">
+                            <div class="skeleton-text" style="width:24px; height:24px; border-radius:50%; margin-right:8px;"></div>
+                            <div style="flex:1"><div class="skeleton-text" style="width:40%"></div></div>
+                        </div>
+                    </div>
+                    <div class="lb-row">
+                        <div style="display:flex; align-items:center; width:100%">
+                            <div class="skeleton-text" style="width:24px; height:24px; border-radius:50%; margin-right:8px;"></div>
+                            <div style="flex:1"><div class="skeleton-text" style="width:60%"></div></div>
+                        </div>
+                    </div>
+                    <div class="lb-row">
+                        <div style="display:flex; align-items:center; width:100%">
+                            <div class="skeleton-text" style="width:24px; height:24px; border-radius:50%; margin-right:8px;"></div>
+                            <div style="flex:1"><div class="skeleton-text" style="width:30%"></div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -510,6 +562,7 @@
     let viewingDateStr = new Date().toISOString().split('T')[0]; // "2026-02-02"
     let isPastMode = false;
     let isEditingPast = false;
+    let isHistoryLoading = true; // Track loading state
     
     // In-memory cache of cloud history for the selected user
     let cloudHistoryCache = {}; 
@@ -580,6 +633,10 @@
     /* --- CLOUD SYNC & DATA LOADING --- */
     async function fetchCloudHistory() {
         try {
+            // Start Loading Animation
+            isHistoryLoading = true;
+            renderCalendar(new Date(viewingDateStr));
+
             // Fetch raw rows with ?action=history
             const res = await fetch(API_URL + "?action=history");
             const rawRows = await res.json();
@@ -645,6 +702,8 @@
                 };
             });
 
+            // End Loading Animation
+            isHistoryLoading = false;
             console.log("Cloud History Processed:", cloudHistoryCache);
             
             // Re-render Calendar to show dots
@@ -655,6 +714,8 @@
 
         } catch (e) {
             console.error("Failed to fetch cloud history", e);
+            isHistoryLoading = false;
+            renderCalendar(new Date(viewingDateStr));
         }
     }
 
@@ -685,18 +746,28 @@
             el.id = `day-${dateStr}`;
             el.onclick = () => { if(!isFuture) selectDate(d); };
             
+            // LOGIC: If loading, show ghost dot. If loaded and has data, show green dot.
+            let dotHtml = '';
+            if (isHistoryLoading && !isFuture) {
+                 dotHtml = '<div class="cal-skeleton-dot"></div>'; // Ghost Dot
+            } else {
+                 dotHtml = '<div class="cal-dot"></div>'; // Real Dot
+            }
+
             el.innerHTML = `
                 <span class="day-name">${d.toLocaleDateString('en-US', {weekday: 'short'})}</span>
                 <span class="day-num">${d.getDate()}</span>
-                <div class="cal-dot"></div>
+                ${dotHtml}
             `;
             strip.appendChild(el);
         }
         
-        setTimeout(() => {
-            const activeEl = document.querySelector('.cal-day.active');
-            if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-        }, 100);
+        if(!isHistoryLoading) {
+            setTimeout(() => {
+                const activeEl = document.querySelector('.cal-day.active');
+                if(activeEl) activeEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }, 100);
+        }
     }
 
     function selectDate(date) {
@@ -841,6 +912,9 @@
         const sorted = Object.entries(exerciseCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
         const listContainer = document.getElementById('top-workouts-list');
         
+        // Don't overwrite if loading
+        if (Object.keys(cloudHistoryCache).length === 0 && isHistoryLoading) return;
+
         if(sorted.length > 0) {
             listContainer.innerHTML = '';
             sorted.forEach(([name, count]) => {
@@ -1082,7 +1156,7 @@
             name: finalName,
             location: modalLocation, 
             workout: workoutStr + " | " + habitStr,
-            targetDate: dateStringForSheet // New field!
+            targetDate: dateStringForSheet 
         };
 
         fetch(API_URL, {
@@ -1133,6 +1207,7 @@
             renderLeaderboardCard();
         } catch(e) { 
             console.log(e); 
+            // In case of error, show simple offline text instead of infinite skeleton
             cont.innerHTML = "<div style='text-align:center; padding:20px;'>Offline Mode</div>";
         }
     }
