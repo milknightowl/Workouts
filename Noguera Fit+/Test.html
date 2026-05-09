@@ -171,6 +171,36 @@
 
         .btn-edit-past { width: 100%; padding: 14px; background: white; border: 2px solid #FF9500; color: #FF9500; font-weight: 700; border-radius: 14px; margin-top: 10px; cursor: pointer; display: none; }
 
+        .edit-mode-banner {
+            background: linear-gradient(135deg, #FF9500, #FF6B00);
+            color: white;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            display: none;
+            letter-spacing: 0.3px;
+        }
+        .edit-mode-actions {
+            display: none;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-done-edit {
+            flex: 1; padding: 14px; background: var(--ios-green); color: white;
+            font-weight: 700; border-radius: 14px; border: none; cursor: pointer; font-size: 15px;
+        }
+        .btn-cancel-edit {
+            flex: 1; padding: 14px; background: #F2F2F7; color: #8E8E93;
+            font-weight: 700; border-radius: 14px; border: none; cursor: pointer; font-size: 15px;
+        }
+        .card-slide.edit-active {
+            outline: 2.5px solid #FF9500;
+            box-shadow: 0 8px 30px rgba(255,149,0,0.2);
+        }
+
         /* --- STATS & LEADERBOARD --- */
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .stat-box { background: #F9F9F9; padding: 15px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; justify-content: center; }
@@ -285,7 +315,7 @@
 
         <div class="calendar-header">
             <div style="text-align: center; margin-bottom: 12px;">
-                <span id="header-month-title" style="font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.5px;">February 2026</span>
+                <span id="header-month-title" style="font-size: 17px; font-weight: 700; color: var(--text-dark); letter-spacing: -0.5px;"></span>
             </div>
             <div class="calendar-strip" id="calendar-strip"></div>
         </div>
@@ -327,6 +357,11 @@
                 <button id="edit-past-btn" class="btn-edit-past" onclick="enablePastEdit()">
                     ✏️ Edit Past Record
                 </button>
+                <div id="edit-mode-banner" class="edit-mode-banner">✏️ Edit Mode — Make your changes below</div>
+                <div id="edit-mode-actions" class="edit-mode-actions" style="display:none;">
+                    <button class="btn-cancel-edit" onclick="cancelPastEdit()">✕ Cancel</button>
+                    <button class="btn-done-edit" onclick="donePastEdit()">✓ Save Changes</button>
+                </div>
             </div>
 
             <div class="card-slide stats-card-bg" id="stats-slide">
@@ -711,6 +746,8 @@
             
             // Re-load current view in case we just fetched data for it
             loadDataForDate(viewingDateStr);
+            // Explicitly update stats card now that history is populated
+            updateStatsView();
 
         } catch (e) {
             console.error("Failed to fetch cloud history", e);
@@ -775,6 +812,12 @@
         const todayStr = new Date().toISOString().split('T')[0];
         
         isPastMode = viewingDateStr !== todayStr;
+        // Clean up edit mode UI if active before switching
+        if (isEditingPast) {
+            document.getElementById('edit-mode-banner').style.display = 'none';
+            document.getElementById('edit-mode-actions').style.display = 'none';
+            document.querySelector('.score-card-bg').classList.remove('edit-active');
+        }
         isEditingPast = false; 
 
         renderCalendar(date);
@@ -872,13 +915,50 @@
     }
 
     function enablePastEdit() {
-        if(!confirm(`Edit record for ${viewingDateStr}?`)) return;
         isEditingPast = true;
+        // Remove read-only masks
         document.getElementById('workout-content-area').classList.remove('read-only-mask');
         document.getElementById('nutrition-content-area').classList.remove('read-only-mask');
         document.getElementById('empty-past-state').style.display = 'none';
         document.getElementById('workout-content-area').style.display = 'block';
+        // Hide edit button, show mode indicators
         document.getElementById('edit-past-btn').style.display = 'none';
+        document.getElementById('edit-mode-banner').style.display = 'block';
+        document.getElementById('edit-mode-actions').style.display = 'flex';
+        // Highlight the scorecard card
+        document.querySelector('.score-card-bg').classList.add('edit-active');
+        // Update past banner text
+        document.getElementById('past-view-banner').innerText = `✏️ Editing Record: ${new Date(viewingDateStr + 'T12:00:00').toLocaleDateString()}`;
+    }
+
+    function donePastEdit() {
+        syncToCloud();
+        exitEditMode();
+    }
+
+    function cancelPastEdit() {
+        // Reload original data and exit without saving
+        loadDataForDate(viewingDateStr);
+        exitEditMode();
+    }
+
+    function exitEditMode() {
+        isEditingPast = false;
+        // Re-apply read-only masks
+        document.getElementById('workout-content-area').classList.add('read-only-mask');
+        document.getElementById('nutrition-content-area').classList.add('read-only-mask');
+        // Hide edit mode UI
+        document.getElementById('edit-mode-banner').style.display = 'none';
+        document.getElementById('edit-mode-actions').style.display = 'none';
+        document.querySelector('.score-card-bg').classList.remove('edit-active');
+        // Restore edit button and past banner
+        document.getElementById('edit-past-btn').style.display = 'block';
+        document.getElementById('past-view-banner').innerText = `📅 Viewing Record: ${new Date(viewingDateStr + 'T12:00:00').toLocaleDateString()}`;
+        // Handle empty state
+        if (dailyLog.length === 0) {
+            document.getElementById('workout-content-area').style.display = 'none';
+            document.getElementById('empty-past-state').style.display = 'block';
+        }
     }
 
     function getChallengeDayCount() {
@@ -912,8 +992,8 @@
         const sorted = Object.entries(exerciseCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
         const listContainer = document.getElementById('top-workouts-list');
         
-        // Don't overwrite if loading
-        if (Object.keys(cloudHistoryCache).length === 0 && isHistoryLoading) return;
+        // Don't overwrite skeleton while still loading
+        if (isHistoryLoading) return;
 
         if(sorted.length > 0) {
             listContainer.innerHTML = '';
@@ -925,6 +1005,8 @@
                     </div>
                 `;
             });
+        } else {
+            listContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#8E8E93; font-size:14px;">No workouts logged yet</div>`;
         }
     }
 
