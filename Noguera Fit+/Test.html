@@ -301,9 +301,129 @@
         .dots-indicator { display:flex; justify-content:center; gap:8px; margin-bottom:25px; margin-top:-10px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: #D1D1D6; transition: 0.2s; }
         .dot.active { background: var(--ios-blue); transform: scale(1.2); }
+
+        /* --- ONBOARDING SCREEN --- */
+        #onboarding-screen {
+            position: fixed; inset: 0; z-index: 9999;
+            background: linear-gradient(160deg, #007AFF 0%, #0051B5 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px 30px; text-align: center;
+        }
+        .onboarding-logo { font-size: 64px; margin-bottom: 20px; animation: bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .onboarding-title { font-size: 32px; font-weight: 900; color: white; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .onboarding-sub { font-size: 16px; color: rgba(255,255,255,0.75); margin-bottom: 48px; font-weight: 500; }
+        .onboarding-prompt { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .onboarding-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 360px; }
+        .onboarding-btn {
+            background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.3);
+            color: white; font-weight: 700; font-size: 15px; padding: 14px 8px;
+            border-radius: 16px; cursor: pointer; transition: all 0.15s;
+            backdrop-filter: blur(4px);
+        }
+        .onboarding-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.96); }
+
+        /* --- WELCOME SPLASH --- */
+        #welcome-splash {
+            position: fixed; inset: 0; z-index: 9998;
+            background: linear-gradient(160deg, #007AFF 0%, #0051B5 100%);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px 30px; text-align: center;
+        }
+        .splash-avatar { font-size: 72px; margin-bottom: 16px; animation: bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+        .splash-greeting { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .splash-name { font-size: 38px; font-weight: 900; color: white; letter-spacing: -1px; margin-bottom: 8px; }
+        .splash-tagline { font-size: 16px; color: rgba(255,255,255,0.7); font-weight: 500; margin-bottom: 48px; }
+        .splash-loading-row { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 280px; }
+        .splash-load-item { display: flex; align-items: center; gap: 12px; }
+        .splash-load-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); flex-shrink: 0; transition: background 0.3s; }
+        .splash-load-dot.done { background: #34C759; }
+        .splash-load-dot.spinning {
+            border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+            background: transparent; animation: spin 0.7s linear infinite;
+        }
+        .splash-load-label { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.8); }
+
+        @keyframes bounceIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- STATS CARD UPGRADES --- */
+        .stat-box { background: #F9F9F9; padding: 12px; border-radius: 16px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .stat-val { font-size: 28px; font-weight: 800; color: var(--ios-blue); line-height: 1.1; }
+        .stat-label { font-size: 10px; color: var(--text-light); margin-top: 4px; font-weight: 600; text-transform: uppercase; }
+        .progress-ring-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 6px; }
+        .progress-ring-wrap .stat-val-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: var(--ios-blue); }
+        .ring-bg { fill: none; stroke: #E5E5EA; stroke-width: 6; }
+        .ring-fill { fill: none; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 220; stroke-dashoffset: 220; transition: stroke-dashoffset 1.2s cubic-bezier(0.34,1,0.64,1); transform: rotate(-90deg); transform-origin: 50% 50%; }
+
+        .chart-section { background: #F9F9F9; border-radius: 18px; padding: 16px 16px 10px; }
+        .chart-title { font-size: 12px; font-weight: 700; color: #8E8E93; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 0.5px; }
+        .bar-chart { display: flex; align-items: flex-end; gap: 6px; height: 90px; }
+        .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+        .bar-fill { width: 100%; border-radius: 6px 6px 0 0; min-height: 4px; transition: height 0.6s cubic-bezier(0.34,1.3,0.64,1); }
+        .bar-label { font-size: 9px; font-weight: 700; color: #8E8E93; text-align: center; line-height: 1.2; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .bar-count { font-size: 11px; font-weight: 800; color: #1C1C1E; }
+
+        /* --- EXERCISE MODAL UPGRADES --- */
+        .custom-exercise-row {
+            display: flex; gap: 8px; padding: 10px 0 4px 0; flex-shrink: 0;
+        }
+        .custom-exercise-input {
+            flex: 1; padding: 12px 14px; border: 1.5px solid #E5E5EA; border-radius: 12px;
+            font-size: 15px; font-weight: 600; outline: none; background: #F9F9F9; color: #1C1C1E;
+            transition: border-color 0.2s;
+        }
+        .custom-exercise-input:focus { border-color: var(--ios-blue); background: white; }
+        .custom-exercise-input::placeholder { color: #C7C7CC; font-weight: 500; }
+        .custom-add-btn {
+            padding: 12px 16px; background: var(--ios-blue); color: white; border: none;
+            border-radius: 12px; font-size: 20px; cursor: pointer; flex-shrink: 0;
+        }
+        .custom-add-btn:active { opacity: 0.8; }
+        .select-item { background: white; padding: 14px 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.1s; min-height: 68px; }
+        .filter-section-title { font-size: 11px; font-weight: 700; color: #8E8E93; margin: 10px 0 6px 2px; text-transform: uppercase; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
+
+    <!-- ONBOARDING SCREEN (shown when no user selected) -->
+    <div id="onboarding-screen" style="display:none;">
+        <div class="onboarding-logo">&#x1F3CB;</div>
+        <div class="onboarding-title">NogueraFit</div>
+        <div class="onboarding-sub">100-Day Family Challenge</div>
+        <div class="onboarding-prompt">Who are you?</div>
+        <div class="onboarding-grid">
+            <button class="onboarding-btn" onclick="selectUser('Mami')">Mami</button>
+            <button class="onboarding-btn" onclick="selectUser('Papi')">Papi</button>
+            <button class="onboarding-btn" onclick="selectUser('Santi')">Santi</button>
+            <button class="onboarding-btn" onclick="selectUser('Fran')">Fran</button>
+            <button class="onboarding-btn" onclick="selectUser('Dana')">Dana</button>
+            <button class="onboarding-btn" onclick="selectUser('Matu')">Matu</button>
+            <button class="onboarding-btn" onclick="selectUser('Caro')">Caro</button>
+            <button class="onboarding-btn" onclick="selectUser('Sofi')">Sofi</button>
+            <button class="onboarding-btn" onclick="selectUser('Andi')">Andi</button>
+            <button class="onboarding-btn" onclick="selectUser('Meredith')">Meredith</button>
+            <button class="onboarding-btn" onclick="selectUser('Ceci')">Ceci</button>
+            <button class="onboarding-btn" onclick="showCustomNamePrompt()" style="font-size:13px;">+ Other</button>
+        </div>
+    </div>
+
+    <!-- WELCOME SPLASH (shown briefly while data loads for known user) -->
+    <div id="welcome-splash" style="display:none;">
+        <div class="splash-avatar">&#x1F464;</div>
+        <div class="splash-greeting">Welcome back</div>
+        <div class="splash-name" id="splash-name-text">&mdash;</div>
+        <div class="splash-tagline">Loading your challenge data&hellip;</div>
+        <div class="splash-loading-row">
+            <div class="splash-load-item">
+                <div class="splash-load-dot spinning" id="splash-dot-history"></div>
+                <div class="splash-load-label">Fetching workout history</div>
+            </div>
+            <div class="splash-load-item">
+                <div class="splash-load-dot spinning" id="splash-dot-board"></div>
+                <div class="splash-load-label">Loading family leaderboard</div>
+            </div>
+        </div>
+    </div>
 
     <div class="app-content">
         <div class="top-nav">
@@ -368,24 +488,40 @@
                 <div class="scorecard-header">
                     <div class="scorecard-title">Challenge Stats</div>
                 </div>
-                
+
                 <div class="stats-grid">
                     <div class="stat-box">
-                        <span class="stat-val" id="stat-days-left">--</span>
-                        <span class="stat-label">Days Until June 13</span>
+                        <div class="progress-ring-wrap">
+                            <svg width="80" height="80" viewBox="0 0 80 80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"/>
+                                <circle class="ring-fill" id="ring-days" cx="40" cy="40" r="35" stroke="#007AFF"/>
+                            </svg>
+                            <div class="stat-val-overlay" id="stat-days-left">--</div>
+                        </div>
+                        <span class="stat-label">Days Left</span>
                     </div>
                     <div class="stat-box">
-                        <span class="stat-val" id="stat-workouts-left">--</span>
-                        <span class="stat-label">Workouts to 100</span>
+                        <div class="progress-ring-wrap">
+                            <svg width="80" height="80" viewBox="0 0 80 80">
+                                <circle class="ring-bg" cx="40" cy="40" r="35"/>
+                                <circle class="ring-fill" id="ring-workouts" cx="40" cy="40" r="35" stroke="#34C759"/>
+                            </svg>
+                            <div class="stat-val-overlay" id="stat-workouts-left">--</div>
+                        </div>
+                        <span class="stat-label">Left to 100</span>
                     </div>
                 </div>
 
-                <div class="top-workouts-container">
-                    <div class="top-header">Your Top 5 Exercises</div>
+                <div class="chart-section">
+                    <div class="chart-title">&#x1F3C6; Top Exercises</div>
                     <div id="top-workouts-list">
-                        <div class="top-item"><span class="skeleton-text" style="width:60%"></span><span class="skeleton-text" style="width:20px"></span></div>
-                        <div class="top-item"><span class="skeleton-text" style="width:40%"></span><span class="skeleton-text" style="width:20px"></span></div>
-                        <div class="top-item"><span class="skeleton-text" style="width:50%"></span><span class="skeleton-text" style="width:20px"></span></div>
+                        <div class="bar-chart">
+                            <div class="bar-col"><div class="skeleton-text" style="width:100%;height:60px;border-radius:6px;"></div><div class="skeleton-text" style="width:70%;height:8px;margin-top:4px;"></div></div>
+                            <div class="bar-col"><div class="skeleton-text" style="width:100%;height:40px;border-radius:6px;"></div><div class="skeleton-text" style="width:70%;height:8px;margin-top:4px;"></div></div>
+                            <div class="bar-col"><div class="skeleton-text" style="width:100%;height:50px;border-radius:6px;"></div><div class="skeleton-text" style="width:70%;height:8px;margin-top:4px;"></div></div>
+                            <div class="bar-col"><div class="skeleton-text" style="width:100%;height:30px;border-radius:6px;"></div><div class="skeleton-text" style="width:70%;height:8px;margin-top:4px;"></div></div>
+                            <div class="bar-col"><div class="skeleton-text" style="width:100%;height:20px;border-radius:6px;"></div><div class="skeleton-text" style="width:70%;height:8px;margin-top:4px;"></div></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -490,54 +626,27 @@
 
     <div id="modal-batch" class="modal-overlay" onclick="closeModal('modal-batch')">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header"><div class="modal-title">Add Workout</div><button class="btn-close" onclick="closeModal('modal-batch')">✕</button></div>
-            <div class="modal-tabs">
-                <div id="tab-browse" class="modal-tab active" onclick="switchModalTab('browse')">Browse List</div>
-                <div id="tab-magic" class="modal-tab" onclick="switchModalTab('magic')">✨ Workout Generator</div>
-            </div>
-            <div id="view-browse" style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
-                <div class="filter-section-title">📍 Filter by Location</div>
+            <div class="modal-header"><div class="modal-title">Add Exercises</div><button class="btn-close" onclick="closeModal('modal-batch')">&#x2715;</button></div>
+            <div style="display:flex; flex-direction:column; height:100%; overflow:hidden;">
+                <div class="filter-section-title">&#x1F4CD; Location</div>
                 <div class="filter-scroll">
                     <button id="mloc-home" class="loc-chip active" onclick="setModalLoc('home')">Home / Outdoor</button>
                     <button id="mloc-gym" class="loc-chip" onclick="setModalLoc('gym')">Gym / Studio</button>
                 </div>
-                <div class="filter-section-title">💪 Filter by Body Part</div>
+                <div class="filter-section-title">&#x1F4AA; Body Part</div>
                 <div class="filter-scroll">
-                    <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper</button>
-                    <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower</button>
+                    <button id="cat-upper" class="cat-chip active" onclick="filterBatch('upper', this)">Upper Body</button>
+                    <button id="cat-lower" class="cat-chip" onclick="filterBatch('lower', this)">Lower Body</button>
                     <button id="cat-core" class="cat-chip" onclick="filterBatch('core', this)">Core</button>
                     <button id="cat-cardio" class="cat-chip" onclick="filterBatch('cardio', this)">Cardio</button>
                     <button id="cat-studio" class="cat-chip" onclick="filterBatch('studio', this)">Studio</button>
                 </div>
+                <div class="custom-exercise-row">
+                    <input class="custom-exercise-input" id="custom-exercise-input" type="text" placeholder="Can't find it? Add a custom exercise..." maxlength="60" onkeydown="if(event.key==='Enter')addCustomExercise()">
+                    <button class="custom-add-btn" onclick="addCustomExercise()">&#x2795;</button>
+                </div>
                 <div id="batch-list" class="select-list"></div>
-                <button class="btn-confirm-add" onclick="confirmBatchAdd()">Add Selected</button>
-            </div>
-            <div id="view-magic" style="display:none; flex-direction:column; height:100%; overflow-y:auto;">
-                <div class="gen-section">
-                    <div class="gen-label">1. Where are you?</div>
-                    <div class="filter-scroll">
-                        <button id="gloc-home" class="loc-chip active" onclick="setGenLoc('home')">Home</button>
-                        <button id="gloc-gym" class="loc-chip" onclick="setGenLoc('gym')">Gym/Studio</button>
-                        <button id="gloc-bodyweight" class="loc-chip" onclick="setGenLoc('bodyweight')">Bodyweight</button>
-                    </div>
-                </div>
-                <div class="gen-section">
-                    <div class="gen-label">2. Focus (Select Multiple)</div>
-                    <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                        <button class="focus-chip" onclick="toggleFocus('upper', this)">Upper</button>
-                        <button class="focus-chip" onclick="toggleFocus('lower', this)">Lower</button>
-                        <button class="focus-chip" onclick="toggleFocus('core', this)">Core</button>
-                        <button class="focus-chip" onclick="toggleFocus('cardio', this)">Cardio</button>
-                    </div>
-                </div>
-                <div class="gen-section">
-                    <div class="gen-label">3. Number of Exercises</div>
-                    <div class="slider-container">
-                        <input type="range" id="gen-slider" min="2" max="8" value="4" oninput="document.getElementById('gen-val').innerText = this.value">
-                        <div class="slider-val" id="gen-val">4</div>
-                    </div>
-                </div>
-                <button class="btn-confirm-add" style="margin-top:auto;" onclick="runGenerator()">✨ Create Workout</button>
+                <button class="btn-confirm-add" id="btn-confirm-add-label" onclick="confirmBatchAdd()">Add Selected</button>
             </div>
         </div>
     </div>
@@ -637,23 +746,17 @@
     ];
 
     window.onload = function() {
-        // Init UI
         initHabits();
         
-        // Try to load last user from local storage
         const savedData = JSON.parse(localStorage.getItem('nogueraFit_data') || '{}');
         if (savedData.user) {
             currentUser = savedData.user;
-            document.getElementById('header-username').innerText = "👤 " + currentUser;
+            document.getElementById('header-username').innerText = '👤 ' + currentUser;
             document.getElementById('score-title').innerText = currentUser + "'s Scorecard";
+            showWelcomeSplash(currentUser);
+        } else {
+            showOnboarding();
         }
-
-        // Fetch Cloud Data (This will also render the calendar once done)
-        fetchCloudHistory();
-        fetchFamilyData(); // Separate call for leaderboard
-        
-        // Start by rendering Today (empty or local while waiting for cloud)
-        selectDate(new Date());
 
         const track = document.getElementById('carousel-track');
         track.addEventListener('scroll', () => {
@@ -664,6 +767,57 @@
             });
         });
     }
+
+    function showOnboarding() {
+        document.getElementById('onboarding-screen').style.display = 'flex';
+    }
+
+    function showWelcomeSplash(name) {
+        const splash = document.getElementById('welcome-splash');
+        document.getElementById('splash-name-text').innerText = name;
+        splash.style.display = 'flex';
+        initHabits();
+        selectDate(new Date());
+        const historyPromise = fetchCloudHistory();
+        const boardPromise = fetchFamilyData();
+        historyPromise.then(() => {
+            const dot = document.getElementById('splash-dot-history');
+            dot.classList.remove('spinning');
+            dot.classList.add('done');
+            checkSplashDone();
+        }).catch(() => {
+            document.getElementById('splash-dot-history').classList.remove('spinning');
+            checkSplashDone();
+        });
+        boardPromise.then(() => {
+            const dot = document.getElementById('splash-dot-board');
+            dot.classList.remove('spinning');
+            dot.classList.add('done');
+            checkSplashDone();
+        }).catch(() => {
+            document.getElementById('splash-dot-board').classList.remove('spinning');
+            checkSplashDone();
+        });
+    }
+
+    function checkSplashDone() {
+        const d1 = document.getElementById('splash-dot-history');
+        const d2 = document.getElementById('splash-dot-board');
+        if (!d1.classList.contains('spinning') && !d2.classList.contains('spinning')) {
+            setTimeout(() => {
+                const splash = document.getElementById('welcome-splash');
+                splash.style.transition = 'opacity 0.5s';
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; splash.style.opacity = ''; splash.style.transition = ''; }, 500);
+            }, 500);
+        }
+    }
+
+    function showCustomNamePrompt() {
+        const name = prompt('Enter your name:');
+        if (name && name.trim()) selectUser(name.trim());
+    }
+
 
     /* --- CLOUD SYNC & DATA LOADING --- */
     async function fetchCloudHistory() {
@@ -972,13 +1126,27 @@
     function updateStatsView() {
         const today = new Date();
         const endGoal = new Date('2026-06-13');
+        const totalDays = 36; // approx days in challenge window for ring scale
         const diffTime = Math.abs(endGoal - today);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         document.getElementById('stat-days-left').innerText = diffDays;
 
         const count = getChallengeDayCount();
         const leftTo100 = Math.max(0, 100 - count);
         document.getElementById('stat-workouts-left').innerText = leftTo100;
+
+        // Animate progress rings
+        const ringCircumference = 220;
+        const daysRing = document.getElementById('ring-days');
+        const workoutsRing = document.getElementById('ring-workouts');
+        if (daysRing) {
+            const daysProgress = Math.min(1, diffDays / 36);
+            daysRing.style.strokeDashoffset = ringCircumference - (daysProgress * ringCircumference);
+        }
+        if (workoutsRing) {
+            const workoutProgress = Math.min(1, count / 100);
+            workoutsRing.style.strokeDashoffset = ringCircumference - (workoutProgress * ringCircumference);
+        }
 
         // Top 5 Calculation using Cloud Cache
         const exerciseCounts = {};
@@ -988,38 +1156,30 @@
                 exerciseCounts[n] = (exerciseCounts[n] || 0) + 1;
             });
         });
-        
+
         const sorted = Object.entries(exerciseCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
         const listContainer = document.getElementById('top-workouts-list');
-        
-        // Don't overwrite skeleton while still loading
+
         if (isHistoryLoading) return;
 
-        if(sorted.length > 0) {
-            listContainer.innerHTML = '';
-            sorted.forEach(([name, count]) => {
-                listContainer.innerHTML += `
-                    <div class="top-item">
-                        <span class="top-name">${name}</span>
-                        <span class="top-count">${count}</span>
-                    </div>
-                `;
+        const barColors = ['#007AFF','#34C759','#FF9500','#FF3B30','#AF52DE'];
+
+        if (sorted.length > 0) {
+            const maxCount = sorted[0][1];
+            let html = '<div class="bar-chart">';
+            sorted.forEach(([name, cnt], i) => {
+                const heightPct = Math.round((cnt / maxCount) * 80);
+                const shortName = name.length > 10 ? name.split(' ').map(w => w[0]).join('').substring(0,4) : name.split(' ')[0];
+                html += `<div class="bar-col">
+                    <div class="bar-count">${cnt}</div>
+                    <div class="bar-fill" style="height:${heightPct}px; background:${barColors[i]}; opacity:0.85;" title="${name}"></div>
+                    <div class="bar-label" title="${name}">${shortName}</div>
+                </div>`;
             });
+            html += '</div>';
+            listContainer.innerHTML = html;
         } else {
             listContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#8E8E93; font-size:14px;">No workouts logged yet</div>`;
-        }
-    }
-
-    // --- MODAL UI LOGIC (UNCHANGED) ----
-    function switchModalTab(tab) {
-        document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById('tab-'+tab).classList.add('active');
-        if (tab === 'browse') {
-            document.getElementById('view-browse').style.display = 'flex';
-            document.getElementById('view-magic').style.display = 'none';
-        } else {
-            document.getElementById('view-browse').style.display = 'none';
-            document.getElementById('view-magic').style.display = 'flex';
         }
     }
 
@@ -1072,11 +1232,13 @@
     function openBatchSelect() {
         document.getElementById('modal-batch').style.display = 'flex';
         selectedBatch.clear();
-        setModalLoc('home'); 
-        switchModalTab('browse');
+        setModalLoc('home');
         document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
         document.getElementById('cat-upper').classList.add('active');
         currentCategory = 'upper';
+        const inp = document.getElementById('custom-exercise-input');
+        if (inp) inp.value = '';
+        document.getElementById('btn-confirm-add-label').innerText = 'Add Selected';
         refreshExerciseList();
     }
 
@@ -1118,7 +1280,7 @@
             div.onclick = () => {
                 if (selectedBatch.has(ex.name)) { selectedBatch.delete(ex.name); div.classList.remove('selected'); } 
                 else { selectedBatch.add(ex.name); div.classList.add('selected'); }
-                document.querySelector('.btn-confirm-add').innerText = `Add ${selectedBatch.size} Exercises`;
+                document.getElementById('btn-confirm-add-label').innerText = selectedBatch.size > 0 ? `Add ${selectedBatch.size} Exercises` : 'Add Selected';
             };
             container.appendChild(div);
         });
@@ -1129,6 +1291,18 @@
             const details = exerciseDB.find(e => e.name === name) || { name: name, img: '', guide: 'Custom' };
             currentStaging.push(details);
         });
+        renderLog();
+        closeModal('modal-batch');
+    }
+
+    function addCustomExercise() {
+        const inp = document.getElementById('custom-exercise-input');
+        const name = inp.value.trim();
+        if (!name) { inp.focus(); return; }
+        if (selectedBatch.has(name)) { inp.value = ''; return; }
+        // Add as a custom item directly into staging and close
+        currentStaging.push({ name: name, img: '', guide: 'Custom', type: 'custom', loc: [] });
+        inp.value = '';
         renderLog();
         closeModal('modal-batch');
     }
@@ -1335,10 +1509,10 @@
         document.getElementById('header-username').innerText = "👤 " + name;
         document.getElementById('score-title').innerText = name + "'s Scorecard";
         closeModal('modal-user');
-        
-        // When user changes, re-fetch cloud history to show THEIR dots
-        fetchCloudHistory();
-        
+        // Hide onboarding if visible
+        document.getElementById('onboarding-screen').style.display = 'none';
+        // Show welcome splash and kick off data loading
+        showWelcomeSplash(name);
         // Save user preference
         saveState();
     }
